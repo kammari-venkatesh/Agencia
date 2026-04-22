@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
 import Button from '../components/Button';
@@ -7,6 +7,43 @@ import './HomePage.css';
 
 const HomePage: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current || !trackRef.current || window.innerWidth < 768) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate progress of scroll within the tall section
+      // rect.top is the distance from the top of the viewport to the top of the section
+      // When rect.top is 0, progress is 0. When rect.top is -(rect.height - windowHeight), progress is 1.
+      const progress = -rect.top / (rect.height - windowHeight);
+      const clampedProgress = Math.min(Math.max(progress, 0), 1);
+      
+      const trackWidth = trackRef.current.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      const maxTranslate = trackWidth - viewportWidth;
+      
+      // Apply translation to track
+      if (maxTranslate > 0) {
+        trackRef.current.style.transform = `translateX(-${clampedProgress * maxTranslate}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll); // Recalculate on resize
+    
+    // Initial call
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
 
   const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index);
@@ -142,52 +179,65 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Services - Horizontal Scroll Layout */}
-      <section id="services" className="services-section">
-        <div className="container">
-          <h2 className="services-header">What we <span className="emphasis-italic">offer</span></h2>
-        </div>
-        <div className="services-scroll-wrapper">
-          <div className="services-track">
-            {/* Column 1 - Text Top */}
-            <div className="service-card layout-top-text">
-              <div className="service-text">
-                <h3>Content Marketing</h3>
-                <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
-              </div>
-              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Content Marketing" className="service-img" />
-            </div>
-
-            {/* Column 2 - Image Top */}
-            <div className="service-card layout-bottom-text">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" alt="Paid Advertising" className="service-img" />
-              <div className="service-text">
-                <h3>Paid Advertising</h3>
-                <p>Reach the right audience with data-driven ad campaigns that maximize ROI.</p>
-              </div>
-            </div>
-
-            {/* Column 3 - Text Top */}
-            <div className="service-card layout-top-text">
-              <div className="service-text">
-                <h3>Rebranding</h3>
-                <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
-              </div>
-              <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=600&auto=format&fit=crop" alt="Rebranding" className="service-img" />
-            </div>
-
-            {/* Column 4 - Image Top */}
-            <div className="service-card layout-bottom-text">
-              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop" alt="Email Marketing" className="service-img" />
-              <div className="service-text">
-                <h3>Email Marketing</h3>
-                <p>Boost engagement and retention with high-converting email campaigns.</p>
-              </div>
-            </div>
-
-            {/* Extra empty space block to allow scrolling past the last item cleanly */}
-            <div style={{ minWidth: '150px' }}></div>
+      <section id="services" className="services-scroll-wrapper" ref={sectionRef}>
+        <div className="services-sticky">
+          <div className="container">
+            <h2 className="services-header">What we <span className="emphasis-italic">offer</span></h2>
           </div>
-          <div className="scroll-blur-overlay"></div>
+          
+          <div className="services-track-container">
+            <div className="services-track" ref={trackRef}>
+              <div className="service-card">
+                <div className="service-text">
+                  <h3>Content Marketing</h3>
+                  <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
+                </div>
+                <div className="service-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Content Marketing" className="service-img" />
+                </div>
+              </div>
+
+              <div className="service-card">
+                <div className="service-text">
+                  <h3>Paid Advertising</h3>
+                  <p>Reach the right audience with data-driven ad campaigns that maximize ROI.</p>
+                </div>
+                <div className="service-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop" alt="Paid Advertising" className="service-img" />
+                </div>
+              </div>
+
+              <div className="service-card">
+                <div className="service-text">
+                  <h3>Rebranding</h3>
+                  <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
+                </div>
+                <div className="service-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1200&auto=format&fit=crop" alt="Rebranding" className="service-img" />
+                </div>
+              </div>
+
+              <div className="service-card">
+                <div className="service-text">
+                  <h3>Email Marketing</h3>
+                  <p>Boost engagement and retention with high-converting email campaigns.</p>
+                </div>
+                <div className="service-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Email Marketing" className="service-img" />
+                </div>
+              </div>
+
+              <div className="service-card">
+                <div className="service-text">
+                  <h3>SEO Strategy</h3>
+                  <p>Dominate search results and drive organic traffic with our expert optimization techniques.</p>
+                </div>
+                <div className="service-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?q=80&w=1200&auto=format&fit=crop" alt="SEO Strategy" className="service-img" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
