@@ -178,62 +178,67 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Services - Horizontal Scroll Layout */}
+      {/* Services - Horizontal Scroll Bento Grid */}
       <section id="services" className="services-scroll-wrapper" ref={sectionRef}>
         <div className="services-sticky">
           <div className="container">
             <h2 className="services-header">What we <span className="emphasis-italic">offer</span></h2>
           </div>
-          
+
           <div className="services-track-container">
             <div className="services-track" ref={trackRef}>
-              <div className="service-card">
-                <div className="service-text">
+              {/* Column 1: Text top, Image bottom */}
+              <div className="service-col">
+                <div className="service-cell service-text-cell">
                   <h3>Content Marketing</h3>
                   <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
                 </div>
-                <div className="service-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Content Marketing" className="service-img" />
+                <div className="service-cell service-img-cell">
+                  <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Content Marketing" />
                 </div>
               </div>
 
-              <div className="service-card">
-                <div className="service-text">
+              {/* Column 2: Image top, Text bottom */}
+              <div className="service-col service-col-reversed">
+                <div className="service-cell service-img-cell">
+                  <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=800&auto=format&fit=crop" alt="Paid Advertising" />
+                </div>
+                <div className="service-cell service-text-cell">
                   <h3>Paid Advertising</h3>
                   <p>Reach the right audience with data-driven ad campaigns that maximize ROI.</p>
                 </div>
-                <div className="service-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop" alt="Paid Advertising" className="service-img" />
-                </div>
               </div>
 
-              <div className="service-card">
-                <div className="service-text">
+              {/* Column 3: Text top, Image bottom */}
+              <div className="service-col">
+                <div className="service-cell service-text-cell">
                   <h3>Rebranding</h3>
                   <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
                 </div>
-                <div className="service-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1200&auto=format&fit=crop" alt="Rebranding" className="service-img" />
+                <div className="service-cell service-img-cell">
+                  <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop" alt="Rebranding" />
                 </div>
               </div>
 
-              <div className="service-card">
-                <div className="service-text">
+              {/* Column 4: Image top, Text bottom */}
+              <div className="service-col service-col-reversed">
+                <div className="service-cell service-img-cell">
+                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" alt="Email Marketing" />
+                </div>
+                <div className="service-cell service-text-cell">
                   <h3>Email Marketing</h3>
                   <p>Boost engagement and retention with high-converting email campaigns.</p>
                 </div>
-                <div className="service-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Email Marketing" className="service-img" />
-                </div>
               </div>
 
-              <div className="service-card">
-                <div className="service-text">
+              {/* Column 5: Text top, Image bottom */}
+              <div className="service-col">
+                <div className="service-cell service-text-cell">
                   <h3>SEO Strategy</h3>
                   <p>Dominate search results and drive organic traffic with our expert optimization techniques.</p>
                 </div>
-                <div className="service-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?q=80&w=1200&auto=format&fit=crop" alt="SEO Strategy" className="service-img" />
+                <div className="service-cell service-img-cell">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SEO Strategy" />
                 </div>
               </div>
             </div>
@@ -243,26 +248,26 @@ const HomePage: React.FC = () => {
 
       {/* Process - Horizontal Rows */}
       <section className="container process-section">
-        <h2 className="works-header">How we work</h2>
+        <h2 className="process-heading">How we <span className="emphasis-italic">work</span></h2>
         <div className="process-list">
           <div className="process-row">
             <h3>Discovery</h3>
-            <p>We dive deep into your business, competitors, and goals to build a tailored strategy.</p>
+            <p>We dive deep into your brand, goals, and audience to craft a tailored marketing strategy.</p>
             <div className="process-num">01</div>
           </div>
           <div className="process-row">
             <h3>Execution</h3>
-            <p>Crafting premium, user-centric designs and scalable tech solutions.</p>
+            <p>Our team brings ideas to life with compelling visuals, messaging, and data-driven content.</p>
             <div className="process-num">02</div>
           </div>
           <div className="process-row">
             <h3>Optimization</h3>
-            <p>Refining and testing user flows and funnels to maximize conversion rates.</p>
+            <p>We refine campaigns in real-time, ensuring maximum performance and engagement.</p>
             <div className="process-num">03</div>
           </div>
           <div className="process-row">
             <h3>Growth</h3>
-            <p>Deploying the system and implementing marketing to drive immediate scale.</p>
+            <p>With data-driven insights, we scale your success and drive long-term impact.</p>
             <div className="process-num">04</div>
           </div>
         </div>

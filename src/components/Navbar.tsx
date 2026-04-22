@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
             <a href="#services" onClick={() => setIsOpen(false)}>Services</a>
             <a href="#faq" onClick={() => setIsOpen(false)}>FAQ</a>
             <a href="#contact" onClick={() => setIsOpen(false)}>Contact</a>
-            <a href="#template" onClick={() => setIsOpen(false)}>Get Template</a>
+            <a href="#about" onClick={() => setIsOpen(false)}>About</a>
           </nav>
           <div className="nav-overlay-right">
             <div className="small-stacked-text text-right">
