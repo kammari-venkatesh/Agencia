@@ -417,77 +417,88 @@
 
 /* Process: Horizontal Steps */
 .process-section {
-  padding-top: 10rem;
-  padding-bottom: 10rem;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 }
 
 .process-heading {
-  font-size: clamp(3rem, 7vw, 5rem);
+  font-size: clamp(3rem, 6vw, 4.5rem);
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 
 .process-list {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--border-ultra-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .process-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 20% 60% 20%;
   align-items: center;
-  padding: 3.5rem 0;
-  border-bottom: 1px solid var(--border-ultra-light);
-  transition: background-color 0.3s ease;
+  padding: 3rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.25s ease;
+}
+
+/* Alternating dark-gray background on odd rows */
+.process-row:nth-child(odd) {
+  background-color: #1a1a1a;
 }
 
 .process-row:hover {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .process-row h3 {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.75rem;
+  font-weight: 500;
   color: #ffffff;
   text-align: left;
   letter-spacing: -0.01em;
+  font-style: normal;
+  font-family: var(--font-sans);
 }
 
 .process-row p {
-  color: #888; /* Slightly more muted */
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.75rem; /* Smaller */
+  color: #a3a3a3;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 1rem;
   text-align: center;
   line-height: 1.5;
-  max-width: 400px;
+  max-width: none;
   margin: 0 auto;
+  font-weight: 400;
+  white-space: nowrap;
 }
 
 .process-num {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
   color: #ffffff;
   text-align: right;
-  font-weight: 400; /* Normal weight */
-  font-style: normal; /* Explicitly normal */
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.02em;
 }
 
 @media (max-width: 768px) {
   .process-row {
     grid-template-columns: 1fr auto;
-    padding: 2.5rem 0;
+    padding: 2.5rem 1rem;
   }
 
   .process-row p {
     grid-column: 1 / -1;
     text-align: left;
-    margin: 1.5rem 0 0 0;
+    margin: 1.25rem 0 0 0;
     max-width: 100%;
+    white-space: normal;
   }
 }
 
