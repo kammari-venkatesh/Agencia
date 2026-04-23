@@ -60,7 +60,17 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current || !trackRef.current || window.innerWidth < 768) return;
+      if (!sectionRef.current || !trackRef.current) return;
+
+      // On tablet + mobile the horizontal track is disabled via CSS and the
+      // services section stacks vertically. Clear any stale transform left
+      // over from a previous desktop viewport, then bail out.
+      if (window.innerWidth <= 1024) {
+        if (trackRef.current.style.transform) {
+          trackRef.current.style.transform = '';
+        }
+        return;
+      }
 
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;

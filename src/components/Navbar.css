@@ -25,14 +25,15 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: background 0.3s var(--ease-ios);
   will-change: transform;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menu-toggle-btn:hover {
@@ -113,25 +114,49 @@
   text-align: right;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .navbar-wrapper {
+    padding: 2rem 0;
+  }
+  .nav-overlay {
+    height: auto;
+    min-height: 70vh;
+    padding-bottom: 2rem;
+  }
   .nav-vertical-links {
     width: 100%;
+    gap: 1rem;
   }
-
   .nav-vertical-links a {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4.5vw, 2.25rem);
   }
-
   .nav-overlay-content {
     flex-direction: column;
-    gap: 4rem;
+    gap: 2.5rem;
   }
-
   .nav-overlay-right {
     align-self: flex-start;
   }
-
   .text-right {
     text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-wrapper {
+    padding: 1.5rem 0;
+  }
+  .nav-overlay {
+    min-height: 100vh;
+    padding-bottom: 2.5rem;
+  }
+  .nav-vertical-links a {
+    font-size: 1.75rem;
+  }
+  .nav-overlay-content {
+    gap: 2rem;
+  }
+  .nav-overlay-right .small-stacked-text {
+    font-size: 0.6rem;
   }
 }

@@ -68,6 +68,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Prevent long unbroken strings (URLs, hashtags, code) from blowing out
+   narrow viewports. Headings and body copy get a safe wrapping fallback. */
+h1, h2, h3, h4, h5, h6, p, a, li, span {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 /* In-page nav targets: room below absolute header */
 #about,
 #works,
@@ -124,6 +131,20 @@ p {
   margin: 0 auto;
   padding-left: var(--spacing-container);
   padding-right: var(--spacing-container);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .section {
