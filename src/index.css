@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 :root {
   --bg-primary: #000000;
@@ -20,12 +20,42 @@
   
   --spacing-container: clamp(2rem, 5vw, 8rem);
   --spacing-section: clamp(6rem, 15vw, 15rem);
+
+  /* iOS-style motion tokens */
+  --ease-ios: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-sm: 550ms;
+  --dur-md: 750ms;
+  --dur-lg: 950ms;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Lenis smooth-scroll hooks. When Lenis is active it takes over scrolling
+   and sets these classes; we disable native smooth scroll so both engines
+   don't fight each other. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -36,6 +66,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* In-page nav targets: room below absolute header */
+#about,
+#works,
+#services,
+#faqs,
+#contact {
+  scroll-margin-top: 5rem;
 }
 
 /* Typography */
@@ -116,4 +155,16 @@ p {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Respect user's motion preference — collapse all animations to near-instant. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

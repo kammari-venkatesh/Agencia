@@ -19,7 +19,7 @@
 .breadcrumb-link {
   color: var(--text-secondary);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.35s var(--ease-ios);
 }
 
 .breadcrumb-link:hover {

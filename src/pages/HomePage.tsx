@@ -1,14 +1,62 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Plus, Minus } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Plus } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
-import Plasma from '../components/Plasma';
+import Plasma from '../components/PlasmaLazy';
+import { Reveal } from '../motion/Reveal';
+import { getLenis } from '../motion/SmoothScroll';
+import {
+  easeIOS,
+  dur,
+  fadeUp,
+  fadeUpSoft,
+  imageReveal,
+  slideInRight,
+  staggerParent,
+  staggerParentFast,
+  staggerParentSlow,
+  sectionReveal,
+  sectionRevealLg,
+} from '../motion/variants';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
-  const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const shouldReduce = useReducedMotion();
+
+  // On first mount, if the URL has no hash, guarantee the page starts at the
+  // hero. This prevents any residual scroll from a bfcache restore or a race
+  // with scrollRestoration=manual from being visible to the user.
+  useEffect(() => {
+    if (location.hash) return;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const id = location.hash?.replace(/^#/, '');
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      const target = document.getElementById(id);
+      if (!target) return;
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -80 });
+      } else {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+    return () => clearTimeout(t);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,27 +64,22 @@ const HomePage: React.FC = () => {
 
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
-      // Calculate progress of scroll within the tall section
-      // rect.top is the distance from the top of the viewport to the top of the section
-      // When rect.top is 0, progress is 0. When rect.top is -(rect.height - windowHeight), progress is 1.
+
       const progress = -rect.top / (rect.height - windowHeight);
       const clampedProgress = Math.min(Math.max(progress, 0), 1);
-      
+
       const trackWidth = trackRef.current.scrollWidth;
       const viewportWidth = window.innerWidth;
       const maxTranslate = trackWidth - viewportWidth;
-      
-      // Apply translation to track
+
       if (maxTranslate > 0) {
         trackRef.current.style.transform = `translateX(-${clampedProgress * maxTranslate}px)`;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll); // Recalculate on resize
-    
-    // Initial call
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+
     handleScroll();
 
     return () => {
@@ -49,146 +92,259 @@ const HomePage: React.FC = () => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
+  // Hero entrance plays on mount (above the fold). Calm, cinematic sequence:
+  // background fades first (starts immediately), then the heading, then the
+  // stacked text, then the description, then the CTAs — each separated by
+  // ~150ms per spec.
+  const heroBg = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 1.4, ease: easeIOS },
+    },
+  };
+
+  const heroParent = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: shouldReduce ? 0 : 0.35,
+      },
+    },
+  };
+
+  const heroChild = {
+    hidden: { opacity: 0, y: 30, scale: 0.98, filter: 'blur(6px)' },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: { duration: dur.lg, ease: easeIOS },
+    },
+  };
+
+  const heroSmallChild = {
+    hidden: { opacity: 0, y: 24, scale: 0.985 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: dur.md, ease: easeIOS },
+    },
+  };
+
   return (
     <div className="home-page">
-      {/* Hero Section Exact UI */}
+      {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-background">
-          <Plasma 
+        <motion.div
+          className="hero-background"
+          variants={heroBg}
+          initial="hidden"
+          animate="show"
+        >
+          <Plasma
             color="#ff6b35"
-            speed={0.6}
+            speed={0.3}
             direction="forward"
             scale={1.1}
             opacity={0.8}
-            mouseInteractive={true}
+            mouseInteractive={false}
           />
-        </div>
-        <div className="container hero-container">
-
+        </motion.div>
+        <motion.div
+          className="container hero-container"
+          variants={heroParent}
+          initial="hidden"
+          animate="show"
+        >
           <div className="hero-top">
-            <h1 className="hero-title">
+            <motion.h1 className="hero-title" variants={heroChild}>
               Where Bold<br />Strategy Meets<br /><span className="emphasis-italic">Innovation.</span>
-            </h1>
-            <div className="hero-top-right">
+            </motion.h1>
+            <motion.div className="hero-top-right" variants={heroSmallChild}>
               <div className="small-stacked-text text-right">
                 GROW<br />YOUR BRAND<br />BEYOND<br />BOUNDARIES
               </div>
-            </div>
+            </motion.div>
           </div>
 
           <div className="hero-bottom">
-            <div className="hero-bottom-left">
+            <motion.div className="hero-bottom-left" variants={heroSmallChild}>
               <div className="small-stacked-text">
                 BREAK LIMITS<br />BUILD<br />STRONGER<br />BRANDS
               </div>
-            </div>
-            <div className="hero-bottom-right text-right">
+            </motion.div>
+            <motion.div className="hero-bottom-right text-right" variants={heroSmallChild}>
               <p className="hero-desc">
                 Creative marketing and design solutions that make an impact.<br />
                 Veltrix Studio helps businesses stand out with bold ideas and<br />
                 measurable results.
               </p>
-              <div className="hero-cta-group justify-end">
+              <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
                 <Button size="lg" variant="primary">Book a call</Button>
-                <Button size="lg" variant="secondary" className="btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-light)' }}>Our Services</Button>
-              </div>
-            </div>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="btn-outline"
+                  style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
+                >
+                  Our Services
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
-
-        </div>
+        </motion.div>
       </section>
 
       {/* Logo Strip */}
       <section className="logo-strip-section">
-        <div className="container logo-strip">
-          <span className="logo-item">TechCrunch</span>
-          <span className="logo-item">Forbes</span>
-          <span className="logo-item">WIRED</span>
-          <span className="logo-item">FastCompany</span>
-          <span className="logo-item">Inc.</span>
-        </div>
+        <Reveal
+          className="container logo-strip"
+          variants={staggerParentFast}
+          viewportMargin="-5% 0px"
+        >
+          {['TechCrunch', 'Forbes', 'WIRED', 'FastCompany', 'Inc.'].map((label) => (
+            <motion.span key={label} className="logo-item" variants={fadeUpSoft}>
+              {label}
+            </motion.span>
+          ))}
+        </Reveal>
       </section>
 
-      {/* Intro — centered editorial paragraph */}
-      <section className="intro-section">
+      {/* Intro */}
+      <section id="about" className="intro-section">
         <div className="container">
-          <p className="intro-text">
+          <Reveal as="p" className="intro-text" variants={sectionRevealLg}>
             Discover <strong>the future of marketing</strong> with<br />
             Veltrix. We craft bold, data-driven<br />
             strategies that captivate, convert, and<br />
             <strong>scale your brand to new heights.</strong>
-          </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Selected Works — exact reference layout */}
+      {/* Selected Works */}
       <section id="works" className="works-section">
         <div className="container">
-          <h2 className="works-heading">
+          <Reveal as="h2" className="works-heading" variants={sectionReveal}>
             Our selected <span className="emphasis-italic">works</span>
-          </h2>
+          </Reveal>
 
           {/* Row 1: Large left 57% + Smaller right 43% */}
-          <div className="works-row works-row-1">
-            <Link to="/works/1" className="work-card">
-              <div className="work-img-wrap">
-                <img src="/works-payx.png" alt="PayX Rebranding" />
-                <div className="work-arrow">&#8599;</div>
-              </div>
-              <div className="work-caption">
-                <span className="work-caption-title">PayX Rebranding</span>
-                <span className="work-caption-sub">Revitalising a Fintech Brand for the Modern Market</span>
-              </div>
-            </Link>
-            <Link to="/works/2" className="work-card">
-              <div className="work-img-wrap">
-                <img src="/works-trendwear.png" alt="Social Growth for TrendWear" />
-                <div className="work-arrow">&#8599;</div>
-              </div>
-              <div className="work-caption">
-                <span className="work-caption-title">Social Growth for TrendWear</span>
-                <span className="work-caption-sub">Veltrix Studio built a viral campaign that skyrocketed engagement and sales.</span>
-              </div>
-            </Link>
-          </div>
+          <Reveal className="works-row works-row-1" variants={staggerParent}>
+            <motion.div
+              variants={fadeUp}
+              className="work-card-wrap"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <Link to="/works/1" className="work-card">
+                <div className="work-img-wrap">
+                  <motion.img
+                    src="/works-payx.png"
+                    alt="PayX Rebranding"
+                    variants={imageReveal}
+                  />
+                  <div className="work-arrow">&#8599;</div>
+                </div>
+                <div className="work-caption">
+                  <span className="work-caption-title">PayX Rebranding</span>
+                  <span className="work-caption-sub">Revitalising a Fintech Brand for the Modern Market</span>
+                </div>
+              </Link>
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              className="work-card-wrap"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <Link to="/works/2" className="work-card">
+                <div className="work-img-wrap">
+                  <motion.img
+                    src="/works-trendwear.png"
+                    alt="Social Growth for TrendWear"
+                    variants={imageReveal}
+                  />
+                  <div className="work-arrow">&#8599;</div>
+                </div>
+                <div className="work-caption">
+                  <span className="work-caption-title">Social Growth for TrendWear</span>
+                  <span className="work-caption-sub">Veltrix Studio built a viral campaign that skyrocketed engagement and sales.</span>
+                </div>
+              </Link>
+            </motion.div>
+          </Reveal>
 
           {/* Row 2: Medium left 43% + Large right 57% */}
-          <div className="works-row works-row-2">
-            <Link to="/works/3" className="work-card">
-              <div className="work-img-wrap">
-                <img src="/works-paidads.png" alt="Scaling Sales with Paid Ads" />
-                <div className="work-arrow">&#8599;</div>
-              </div>
-              <div className="work-caption">
-                <span className="work-caption-title">Scaling Sales with Paid Ads</span>
-                <span className="work-caption-sub">Veltrix Studio optimised their strategy, leading to higher returns and lower acquisition costs.</span>
-              </div>
-            </Link>
-            <Link to="/works/4" className="work-card">
-              <div className="work-img-wrap">
-                <img src="/works-aquaflow.png" alt="Rebranding for AquaFlow" />
-                <div className="work-arrow">&#8599;</div>
-              </div>
-              <div className="work-caption">
-                <span className="work-caption-title">Rebranding for AquaFlow</span>
-                <span className="work-caption-sub">AquaFlow needed a modern identity to stand out. Veltrix Studio delivered a fresh, impactful rebrand.</span>
-              </div>
-            </Link>
-          </div>
+          <Reveal className="works-row works-row-2" variants={staggerParent}>
+            <motion.div
+              variants={fadeUp}
+              className="work-card-wrap"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <Link to="/works/3" className="work-card">
+                <div className="work-img-wrap">
+                  <motion.img
+                    src="/works-paidads.png"
+                    alt="Scaling Sales with Paid Ads"
+                    variants={imageReveal}
+                  />
+                  <div className="work-arrow">&#8599;</div>
+                </div>
+                <div className="work-caption">
+                  <span className="work-caption-title">Scaling Sales with Paid Ads</span>
+                  <span className="work-caption-sub">Veltrix Studio optimised their strategy, leading to higher returns and lower acquisition costs.</span>
+                </div>
+              </Link>
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              className="work-card-wrap"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <Link to="/works/4" className="work-card">
+                <div className="work-img-wrap">
+                  <motion.img
+                    src="/works-aquaflow.png"
+                    alt="Rebranding for AquaFlow"
+                    variants={imageReveal}
+                  />
+                  <div className="work-arrow">&#8599;</div>
+                </div>
+                <div className="work-caption">
+                  <span className="work-caption-title">Rebranding for AquaFlow</span>
+                  <span className="work-caption-sub">AquaFlow needed a modern identity to stand out. Veltrix Studio delivered a fresh, impactful rebrand.</span>
+                </div>
+              </Link>
+            </motion.div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Services - Horizontal Scroll Bento Grid */}
+      {/* Services */}
       <section id="services" className="services-scroll-wrapper" ref={sectionRef}>
         <div className="services-sticky">
           <div className="container">
-            <h2 className="services-header">What we <span className="emphasis-italic">offer</span></h2>
+            <Reveal as="h2" className="services-header" variants={sectionReveal}>
+              What we <span className="emphasis-italic">offer</span>
+            </Reveal>
           </div>
 
           <div className="services-track-container">
             <div className="services-track" ref={trackRef}>
-              {/* Column 1: Text top, Image bottom */}
-              <div className="service-col">
+              <Reveal
+                className="service-col"
+                variants={fadeUp}
+                viewportMargin="0px"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
                 <div className="service-cell service-text-cell">
                   <h3>Content Marketing</h3>
                   <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
@@ -196,10 +352,16 @@ const HomePage: React.FC = () => {
                 <div className="service-cell service-img-cell">
                   <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Content Marketing" />
                 </div>
-              </div>
+              </Reveal>
 
-              {/* Column 2: Image top, Text bottom */}
-              <div className="service-col service-col-reversed">
+              <Reveal
+                className="service-col service-col-reversed"
+                variants={fadeUp}
+                viewportMargin="0px"
+                delay={0.05}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
                 <div className="service-cell service-img-cell">
                   <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=800&auto=format&fit=crop" alt="Paid Advertising" />
                 </div>
@@ -207,10 +369,16 @@ const HomePage: React.FC = () => {
                   <h3>Paid Advertising</h3>
                   <p>Reach the right audience with data-driven ad campaigns that maximize ROI.</p>
                 </div>
-              </div>
+              </Reveal>
 
-              {/* Column 3: Text top, Image bottom */}
-              <div className="service-col">
+              <Reveal
+                className="service-col"
+                variants={fadeUp}
+                viewportMargin="0px"
+                delay={0.1}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
                 <div className="service-cell service-text-cell">
                   <h3>Rebranding</h3>
                   <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
@@ -218,10 +386,16 @@ const HomePage: React.FC = () => {
                 <div className="service-cell service-img-cell">
                   <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop" alt="Rebranding" />
                 </div>
-              </div>
+              </Reveal>
 
-              {/* Column 4: Image top, Text bottom */}
-              <div className="service-col service-col-reversed">
+              <Reveal
+                className="service-col service-col-reversed"
+                variants={fadeUp}
+                viewportMargin="0px"
+                delay={0.15}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
                 <div className="service-cell service-img-cell">
                   <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" alt="Email Marketing" />
                 </div>
@@ -229,10 +403,16 @@ const HomePage: React.FC = () => {
                   <h3>Email Marketing</h3>
                   <p>Boost engagement and retention with high-converting email campaigns.</p>
                 </div>
-              </div>
+              </Reveal>
 
-              {/* Column 5: Text top, Image bottom */}
-              <div className="service-col">
+              <Reveal
+                className="service-col"
+                variants={fadeUp}
+                viewportMargin="0px"
+                delay={0.2}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
                 <div className="service-cell service-text-cell">
                   <h3>SEO Strategy</h3>
                   <p>Dominate search results and drive organic traffic with our expert optimization techniques.</p>
@@ -240,118 +420,150 @@ const HomePage: React.FC = () => {
                 <div className="service-cell service-img-cell">
                   <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SEO Strategy" />
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Process - Horizontal Rows */}
-      <section className="container process-section">
-        <h2 className="process-heading">How we <span className="emphasis-italic">work</span></h2>
-        <div className="process-list">
-          <div className="process-row">
-            <h3>Discovery</h3>
-            <p>We dive deep into your brand, goals, and audience to craft a tailored marketing strategy.</p>
-            <div className="process-num">01</div>
-          </div>
-          <div className="process-row">
-            <h3>Execution</h3>
-            <p>Our team brings ideas to life with compelling visuals, messaging, and data-driven content.</p>
-            <div className="process-num">02</div>
-          </div>
-          <div className="process-row">
-            <h3>Optimization</h3>
-            <p>We refine campaigns in real-time, ensuring maximum performance and engagement.</p>
-            <div className="process-num">03</div>
-          </div>
-          <div className="process-row">
-            <h3>Growth</h3>
-            <p>With data-driven insights, we scale your success and drive long-term impact.</p>
-            <div className="process-num">04</div>
-          </div>
+      {/* Process */}
+      <section className="process-section">
+        <div className="container">
+          <Reveal as="h2" className="process-heading" variants={sectionReveal}>
+            How we <span className="emphasis-italic">work</span>
+          </Reveal>
         </div>
+        <motion.div
+          className="process-list"
+          variants={staggerParentSlow}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-10% 0px', amount: 0.1 }}
+        >
+          {[
+            { title: 'Discovery', desc: 'We dive deep into your brand, goals, and audience to craft a tailored marketing strategy.', num: '01' },
+            { title: 'Execution', desc: 'Our team brings ideas to life with compelling visuals, messaging, and data-driven content.', num: '02' },
+            { title: 'Optimization', desc: 'We refine campaigns in real-time, ensuring maximum performance and engagement.', num: '03' },
+            { title: 'Growth', desc: 'With data-driven insights, we scale your success and drive long-term impact.', num: '04' },
+          ].map((row) => (
+            <motion.div key={row.num} className="process-row" variants={fadeUp}>
+              <h3>{row.title}</h3>
+              <p>{row.desc}</p>
+              <motion.div className="process-num" variants={slideInRight}>{row.num}</motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
       </section>
 
       {/* Testimonials */}
-      <section className="container testimonials-section">
-        <h2 className="text-center" style={{ fontSize: '1.5rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
-          Hear what clients have to say about us
-        </h2>
-        <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <p>"Veltrix completely transformed our online presence. Our lead generation increased by 40% in just two months."</p>
-            <div className="testimonial-author">Sarah Jenkins</div>
-            <div className="testimonial-role">CEO, TechFlow</div>
-          </div>
-          <div className="testimonial-card">
-            <p>"The team at Veltrix understands both aesthetics and business strategy. A rare combination in agencies today."</p>
-            <div className="testimonial-author">Michael Chen</div>
-            <div className="testimonial-role">Founder, NovaApp</div>
-          </div>
-          <div className="testimonial-card">
-            <p>"They delivered our rebrand perfectly and increased our conversion rate significantly. Truly top-tier work."</p>
-            <div className="testimonial-author">Elena Rostova</div>
-            <div className="testimonial-role">CMO, Horizon</div>
-          </div>
+      <section className="testimonials-section">
+        <div className="container">
+          <Reveal as="h2" className="testimonials-heading" variants={sectionReveal}>
+            Hear what clients have to say about us
+          </Reveal>
+          <Reveal className="testimonials-grid" variants={staggerParentSlow}>
+            {[
+              {
+                text: 'Veltrix completely transformed our online presence. Our lead generation increased by 40% in just two months.',
+                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=facearea&facepad=3',
+                name: 'Sarah Jenkins, CEO at TechFlow',
+              },
+              {
+                text: 'The team at Veltrix understands both aesthetics and business strategy. A rare combination in agencies today.',
+                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=facearea&facepad=3',
+                name: 'Michael Chen, Founder at NovaApp',
+              },
+              {
+                text: 'They delivered our rebrand perfectly and increased our conversion rate significantly. Truly top-tier work.',
+                avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=facearea&facepad=3',
+                name: 'Elena Rostova, CMO at Horizon',
+              },
+            ].map((t) => (
+              <motion.article
+                key={t.name}
+                className="testimonial-card"
+                variants={fadeUp}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.45, ease: easeIOS }}
+              >
+                <span className="testimonial-quote" aria-hidden="true">&#8221;</span>
+                <p className="testimonial-text">{t.text}</p>
+                <div className="testimonial-footer">
+                  <img className="testimonial-avatar" src={t.avatar} alt={t.name} />
+                  <div className="testimonial-meta">{t.name}</div>
+                </div>
+              </motion.article>
+            ))}
+          </Reveal>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="container faq-section">
-        <div className="faq-list">
+      <section id="faqs" className="container faq-section">
+        <Reveal className="faq-list" variants={staggerParent}>
           {[
-            { q: "How long does a website project take?", a: "Most website projects take between 4 to 8 weeks depending on the complexity and the number of pages." },
-            { q: "Do you provide ongoing support?", a: "Yes, we offer monthly retainers for continuous maintenance, marketing, and scaling." },
-            { q: "Can you help with digital marketing as well?", a: "Absolutely. We build the systems and also run the marketing campaigns to drive traffic to them." },
-            { q: "What is the typical budget required?", a: "Our projects start at $5,000 for standard websites, and custom web apps or marketing retainers vary based on scope." }
-          ].map((faq, i) => (
-            <div key={i} className={`faq-row ${activeFaq === i ? 'active' : ''}`}>
-              <div className="faq-question" onClick={() => toggleFaq(i)}>
-                {faq.q}
-                {activeFaq === i ? <Minus size={24} /> : <Plus size={24} />}
-              </div>
-              <div className="faq-answer">{faq.a}</div>
-            </div>
-          ))}
-        </div>
+            { q: 'What industries do you work with?', a: "We partner with a wide range of industries including SaaS, e-commerce, finance, healthcare, hospitality, and emerging tech startups. Our approach adapts to your market, audience, and goals." },
+            { q: 'How long does a typical project take?', a: "Most engagements run between 4 and 8 weeks, depending on scope and complexity. We'll share a detailed timeline during the strategy call once we understand your requirements." },
+            { q: 'Do you offer custom marketing strategies?', a: "Yes. Every strategy is tailored to your brand, audience, and business objectives. We don't use templates or cookie-cutter playbooks." },
+            { q: 'Can you manage our social media accounts?', a: 'Absolutely. We handle content creation, scheduling, community engagement, and performance reporting across all major platforms.' },
+            { q: "What's the first step to working with you?", a: "Book a free strategy call. We'll discuss your goals, audit your current setup, and outline a clear roadmap before any commitment." },
+          ].map((faq, i) => {
+            const open = activeFaq === i;
+            return (
+              <motion.div
+                key={faq.q}
+                className={`faq-row ${open ? 'active' : ''}`}
+                variants={fadeUpSoft}
+              >
+                <button
+                  type="button"
+                  className="faq-question"
+                  onClick={() => toggleFaq(i)}
+                  aria-expanded={open}
+                >
+                  <span>{faq.q}</span>
+                  <span className={`faq-icon ${open ? 'open' : ''}`} aria-hidden="true">
+                    <Plus size={20} />
+                  </span>
+                </button>
+                <div className="faq-answer-wrap">
+                  <div className="faq-answer">{faq.a}</div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </Reveal>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="container contact-section">
-        <div className="contact-bg-wave"></div>
-        <div className="contact-grid">
-          <div className="contact-left">
-            <h2>Contact us and let's<br /><span className="emphasis-italic">Grow.</span></h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', marginBottom: '3rem' }}>
-              Fill out the form or reach out directly to schedule your free strategy call.
-            </p>
-            <Button size="lg" variant="primary">Book Call</Button>
-          </div>
-          <div className="contact-right">
-            <div className="form-group">
-              <label className="form-label">Name</label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email</label>
-              <input type="email" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Phone</label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Service</label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Message</label>
-              <input type="text" className="form-input" />
-            </div>
-          </div>
+      {/* Contact */}
+      <Reveal as="section" id="contact" className="contact-section" variants={sectionRevealLg}>
+        <div className="contact-bg-wave" aria-hidden="true" />
+        <div className="container contact-section-content">
+          <motion.div
+            className="contact-grid"
+            variants={staggerParent}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-10% 0px', amount: 0.2 }}
+          >
+            <motion.div className="contact-left" variants={fadeUp}>
+              <h2 className="contact-title">
+                <span className="contact-title-sans">Contact us and let&apos;s</span>
+                <span className="contact-title-italic">create something great</span>
+              </h2>
+            </motion.div>
+            <motion.div className="contact-right" variants={fadeUp}>
+              <p className="contact-description">
+                Ready to take your brand to the next level? Get in touch with us and let&apos;s create powerful
+                marketing strategies that drive real results.
+              </p>
+              <motion.div className="contact-cta" variants={fadeUpSoft}>
+                <Button size="lg" variant="primary">Book a call</Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 };
