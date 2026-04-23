@@ -350,6 +350,7 @@
 .service-img-cell {
   flex: 1;
   position: relative;
+  background: linear-gradient(135deg, #111 0%, #1a1a2e 50%, #0f0f1a 100%);
 }
 
 .service-img-cell img {
@@ -519,6 +520,7 @@
   object-fit: cover;
   display: block;
   filter: grayscale(75%);
+  background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
 }
 
 .testimonial-meta {
@@ -1004,7 +1006,8 @@
     justify-content: flex-start;
     width: 100%;
   }
-  .contact-cta .btn {
+  .contact-cta .btn,
+  .contact-cta button {
     width: 100%;
     text-align: center;
     justify-content: center;
@@ -1033,7 +1036,8 @@
     width: 100%;
     gap: 0.75rem;
   }
-  .hero-cta-group .btn {
+  .hero-cta-group .btn,
+  .hero-cta-group button {
     flex: 1 1 auto;
     justify-content: center;
   }

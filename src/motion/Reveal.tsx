@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ElementType, ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { HTMLMotionProps, Variants } from 'framer-motion';
@@ -66,7 +66,15 @@ export function Reveal({
     ? { transition: { duration: dur.md, ease: easeIOS, delay } }
     : undefined;
 
-  const MotionTag = as ? motion(as as ElementType) : motion.div;
+  // motion() is deprecated in framer-motion v12; use motion.create() instead.
+  // Memoized on `as` so a new component type isn't created on every render.
+  const asRef = useRef(as)
+  asRef.current = as
+  const MotionTag = useMemo(
+    () => (as ? motion.create(as as Parameters<typeof motion.create>[0]) : motion.div),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [as],
+  );
 
   return (
     <MotionTag

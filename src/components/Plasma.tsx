@@ -18,7 +18,7 @@ const hexToRgb = (hex: string): [number, number, number] => {
 };
 
 const vertex = `#version 300 es
-precision highp float;
+precision mediump float;
 in vec2 position;
 in vec2 uv;
 out vec2 vUv;
@@ -28,6 +28,9 @@ void main() {
 }
 `;
 
+// Full-quality plasma: 60 iterations at highp produces the bright, crisp look the
+// hero was designed around. Perf is protected elsewhere by the mobile/low-core
+// skip in shouldSkipPlasma() and by the requestIdleCallback defer in PlasmaLazy.
 const fragment = `#version 300 es
 precision highp float;
 uniform vec2 iResolution;
@@ -45,25 +48,25 @@ out vec4 fragColor;
 void mainImage(out vec4 o, vec2 C) {
   vec2 center = iResolution.xy * 0.5;
   C = (C - center) / uScale + center;
-  
+
   vec2 mouseOffset = (uMouse - center) * 0.0002;
   C += mouseOffset * length(C - center) * step(0.5, uMouseInteractive);
-  
+
   float i, d, z, T = iTime * uSpeed * uDirection;
   vec3 O, p, S;
 
   for (vec2 r = iResolution.xy, Q; ++i < 60.; O += o.w/d*o.xyz) {
-    p = z*normalize(vec3(C-.5*r,r.y)); 
-    p.z -= 4.; 
+    p = z*normalize(vec3(C-.5*r,r.y));
+    p.z -= 4.;
     S = p;
     d = p.y-T;
-    
-    p.x += .4*(1.+p.y)*sin(d + p.x*0.1)*cos(.34*d + p.x*0.05); 
-    Q = p.xz *= mat2(cos(p.y+vec4(0,11,33,0)-T)); 
-    z+= d = abs(sqrt(length(Q*Q)) - .25*(5.+S.y))/3.+8e-4; 
+
+    p.x += .4*(1.+p.y)*sin(d + p.x*0.1)*cos(.34*d + p.x*0.05);
+    Q = p.xz *= mat2(cos(p.y+vec4(0,11,33,0)-T));
+    z+= d = abs(sqrt(length(Q*Q)) - .25*(5.+S.y))/3.+8e-4;
     o = 1.+sin(S.y+p.z*.5+S.z-length(S-p)+vec4(2,1,0,8));
   }
-  
+
   o.xyz = tanh(O/1e4);
 }
 
@@ -80,14 +83,24 @@ void main() {
   vec4 o = vec4(0.0);
   mainImage(o, gl_FragCoord.xy);
   vec3 rgb = sanitize(o.rgb);
-  
+
   float intensity = (rgb.r + rgb.g + rgb.b) / 3.0;
   vec3 customColor = intensity * uCustomColor;
   vec3 finalColor = mix(rgb, customColor, step(0.5, uUseCustomColor));
-  
+
   float alpha = length(rgb) * uOpacity;
   fragColor = vec4(finalColor, alpha);
 }`;
+
+// Heuristic: skip the WebGL effect entirely on devices where it would tank framerate.
+// Mobile viewports and low-end CPUs fall back to the solid dark background.
+function shouldSkipPlasma(): boolean {
+  if (typeof window === 'undefined') return true;
+  if (window.innerWidth < 768) return true;
+  const nav = navigator as Navigator & { hardwareConcurrency?: number };
+  if ((nav.hardwareConcurrency ?? 8) <= 4) return true;
+  return false;
+}
 
 export const Plasma: React.FC<PlasmaProps> = ({
   color = '#ffffff',
@@ -95,18 +108,21 @@ export const Plasma: React.FC<PlasmaProps> = ({
   direction = 'forward',
   scale = 1,
   opacity = 1,
-  mouseInteractive = true
+  mouseInteractive = true,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!containerRef.current) return;
+    if (shouldSkipPlasma()) return;
+
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
     const containerEl = containerRef.current;
 
     const useCustomColor = color ? 1.0 : 0.0;
     const customColorRgb = color ? hexToRgb(color) : [1, 1, 1];
-
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
     let renderer: Renderer;
@@ -115,7 +131,12 @@ export const Plasma: React.FC<PlasmaProps> = ({
         webgl: 2,
         alpha: true,
         antialias: false,
-        dpr: Math.min(window.devicePixelRatio || 1, 2)
+        // Render at device pixel ratio 1 and let CSS scale the canvas up. The
+        // plasma is low-frequency so the upscale is visually invisible, and this
+        // cuts fragment work ~4x on Retina / ~2.25x on 1.5x-DPR laptop panels,
+        // which is critical on integrated GPUs where scroll compositing has to
+        // share the GPU with this shader.
+        dpr: 1,
       });
     } catch {
       return;
@@ -131,8 +152,8 @@ export const Plasma: React.FC<PlasmaProps> = ({
     const geometry = new Triangle(gl);
 
     const program = new Program(gl, {
-      vertex: vertex,
-      fragment: fragment,
+      vertex,
+      fragment,
       uniforms: {
         iTime: { value: 0 },
         iResolution: { value: new Float32Array([1, 1]) },
@@ -143,8 +164,8 @@ export const Plasma: React.FC<PlasmaProps> = ({
         uScale: { value: scale },
         uOpacity: { value: opacity },
         uMouse: { value: new Float32Array([0, 0]) },
-        uMouseInteractive: { value: mouseInteractive ? 1.0 : 0.0 }
-      }
+        uMouseInteractive: { value: mouseInteractive ? 1.0 : 0.0 },
+      },
     });
 
     const mesh = new Mesh(gl, { geometry, program });
@@ -180,24 +201,56 @@ export const Plasma: React.FC<PlasmaProps> = ({
     let raf = 0;
     let contextLost = false;
     let isVisible = true;
+    let isScrolling = false;
+    let scrollTimer = 0;
     const t0 = performance.now();
+
+    // Pause the plasma render loop while the user is actively scrolling. The
+    // animation is imperceptible mid-scroll anyway, and freeing the GPU lets
+    // the browser composite scroll frames smoothly on integrated graphics.
+    const handleScroll = () => {
+      isScrolling = true;
+      if (scrollTimer) window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        isScrolling = false;
+      }, 140);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('touchmove', handleScroll, { passive: true });
+
+    // Reduced motion: render a single static frame and skip the animation loop entirely.
+    if (reduceMotion) {
+      (program.uniforms.iTime.value as number) = 0;
+      renderer.render({ scene: mesh });
+      return () => {
+        ro.disconnect();
+        try {
+          containerEl?.removeChild(canvas);
+        } catch {
+          /* already removed */
+        }
+      };
+    }
 
     const loop = (t: number) => {
       if (contextLost || !isVisible) return;
-      let timeValue = (t - t0) * 0.001;
-      if (direction === 'pingpong') {
-        const pingpongDuration = 10;
-        const segmentTime = timeValue % pingpongDuration;
-        const isForward = Math.floor(timeValue / pingpongDuration) % 2 === 0;
-        const u = segmentTime / pingpongDuration;
-        const smooth = u * u * (3 - 2 * u);
-        const pingpongTime = isForward ? smooth * pingpongDuration : (1 - smooth) * pingpongDuration;
-        (program.uniforms.uDirection as any).value = 1.0;
-        (program.uniforms.iTime as any).value = pingpongTime;
-      } else {
-        (program.uniforms.iTime as any).value = timeValue;
+      if (!isScrolling) {
+        const timeValue = (t - t0) * 0.001;
+        if (direction === 'pingpong') {
+          const pingpongDuration = 10;
+          const segmentTime = timeValue % pingpongDuration;
+          const isForward = Math.floor(timeValue / pingpongDuration) % 2 === 0;
+          const u = segmentTime / pingpongDuration;
+          const smooth = u * u * (3 - 2 * u);
+          const pingpongTime = isForward ? smooth * pingpongDuration : (1 - smooth) * pingpongDuration;
+          (program.uniforms.uDirection.value as number) = 1.0;
+          (program.uniforms.iTime.value as number) = pingpongTime;
+        } else {
+          (program.uniforms.iTime.value as number) = timeValue;
+        }
+        renderer.render({ scene: mesh });
       }
-      renderer.render({ scene: mesh });
       raf = requestAnimationFrame(loop);
     };
 
@@ -216,20 +269,27 @@ export const Plasma: React.FC<PlasmaProps> = ({
     canvas.addEventListener('webglcontextlost', handleContextLost);
     canvas.addEventListener('webglcontextrestored', handleContextRestored);
 
-    const io = new IntersectionObserver(([entry]) => {
-      const wasVisible = isVisible;
-      isVisible = entry.isIntersecting;
-      if (isVisible && !wasVisible && !contextLost) {
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(loop);
-      }
-    }, { threshold: 0 });
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible && !contextLost) {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(loop);
+        }
+      },
+      { threshold: 0 },
+    );
     io.observe(containerEl);
 
     raf = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(raf);
+      if (scrollTimer) window.clearTimeout(scrollTimer);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
       ro.disconnect();
       io.disconnect();
       canvas.removeEventListener('webglcontextlost', handleContextLost);
@@ -239,7 +299,9 @@ export const Plasma: React.FC<PlasmaProps> = ({
       }
       try {
         containerEl?.removeChild(canvas);
-      } catch {}
+      } catch {
+        /* already removed */
+      }
     };
   }, [color, speed, direction, scale, opacity, mouseInteractive]);
 

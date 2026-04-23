@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+/* Tailwind v4: theme + utilities only (no Preflight — preserves existing global styles). */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
   --bg-primary: #000000;
@@ -34,13 +37,9 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* Lenis smooth-scroll hooks. When Lenis is active it takes over scrolling
-   and sets these classes; we disable native smooth scroll so both engines
-   don't fight each other. */
+/* Lenis smooth-scroll hooks. Lenis owns all smooth scrolling — we deliberately
+   do NOT set html { scroll-behavior: smooth } because the native engine would
+   compete with Lenis during the boot frame and cause a visible hitch. */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -176,6 +175,78 @@ p {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Book-a-call CTA — solid orange pill, no glow/halo. */
+.book-call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 150px;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  border: none;
+  background-color: var(--accent-cta);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.2s var(--ease-ios), transform 0.2s var(--ease-ios);
+}
+
+.book-call-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.book-call-btn:active {
+  background-color: #D94F1F;
+  transform: translateY(1px);
+}
+
+.book-call-btn:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 2px;
+}
+
+/* Cal.com embed host: Cal's embed uses iframeResizer which sizes the iframe
+   to its content and sets scrolling="no" — the parent has to scroll. So this
+   container must be an actual scroll container, otherwise the submit button
+   on long Cal forms is unreachable on mobile. Touch-action + webkit momentum
+   give a native feel on iOS. The "Cal.com" branding row is masked by a
+   sibling overlay in BookCallModal (see that file), not by cropping the
+   iframe — cropping clips real content like the submit button. */
+.cal-embed-host {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  background-color: #050505;
+  border-radius: 0 0 1rem 1rem;
+}
+.cal-embed-host iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  background-color: #050505;
+}
+@media (max-width: 640px) {
+  .cal-embed-host {
+    border-radius: 0;
+  }
+}
+
+/* Stop modal scroll chaining to the page body on mobile (prevents iOS
+   rubber-banding the whole document when you scroll inside Cal). */
+html,
+body {
+  overscroll-behavior: contain;
 }
 
 /* Respect user's motion preference — collapse all animations to near-instant. */

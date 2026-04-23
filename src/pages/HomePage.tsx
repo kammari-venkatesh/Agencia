@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
+import { BookCallButton, BookCallModal } from '../components/BookCallModal';
+import { preloadCalEmbed } from '../lib/ensureCalEmbedScript';
 import Plasma from '../components/PlasmaLazy';
 import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
@@ -23,6 +25,13 @@ import './HomePage.css';
 
 const HomePage: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [bookCallOpen, setBookCallOpen] = useState(false);
+  const [bookCallPersist, setBookCallPersist] = useState(false);
+
+  const openBookCall = () => {
+    setBookCallPersist(true);
+    setBookCallOpen(true);
+  };
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -59,47 +68,100 @@ const HomePage: React.FC = () => {
   }, [location.pathname, location.hash]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current || !trackRef.current) return;
+    // Services horizontal-pin handler. Heavily throttled:
+    //  1. Coalesced via requestAnimationFrame so it runs at most once per frame
+    //     regardless of how many scroll events Lenis emits.
+    //  2. Early-exits when the services section is fully outside the viewport,
+    //     so hero / FAQ / contact scrolls don't pay for getBoundingClientRect
+    //     or scrollWidth reads.
+    let rafId = 0;
+    let pending = false;
 
-      // On tablet + mobile the horizontal track is disabled via CSS and the
-      // services section stacks vertically. Clear any stale transform left
-      // over from a previous desktop viewport, then bail out.
+    const update = () => {
+      pending = false;
+      const section = sectionRef.current;
+      const track = trackRef.current;
+      if (!section || !track) return;
+
       if (window.innerWidth <= 1024) {
-        if (trackRef.current.style.transform) {
-          trackRef.current.style.transform = '';
-        }
+        if (track.style.transform) track.style.transform = '';
         return;
       }
 
-      const rect = sectionRef.current.getBoundingClientRect();
+      const rect = section.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+
+      if (rect.bottom < 0 || rect.top > windowHeight) return;
 
       const progress = -rect.top / (rect.height - windowHeight);
       const clampedProgress = Math.min(Math.max(progress, 0), 1);
-
-      const trackWidth = trackRef.current.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const maxTranslate = trackWidth - viewportWidth;
+      const maxTranslate = track.scrollWidth - window.innerWidth;
 
       if (maxTranslate > 0) {
-        trackRef.current.style.transform = `translateX(-${clampedProgress * maxTranslate}px)`;
+        track.style.transform = `translateX(-${clampedProgress * maxTranslate}px)`;
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    const onScroll = () => {
+      if (pending) return;
+      pending = true;
+      rafId = requestAnimationFrame(update);
+    };
 
-    handleScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  // Warm the Cal.com embed during browser idle after first paint. By the time
+  // the user clicks Book a call, embed.js is cached and Cal('init') has run,
+  // so the first open typically only waits for Cal's iframe to render.
+  useEffect(() => {
+    type IdleWindow = Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const w = window as IdleWindow;
+    const cb = () => {
+      void preloadCalEmbed();
+    };
+    let idleId = 0;
+    let timeoutId = 0;
+    if (typeof w.requestIdleCallback === 'function') {
+      idleId = w.requestIdleCallback(cb, { timeout: 2500 });
+    } else {
+      timeoutId = window.setTimeout(cb, 1500);
+    }
+    return () => {
+      if (idleId && typeof w.cancelIdleCallback === 'function') {
+        w.cancelIdleCallback(idleId);
+      }
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, []);
 
   const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index);
+  };
+
+  // Smooth-scroll to the What-we-offer section. Uses Lenis when available so
+  // the scroll matches the same feel as the existing hash-based scroller
+  // declared above (same -80 offset).
+  const scrollToServices = () => {
+    const el = document.getElementById('services');
+    if (!el) return;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(el, { offset: -80 });
+    } else {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   // Hero entrance plays on mount (above the fold). Calm, cinematic sequence:
@@ -125,13 +187,11 @@ const HomePage: React.FC = () => {
   };
 
   const heroChild = {
-    hidden: { opacity: 0, y: 30, scale: 0.98, filter: 'blur(6px)' },
+    hidden: { opacity: 0, y: 24 },
     show: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      filter: 'blur(0px)',
-      transition: { duration: dur.lg, ease: easeIOS },
+      transition: { duration: dur.md, ease: easeIOS },
     },
   };
 
@@ -147,6 +207,11 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-page">
+      <BookCallModal
+        persistShell={bookCallPersist}
+        isOpen={bookCallOpen}
+        onClose={() => setBookCallOpen(false)}
+      />
       {/* Hero Section */}
       <section className="hero-section">
         <motion.div
@@ -194,12 +259,13 @@ const HomePage: React.FC = () => {
                 measurable results.
               </p>
               <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
-                <Button size="lg" variant="primary">Book a call</Button>
+                <BookCallButton type="button" onClick={openBookCall} />
                 <Button
                   size="lg"
                   variant="secondary"
                   className="btn-outline"
                   style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
+                  onClick={scrollToServices}
                 >
                   Our Services
                 </Button>
@@ -360,7 +426,7 @@ const HomePage: React.FC = () => {
                   <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
                 </div>
                 <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Content Marketing" />
+                  <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Content Marketing" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                 </div>
               </Reveal>
 
@@ -373,7 +439,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.45, ease: easeIOS }}
               >
                 <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=800&auto=format&fit=crop" alt="Paid Advertising" />
+                  <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=800&auto=format&fit=crop" alt="Paid Advertising" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                 </div>
                 <div className="service-cell service-text-cell">
                   <h3>Paid Advertising</h3>
@@ -394,7 +460,7 @@ const HomePage: React.FC = () => {
                   <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
                 </div>
                 <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop" alt="Rebranding" />
+                  <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop" alt="Rebranding" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                 </div>
               </Reveal>
 
@@ -407,7 +473,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.45, ease: easeIOS }}
               >
                 <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" alt="Email Marketing" />
+                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" alt="Email Marketing" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                 </div>
                 <div className="service-cell service-text-cell">
                   <h3>Email Marketing</h3>
@@ -428,7 +494,7 @@ const HomePage: React.FC = () => {
                   <p>Dominate search results and drive organic traffic with our expert optimization techniques.</p>
                 </div>
                 <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SEO Strategy" />
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SEO Strategy" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                 </div>
               </Reveal>
             </div>
@@ -499,7 +565,7 @@ const HomePage: React.FC = () => {
                 <span className="testimonial-quote" aria-hidden="true">&#8221;</span>
                 <p className="testimonial-text">{t.text}</p>
                 <div className="testimonial-footer">
-                  <img className="testimonial-avatar" src={t.avatar} alt={t.name} />
+                  <img className="testimonial-avatar" src={t.avatar} alt={t.name} loading="lazy" decoding="async" width={52} height={52} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                   <div className="testimonial-meta">{t.name}</div>
                 </div>
               </motion.article>
@@ -568,7 +634,7 @@ const HomePage: React.FC = () => {
                 marketing strategies that drive real results.
               </p>
               <motion.div className="contact-cta" variants={fadeUpSoft}>
-                <Button size="lg" variant="primary">Book a call</Button>
+                <BookCallButton type="button" onClick={openBookCall} />
               </motion.div>
             </motion.div>
           </motion.div>

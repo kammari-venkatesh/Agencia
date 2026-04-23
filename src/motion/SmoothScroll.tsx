@@ -48,13 +48,14 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
-      // Strong ease-out for that calm iOS settle.
-      easing: (t: number) => 1 - Math.pow(1 - t, 3.5),
+      // Shorter virtual scroll + ease-out quad keeps the smooth feel while
+      // eliminating the sticky tail that made every wheel tick feel slow.
+      duration: 0.85,
+      easing: (t: number) => 1 - Math.pow(1 - t, 2),
       smoothWheel: true,
       // Native touch inertia on mobile is better than Lenis's smoothed version.
       syncTouch: false,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 1.15,
       touchMultiplier: 1.2,
     });
 
