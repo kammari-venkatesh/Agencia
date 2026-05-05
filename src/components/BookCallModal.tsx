@@ -11,7 +11,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { ensureCalEmbedScript, preloadCalEmbed } from '../lib/ensureCalEmbedScript'
 
-const CAL_LINK = 'venkatesh-k-k2eoyp/consultation-call'
+const CAL_LINK = 'vinod-reddy-b7xsxg/project-consultation-call'
 
 type EmbedStatus = 'idle' | 'loading' | 'ready' | 'error'
 
