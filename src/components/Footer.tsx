@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
       <div className="container footer">
         <div className="footer-top">
           <div className="footer-brand">
-            <div className="footer-logo">Veltrix</div>
+            <div className="footer-logo">Vridhio</div>
           </div>
 
           <div className="footer-columns">
@@ -29,10 +29,6 @@ const Footer: React.FC = () => {
               </nav>
             </div>
           </div>
-        </div>
-
-        <div className="footer-bottom">
-          <p className="footer-credit">Created by Lunis Design</p>
         </div>
       </div>
     </footer>

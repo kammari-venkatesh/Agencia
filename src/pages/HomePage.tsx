@@ -255,7 +255,7 @@ const HomePage: React.FC = () => {
             <motion.div className="hero-bottom-right text-right" variants={heroSmallChild}>
               <p className="hero-desc">
                 Creative marketing and design solutions that make an impact.<br />
-                Veltrix Studio helps businesses stand out with bold ideas and<br />
+                Vridhio Studio helps businesses stand out with bold ideas and<br />
                 measurable results.
               </p>
               <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
@@ -295,7 +295,7 @@ const HomePage: React.FC = () => {
         <div className="container">
           <Reveal as="p" className="intro-text" variants={sectionRevealLg}>
             Discover <strong>the future of marketing</strong> with<br />
-            Veltrix. We craft bold, data-driven<br />
+            Vridhio. We craft bold, data-driven<br />
             strategies that captivate, convert, and<br />
             <strong>scale your brand to new heights.</strong>
           </Reveal>
@@ -349,7 +349,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="work-caption">
                   <span className="work-caption-title">Social Growth for TrendWear</span>
-                  <span className="work-caption-sub">Veltrix Studio built a viral campaign that skyrocketed engagement and sales.</span>
+                  <span className="work-caption-sub">Vridhio Studio built a viral campaign that skyrocketed engagement and sales.</span>
                 </div>
               </Link>
             </motion.div>
@@ -374,7 +374,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="work-caption">
                   <span className="work-caption-title">Scaling Sales with Paid Ads</span>
-                  <span className="work-caption-sub">Veltrix Studio optimised their strategy, leading to higher returns and lower acquisition costs.</span>
+                  <span className="work-caption-sub">Vridhio Studio optimised their strategy, leading to higher returns and lower acquisition costs.</span>
                 </div>
               </Link>
             </motion.div>
@@ -395,7 +395,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="work-caption">
                   <span className="work-caption-title">Rebranding for AquaFlow</span>
-                  <span className="work-caption-sub">AquaFlow needed a modern identity to stand out. Veltrix Studio delivered a fresh, impactful rebrand.</span>
+                  <span className="work-caption-sub">AquaFlow needed a modern identity to stand out. Vridhio Studio delivered a fresh, impactful rebrand.</span>
                 </div>
               </Link>
             </motion.div>
@@ -540,12 +540,12 @@ const HomePage: React.FC = () => {
           <Reveal className="testimonials-grid" variants={staggerParentSlow}>
             {[
               {
-                text: 'Veltrix completely transformed our online presence. Our lead generation increased by 40% in just two months.',
+                text: 'Vridhio completely transformed our online presence. Our lead generation increased by 40% in just two months.',
                 avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=facearea&facepad=3',
                 name: 'Sarah Jenkins, CEO at TechFlow',
               },
               {
-                text: 'The team at Veltrix understands both aesthetics and business strategy. A rare combination in agencies today.',
+                text: 'The team at Vridhio understands both aesthetics and business strategy. A rare combination in agencies today.',
                 avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=facearea&facepad=3',
                 name: 'Michael Chen, Founder at NovaApp',
               },

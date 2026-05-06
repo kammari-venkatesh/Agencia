@@ -71,19 +71,6 @@
   color: var(--text-secondary);
 }
 
-.footer-bottom {
-  display: flex;
-  align-items: center;
-}
-
-.footer-credit {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  margin: 0;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-}
-
 @media (max-width: 1024px) {
   .footer {
     gap: 4rem;
@@ -132,8 +119,5 @@
   .footer-col-label {
     font-size: 0.85rem;
     padding-top: 0.5rem;
-  }
-  .footer-credit {
-    font-size: 0.85rem;
   }
 }

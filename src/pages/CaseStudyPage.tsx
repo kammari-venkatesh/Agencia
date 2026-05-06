@@ -28,7 +28,7 @@ const CaseStudyPage: React.FC = () => {
     <div className="case-study-page container">
       <Reveal className="cs-header" variants={sectionReveal}>
         <div className="breadcrumb">
-          <span className="breadcrumb-brand">Veltrix</span>
+          <span className="breadcrumb-brand">Vridhio</span>
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-current">Scaling Sales with Paid Ads</span>
         </div>

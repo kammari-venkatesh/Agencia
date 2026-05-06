@@ -84,7 +84,7 @@ const Navbar: React.FC = () => {
     <>
       <header className="navbar-wrapper">
         <div className="container navbar">
-          <Link to="/" className="navbar-logo" onClick={goHome}>Veltrix</Link>
+          <Link to="/" className="navbar-logo" onClick={goHome}>Vridhio</Link>
           <motion.button
             type="button"
             className="menu-toggle-btn"
@@ -110,7 +110,7 @@ const Navbar: React.FC = () => {
             exit="exit"
           >
             <div className="container nav-overlay-header">
-              <Link to="/" className="navbar-logo" onClick={goHome}>Veltrix</Link>
+              <Link to="/" className="navbar-logo" onClick={goHome}>Vridhio</Link>
               <motion.button
                 type="button"
                 className="menu-toggle-btn"
