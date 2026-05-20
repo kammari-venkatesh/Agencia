@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import {
+  Plus,
+  XCircle,
+  Palette,
+  Code2,
+  Megaphone,
+  Users,
+  TrendingUp,
+  ArrowRight,
+} from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
@@ -21,6 +30,9 @@ import {
   sectionReveal,
   sectionRevealLg,
 } from '../motion/variants';
+import { services } from '../data/services';
+import WhyVridhioSection from '../components/WhyVridhioSection';
+import LeadCaptureSection from '../components/LeadCaptureSection';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -164,6 +176,17 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const scrollToWorks = () => {
+    const el = document.getElementById('works');
+    if (!el) return;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(el, { offset: -80 });
+    } else {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   // Hero entrance plays on mount (above the fold). Calm, cinematic sequence:
   // background fades first (starts immediately), then the heading, then the
   // stacked text, then the description, then the CTAs — each separated by
@@ -237,7 +260,9 @@ const HomePage: React.FC = () => {
         >
           <div className="hero-top">
             <motion.h1 className="hero-title" variants={heroChild}>
-              Where Bold<br />Strategy Meets<br /><span className="emphasis-italic">Innovation.</span>
+              We Build Websites, Apps &<br />
+              Marketing Systems That<br />
+              Generate Leads — <span className="emphasis-italic">Not Just Looks</span>
             </motion.h1>
             <motion.div className="hero-top-right" variants={heroSmallChild}>
               <div className="small-stacked-text text-right">
@@ -252,24 +277,28 @@ const HomePage: React.FC = () => {
                 BREAK LIMITS<br />BUILD<br />STRONGER<br />BRANDS
               </div>
             </motion.div>
-            <motion.div className="hero-bottom-right text-right" variants={heroSmallChild}>
-              <p className="hero-desc">
-                Creative marketing and design solutions that make an impact.<br />
-                Vridhio Studio helps businesses stand out with bold ideas and<br />
-                measurable results.
-              </p>
-              <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
-                <BookCallButton type="button" onClick={openBookCall} />
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="btn-outline"
-                  style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
-                  onClick={scrollToServices}
-                >
-                  Our Services
-                </Button>
-              </motion.div>
+            <motion.div className="hero-bottom-right" variants={heroSmallChild}>
+              <div className="hero-bottom-right-inner">
+                <p className="hero-desc">
+                  We help startups and businesses create high-performing websites,<br />
+                  powerful apps, and result-driven marketing strategies that<br />
+                  actually grow revenue.
+                </p>
+                <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
+                  <BookCallButton type="button" onClick={openBookCall}>
+                    Get Free Consultation
+                  </BookCallButton>
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="btn-outline"
+                    style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
+                    onClick={scrollToWorks}
+                  >
+                    View Our Work
+                  </Button>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </motion.div>
@@ -414,99 +443,185 @@ const HomePage: React.FC = () => {
 
           <div className="services-track-container">
             <div className="services-track" ref={trackRef}>
-              <Reveal
-                className="service-col"
-                variants={fadeUp}
-                viewportMargin="0px"
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <div className="service-cell service-text-cell">
-                  <h3>Content Marketing</h3>
-                  <p>Engage your audience with compelling content that builds trust and drives conversions.</p>
-                </div>
-                <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Content Marketing" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                </div>
-              </Reveal>
-
-              <Reveal
-                className="service-col service-col-reversed"
-                variants={fadeUp}
-                viewportMargin="0px"
-                delay={0.05}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?q=80&w=800&auto=format&fit=crop" alt="Paid Advertising" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                </div>
-                <div className="service-cell service-text-cell">
-                  <h3>Paid Advertising</h3>
-                  <p>Reach the right audience with data-driven ad campaigns that maximize ROI.</p>
-                </div>
-              </Reveal>
-
-              <Reveal
-                className="service-col"
-                variants={fadeUp}
-                viewportMargin="0px"
-                delay={0.1}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <div className="service-cell service-text-cell">
-                  <h3>Rebranding</h3>
-                  <p>Transform your brand with a fresh identity that aligns with your vision and market trends.</p>
-                </div>
-                <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop" alt="Rebranding" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                </div>
-              </Reveal>
-
-              <Reveal
-                className="service-col service-col-reversed"
-                variants={fadeUp}
-                viewportMargin="0px"
-                delay={0.15}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" alt="Email Marketing" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                </div>
-                <div className="service-cell service-text-cell">
-                  <h3>Email Marketing</h3>
-                  <p>Boost engagement and retention with high-converting email campaigns.</p>
-                </div>
-              </Reveal>
-
-              <Reveal
-                className="service-col"
-                variants={fadeUp}
-                viewportMargin="0px"
-                delay={0.2}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <div className="service-cell service-text-cell">
-                  <h3>SEO Strategy</h3>
-                  <p>Dominate search results and drive organic traffic with our expert optimization techniques.</p>
-                </div>
-                <div className="service-cell service-img-cell">
-                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SEO Strategy" loading="lazy" decoding="async" width={800} height={600} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                </div>
-              </Reveal>
+              {services.map((service, index) => {
+                const imageFirst = index % 2 === 1;
+                const media = (
+                  <div className="service-card-media">
+                    <img
+                      src={service.image}
+                      alt={service.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={500}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                );
+                const body = (
+                  <div className="service-card-body">
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                    <ul className="service-points">
+                      {service.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+                return (
+                  <Reveal
+                    key={service.title}
+                    className="service-col"
+                    variants={fadeUp}
+                    viewportMargin="0px"
+                    delay={index * 0.05}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.45, ease: easeIOS }}
+                  >
+                    <article className="service-card-inner">
+                      {imageFirst ? (
+                        <>
+                          {media}
+                          {body}
+                        </>
+                      ) : (
+                        <>
+                          {body}
+                          {media}
+                        </>
+                      )}
+                    </article>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Problem → Solution */}
+      <section id="problem-solution" className="ps-section" aria-labelledby="ps-heading">
+        <div className="ps-bg-glow" aria-hidden="true" />
+        <div className="container ps-section-inner">
+          <motion.div
+            className="ps-header"
+            variants={sectionReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-5% 0px', amount: 0.2 }}
+          >
+            <h2 id="ps-heading" className="ps-heading">
+              Why Most Businesses Struggle <span className="emphasis-italic">Online</span>
+            </h2>
+            <p className="ps-subheading">
+              Most businesses fail because design, strategy, and marketing are disconnected.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="ps-columns"
+            variants={staggerParent}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-5% 0px', amount: 0.15 }}
+          >
+            <motion.article
+              className="ps-problem-card"
+              variants={fadeUp}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <span className="ps-badge ps-badge--problem">THE PROBLEM</span>
+              <p className="ps-card-desc">
+                Poor website design, no clear strategy, and weak marketing lead to low visibility and zero conversions.
+              </p>
+              <div className="ps-divider" aria-hidden="true" />
+              <p className="ps-spends-label">Businesses spend money on:</p>
+              <ul className="ps-problem-list">
+                {[
+                  'Random marketing',
+                  'Slow websites',
+                  'Poor branding',
+                  'Weak online presence',
+                ].map((item) => (
+                  <li key={item}>
+                    <XCircle className="ps-problem-icon" size={18} aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="ps-result-line">…and don&apos;t get results.</p>
+            </motion.article>
+
+            <motion.article
+              className="ps-solution-card"
+              variants={fadeUp}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.45, ease: easeIOS }}
+            >
+              <span className="ps-badge ps-badge--solution">THE SOLUTION</span>
+              <p className="ps-card-desc">
+                We fix that by combining design, development, and marketing into one powerful system that consistently brings you leads and growth.
+              </p>
+              <motion.div
+                className="ps-flow"
+                variants={staggerParentSlow}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-5% 0px', amount: 0.2 }}
+              >
+                {[
+                  { label: 'Design', icon: Palette },
+                  { label: 'Development', icon: Code2 },
+                  { label: 'Marketing', icon: Megaphone },
+                  { label: 'Leads', icon: Users },
+                  { label: 'Growth', icon: TrendingUp },
+                ].flatMap((step, index, arr) => {
+                  const Icon = step.icon;
+                  const nodes = [
+                    <motion.div
+                      key={step.label}
+                      className="ps-flow-step"
+                      variants={fadeUpSoft}
+                      whileHover={{ y: -3, scale: 1.02 }}
+                      transition={{ duration: 0.35, ease: easeIOS }}
+                    >
+                      <div className="ps-flow-icon">
+                        <Icon size={18} aria-hidden="true" />
+                      </div>
+                      <span className="ps-flow-label">{step.label}</span>
+                    </motion.div>,
+                  ];
+                  if (index < arr.length - 1) {
+                    nodes.push(
+                      <motion.div
+                        key={`${step.label}-arrow`}
+                        className="ps-flow-connector"
+                        variants={fadeUpSoft}
+                        aria-hidden="true"
+                      >
+                        <ArrowRight size={16} />
+                      </motion.div>,
+                    );
+                  }
+                  return nodes;
+                })}
+              </motion.div>
+            </motion.article>
+          </motion.div>
+        </div>
+      </section>
+
+      <WhyVridhioSection />
+
       {/* Process */}
       <section className="process-section">
         <div className="container">
           <Reveal as="h2" className="process-heading" variants={sectionReveal}>
-            How we <span className="emphasis-italic">work</span>
+            Our Simple <span className="emphasis-italic">Process</span>
           </Reveal>
         </div>
         <motion.div
@@ -517,10 +632,10 @@ const HomePage: React.FC = () => {
           viewport={{ once: true, margin: '-10% 0px', amount: 0.1 }}
         >
           {[
-            { title: 'Discovery', desc: 'We dive deep into your brand, goals, and audience to craft a tailored marketing strategy.', num: '01' },
-            { title: 'Execution', desc: 'Our team brings ideas to life with compelling visuals, messaging, and data-driven content.', num: '02' },
-            { title: 'Optimization', desc: 'We refine campaigns in real-time, ensuring maximum performance and engagement.', num: '03' },
-            { title: 'Growth', desc: 'With data-driven insights, we scale your success and drive long-term impact.', num: '04' },
+            { title: 'Strategy Call', desc: 'We understand your business, goals, audience, and requirements to create the right growth strategy.', num: '01' },
+            { title: 'Planning & Design', desc: 'We plan the structure, user experience, visuals, and workflows tailored to your business needs.', num: '02' },
+            { title: 'Development', desc: 'Our team builds fast, scalable, and modern digital solutions using the latest technologies.', num: '03' },
+            { title: 'Launch & Marketing', desc: 'We launch, optimize, and market your business to generate visibility, leads, and long-term growth.', num: '04' },
           ].map((row) => (
             <motion.div key={row.num} className="process-row" variants={fadeUp}>
               <h3>{row.title}</h3>
@@ -611,35 +726,7 @@ const HomePage: React.FC = () => {
         </Reveal>
       </section>
 
-      {/* Contact */}
-      <Reveal as="section" id="contact" className="contact-section" variants={sectionRevealLg}>
-        <div className="contact-bg-wave" aria-hidden="true" />
-        <div className="container contact-section-content">
-          <motion.div
-            className="contact-grid"
-            variants={staggerParent}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-10% 0px', amount: 0.2 }}
-          >
-            <motion.div className="contact-left" variants={fadeUp}>
-              <h2 className="contact-title">
-                <span className="contact-title-sans">Contact us and let&apos;s</span>
-                <span className="contact-title-italic">create something great</span>
-              </h2>
-            </motion.div>
-            <motion.div className="contact-right" variants={fadeUp}>
-              <p className="contact-description">
-                Ready to take your brand to the next level? Get in touch with us and let&apos;s create powerful
-                marketing strategies that drive real results.
-              </p>
-              <motion.div className="contact-cta" variants={fadeUpSoft}>
-                <BookCallButton type="button" onClick={openBookCall} />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </Reveal>
+      <LeadCaptureSection onBookCall={openBookCall} />
     </div>
   );
 };

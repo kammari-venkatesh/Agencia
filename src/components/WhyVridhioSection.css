@@ -1,0 +1,244 @@
+/* Why Vridhio — premium trust section */
+.wv-section {
+  position: relative;
+  padding: 8rem 0;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.wv-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 40% 50%, rgba(241, 90, 36, 0.09) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: wvGlowDrift 20s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+@keyframes wvGlowDrift {
+  0% {
+    opacity: 0.55;
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.06) translateX(2%);
+  }
+}
+
+.wv-section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.wv-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 4.5rem;
+}
+
+.wv-heading {
+  font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  margin: 0 0 1.25rem;
+}
+
+.wv-heading-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 40%, var(--accent-cta) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.wv-subheading {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto;
+  font-weight: 400;
+}
+
+/* 5-card grid: 3 on row 1, 2 centered on row 2 */
+.wv-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wv-card {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 2rem 2rem 2.1rem;
+  border-radius: 20px;
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.45s var(--ease-ios),
+    box-shadow 0.45s var(--ease-ios),
+    transform 0.45s var(--ease-ios);
+  will-change: transform;
+}
+
+.wv-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.wv-card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+.wv-card:hover {
+  border-color: rgba(241, 90, 36, 0.35);
+  box-shadow:
+    0 12px 48px rgba(241, 90, 36, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.wv-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(241, 90, 36, 0.12);
+  border: 1px solid rgba(241, 90, 36, 0.22);
+  color: var(--accent-cta);
+  box-shadow: 0 0 24px rgba(241, 90, 36, 0.15);
+  flex-shrink: 0;
+}
+
+.wv-card-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.wv-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 3.5rem;
+  padding-top: 0;
+}
+
+.wv-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1;
+  padding: 0.55rem 1rem;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    border-color 0.35s var(--ease-ios),
+    color 0.35s var(--ease-ios);
+}
+
+.wv-trust-pill:hover {
+  border-color: rgba(241, 90, 36, 0.25);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .wv-section {
+    padding: 5rem 0;
+  }
+
+  .wv-header {
+    margin-bottom: 3rem;
+  }
+
+  .wv-heading {
+    font-size: clamp(2rem, 5.5vw, 3.2rem);
+  }
+
+  .wv-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .wv-card,
+  .wv-card:nth-child(4),
+  .wv-card:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .wv-card:nth-child(5):last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: calc(50% - 0.625rem);
+    justify-self: center;
+  }
+
+  .wv-trust {
+    margin-top: 2.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wv-section {
+    padding: 4rem 0;
+  }
+
+  .wv-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .wv-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .wv-card,
+  .wv-card:nth-child(4),
+  .wv-card:nth-child(5),
+  .wv-card:nth-child(5):last-child:nth-child(odd) {
+    grid-column: auto;
+    max-width: none;
+    justify-self: stretch;
+    padding: 1.75rem 1.5rem 1.85rem;
+  }
+
+  .wv-card-text {
+    font-size: 0.95rem;
+  }
+
+  .wv-trust {
+    margin-top: 2.25rem;
+    gap: 0.6rem;
+  }
+
+  .wv-trust-pill {
+    font-size: 0.48rem;
+    padding: 0.5rem 0.85rem;
+  }
+}
