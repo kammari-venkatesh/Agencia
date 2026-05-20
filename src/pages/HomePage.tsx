@@ -162,20 +162,6 @@ const HomePage: React.FC = () => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
-  // Smooth-scroll to the What-we-offer section. Uses Lenis when available so
-  // the scroll matches the same feel as the existing hash-based scroller
-  // declared above (same -80 offset).
-  const scrollToServices = () => {
-    const el = document.getElementById('services');
-    if (!el) return;
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(el, { offset: -80 });
-    } else {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   const scrollToWorks = () => {
     const el = document.getElementById('works');
     if (!el) return;

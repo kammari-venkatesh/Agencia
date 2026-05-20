@@ -7,7 +7,7 @@ export type ServiceOffering = {
 }
 
 /** Consistent 800×500 crop for uniform card image slots */
-const img = (id: string, alt: string) =>
+const img = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&h=500&q=80`
 
 export const services: ServiceOffering[] = [
@@ -16,7 +16,7 @@ export const services: ServiceOffering[] = [
     description:
       'We create fast, modern, and conversion-focused websites that turn visitors into paying customers.',
     points: ['Business websites', 'Landing pages', 'E-commerce websites', 'Portfolio websites'],
-    image: img('photo-1460925895917-afdab827c52f', 'Website Development'),
+    image: img('photo-1460925895917-afdab827c52f'),
     imageAlt: 'Website Development',
   },
   {
@@ -24,7 +24,7 @@ export const services: ServiceOffering[] = [
     description:
       'Scalable and user-friendly mobile & web apps designed for performance, scalability, and business growth.',
     points: ['Android apps', 'iOS apps', 'Web applications', 'Admin dashboards'],
-    image: img('photo-1512941937669-90a1b58e7e9c', 'App Development'),
+    image: img('photo-1512941937669-90a1b58e7e9c'),
     imageAlt: 'App Development',
   },
   {
@@ -37,7 +37,7 @@ export const services: ServiceOffering[] = [
       'Lead generation bots',
       'AI business assistants',
     ],
-    image: img('photo-1677442136019-21780ecad995', 'AI Chatbots'),
+    image: img('photo-1677442136019-21780ecad995'),
     imageAlt: 'AI Chatbots',
   },
   {
@@ -45,7 +45,7 @@ export const services: ServiceOffering[] = [
     description:
       'Custom automation systems that reduce manual work and streamline business operations efficiently.',
     points: ['n8n automations', 'Zapier workflows', 'CRM automation', 'Process optimization'],
-    image: img('photo-1551288049-bebda4e38f71', 'Workflow Automations'),
+    image: img('photo-1551288049-bebda4e38f71'),
     imageAlt: 'Workflow Automations',
   },
   {
@@ -58,14 +58,14 @@ export const services: ServiceOffering[] = [
       'Customer support calling',
       'Appointment scheduling',
     ],
-    image: img('photo-1551836022-d5d88e9c9639', 'AI Calling Systems'),
+    image: img('photo-1551836022-d5d88e9c9639'),
     imageAlt: 'AI Calling Systems',
   },
   {
     title: 'Graphic Designing',
     description: 'Creative designs that build strong brand identity and grab attention instantly.',
     points: ['Social media creatives', 'Brand identity', 'Pitch decks', 'UI/UX design'],
-    image: img('photo-1586717791821-55d37124ea0c', 'Graphic Designing'),
+    image: img('photo-1586717791821-55d37124ea0c'),
     imageAlt: 'Graphic Designing',
   },
   {
@@ -73,7 +73,7 @@ export const services: ServiceOffering[] = [
     description:
       'Professional video editing solutions tailored for brands, creators, ads, and social media growth.',
     points: ['Short-form reels', 'Long-form videos', 'Brand advertisements', 'Motion graphics'],
-    image: img('photo-1574717024653-61fd2cf4d44d', 'Video Editing'),
+    image: img('photo-1574717024653-61fd2cf4d44d'),
     imageAlt: 'Video Editing',
   },
   {
@@ -86,7 +86,7 @@ export const services: ServiceOffering[] = [
       'Commercial creatives',
       'Multimedia campaigns',
     ],
-    image: img('photo-1492691527719-9d1e072e0a0c', 'Multimedia Production'),
+    image: img('photo-1492691527719-9d1e072e0a0c'),
     imageAlt: 'Multimedia Production',
   },
   {
@@ -94,7 +94,7 @@ export const services: ServiceOffering[] = [
     description:
       'Data-driven marketing strategies to generate leads, increase visibility, and boost revenue.',
     points: ['Meta ads', 'Google ads', 'SEO', 'Social media marketing'],
-    image: img('photo-1620714223084-8fcacc6dfd8d', 'Digital Marketing'),
+    image: img('photo-1620714223084-8fcacc6dfd8d'),
     imageAlt: 'Digital Marketing',
   },
   {
@@ -107,7 +107,7 @@ export const services: ServiceOffering[] = [
       'Creator partnerships',
       'Brand collaborations',
     ],
-    image: img('photo-1611162616305-c69b3fa7a2be', 'Influencer Marketing'),
+    image: img('photo-1611162616305-c69b3fa7a2be'),
     imageAlt: 'Influencer Marketing',
   },
   {
@@ -115,7 +115,7 @@ export const services: ServiceOffering[] = [
     description:
       'Complete sales funnel systems designed to improve conversions and scale business growth.',
     points: ['Sales funnels', 'CRM systems', 'Lead nurturing', 'Outreach systems'],
-    image: img('photo-1556761175-5973dc0d32e7', 'Sales and Growth Systems'),
+    image: img('photo-1556761175-5973dc0d32e7'),
     imageAlt: 'Sales and Growth Systems',
   },
   {
@@ -123,7 +123,7 @@ export const services: ServiceOffering[] = [
     description:
       'Content strategies that help businesses grow organically, build authority, and attract customers.',
     points: ['Content strategy', 'Copywriting', 'Organic growth', 'Brand content'],
-    image: img('photo-1499750310107-5fef28a66643', 'Content Marketing'),
+    image: img('photo-1499750310107-5fef28a66643'),
     imageAlt: 'Content Marketing',
   },
 ]

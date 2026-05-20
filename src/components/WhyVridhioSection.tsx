@@ -9,7 +9,7 @@ import {
 import { easeIOS, fadeUp, sectionReveal, staggerParent } from '../motion/variants'
 import './WhyVridhioSection.css'
 
-const WhyVridhioSection: React.FC = () => {
+const WhyVridhioSection: FC = () => {
   const headingParts = whyVridhioHeading.split('Vridhio?')
 
   return (
