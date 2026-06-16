@@ -4,11 +4,14 @@ export type ServiceOffering = {
   points: string[]
   image: string
   imageAlt: string
+  /** Fine-tune crop so the subject stays visible in the card frame */
+  imagePosition?: string
 }
 
-/** Consistent 800×500 crop for uniform card image slots */
-const img = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&h=500&q=80`
+const serviceImage = (slug: string) => `/images/services/${slug}.png`
+
+/** Neutral fallback if a service image fails to load */
+export const SERVICE_IMAGE_FALLBACK = serviceImage('website-development')
 
 export const services: ServiceOffering[] = [
   {
@@ -16,16 +19,18 @@ export const services: ServiceOffering[] = [
     description:
       'We create fast, modern, and conversion-focused websites that turn visitors into paying customers.',
     points: ['Business websites', 'Landing pages', 'E-commerce websites', 'Portfolio websites'],
-    image: img('photo-1460925895917-afdab827c52f'),
-    imageAlt: 'Website Development',
+    image: serviceImage('website-development'),
+    imageAlt: 'Professional website development workspace with modern business site on laptop',
+    imagePosition: 'center 40%',
   },
   {
     title: 'App Development',
     description:
       'Scalable and user-friendly mobile & web apps designed for performance, scalability, and business growth.',
     points: ['Android apps', 'iOS apps', 'Web applications', 'Admin dashboards'],
-    image: img('photo-1512941937669-90a1b58e7e9c'),
-    imageAlt: 'App Development',
+    image: serviceImage('app-development'),
+    imageAlt: 'Mobile app development with smartphones showing polished app interfaces',
+    imagePosition: 'center center',
   },
   {
     title: 'AI Chatbots',
@@ -37,16 +42,18 @@ export const services: ServiceOffering[] = [
       'Lead generation bots',
       'AI business assistants',
     ],
-    image: img('photo-1677442136019-21780ecad995'),
-    imageAlt: 'AI Chatbots',
+    image: serviceImage('ai-chatbots'),
+    imageAlt: 'AI chatbot technology with conversational interface in a modern office',
+    imagePosition: 'center center',
   },
   {
     title: 'Workflow Automations',
     description:
       'Custom automation systems that reduce manual work and streamline business operations efficiently.',
     points: ['n8n automations', 'Zapier workflows', 'CRM automation', 'Process optimization'],
-    image: img('photo-1551288049-bebda4e38f71'),
-    imageAlt: 'Workflow Automations',
+    image: serviceImage('workflow-automations'),
+    imageAlt: 'Workflow automation dashboard with connected business process pipelines',
+    imagePosition: 'center top',
   },
   {
     title: 'AI Calling Systems',
@@ -58,23 +65,26 @@ export const services: ServiceOffering[] = [
       'Customer support calling',
       'Appointment scheduling',
     ],
-    image: img('photo-1551836022-d5d88e9c9639'),
-    imageAlt: 'AI Calling Systems',
+    image: serviceImage('ai-calling-systems'),
+    imageAlt: 'AI calling system with professional on headset in modern office',
+    imagePosition: 'center 35%',
   },
   {
     title: 'Graphic Designing',
     description: 'Creative designs that build strong brand identity and grab attention instantly.',
     points: ['Social media creatives', 'Brand identity', 'Pitch decks', 'UI/UX design'],
-    image: img('photo-1586717791821-55d37124ea0c'),
-    imageAlt: 'Graphic Designing',
+    image: serviceImage('graphic-designing'),
+    imageAlt: 'Graphic designer creating brand visuals and creative layouts',
+    imagePosition: 'center center',
   },
   {
     title: 'Video Editing',
     description:
       'Professional video editing solutions tailored for brands, creators, ads, and social media growth.',
     points: ['Short-form reels', 'Long-form videos', 'Brand advertisements', 'Motion graphics'],
-    image: img('photo-1574717024653-61fd2cf4d44d'),
-    imageAlt: 'Video Editing',
+    image: serviceImage('video-editing'),
+    imageAlt: 'Video editor at professional multi-monitor editing workstation',
+    imagePosition: 'center center',
   },
   {
     title: 'Multimedia Production',
@@ -86,16 +96,18 @@ export const services: ServiceOffering[] = [
       'Commercial creatives',
       'Multimedia campaigns',
     ],
-    image: img('photo-1492691527719-9d1e072e0a0c'),
-    imageAlt: 'Multimedia Production',
+    image: serviceImage('multimedia-production'),
+    imageAlt: 'Professional film crew shooting a brand video production',
+    imagePosition: 'center center',
   },
   {
     title: 'Digital Marketing',
     description:
       'Data-driven marketing strategies to generate leads, increase visibility, and boost revenue.',
     points: ['Meta ads', 'Google ads', 'SEO', 'Social media marketing'],
-    image: img('photo-1620714223084-8fcacc6dfd8d'),
-    imageAlt: 'Digital Marketing',
+    image: serviceImage('digital-marketing'),
+    imageAlt: 'Digital marketing analytics and campaign performance on devices',
+    imagePosition: 'center top',
   },
   {
     title: 'Influencer Marketing',
@@ -107,23 +119,26 @@ export const services: ServiceOffering[] = [
       'Creator partnerships',
       'Brand collaborations',
     ],
-    image: img('photo-1611162616305-c69b3fa7a2be'),
-    imageAlt: 'Influencer Marketing',
+    image: serviceImage('influencer-marketing'),
+    imageAlt: 'Influencer content creator filming a brand collaboration',
+    imagePosition: 'center 30%',
   },
   {
     title: 'Sales & Growth Systems',
     description:
       'Complete sales funnel systems designed to improve conversions and scale business growth.',
     points: ['Sales funnels', 'CRM systems', 'Lead nurturing', 'Outreach systems'],
-    image: img('photo-1556761175-5973dc0d32e7'),
-    imageAlt: 'Sales and Growth Systems',
+    image: serviceImage('sales-growth-systems'),
+    imageAlt: 'Sales and growth strategy session with funnel planning',
+    imagePosition: 'center center',
   },
   {
     title: 'Content Marketing',
     description:
       'Content strategies that help businesses grow organically, build authority, and attract customers.',
     points: ['Content strategy', 'Copywriting', 'Organic growth', 'Brand content'],
-    image: img('photo-1499750310107-5fef28a66643'),
-    imageAlt: 'Content Marketing',
+    image: serviceImage('content-marketing'),
+    imageAlt: 'Content marketer crafting brand stories on laptop',
+    imagePosition: 'center center',
   },
 ]

@@ -30,7 +30,7 @@ import {
   sectionReveal,
   sectionRevealLg,
 } from '../motion/variants';
-import { services } from '../data/services';
+import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
 import './HomePage.css';
@@ -438,12 +438,18 @@ const HomePage: React.FC = () => {
                       alt={service.imageAlt}
                       loading="lazy"
                       decoding="async"
-                      width={800}
-                      height={500}
+                      width={960}
+                      height={600}
+                      style={{ objectPosition: service.imagePosition ?? 'center center' }}
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        const el = e.currentTarget;
+                        if (el.dataset.fallbackApplied !== '1') {
+                          el.dataset.fallbackApplied = '1';
+                          el.src = SERVICE_IMAGE_FALLBACK;
+                        }
                       }}
                     />
+                    <div className="service-card-media-shade" aria-hidden="true" />
                   </div>
                 );
                 const body = (
