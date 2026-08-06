@@ -7,7 +7,6 @@ import { getLenis } from '../motion/SmoothScroll';
 import './Navbar.css';
 
 const navSections: { label: string; id: string }[] = [
-  { label: 'Works', id: 'works' },
   { label: 'Services', id: 'services' },
   { label: 'FAQ', id: 'faqs' },
   { label: 'Contact', id: 'contact' },

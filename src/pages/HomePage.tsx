@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   Plus,
   XCircle,
@@ -22,7 +22,6 @@ import {
   dur,
   fadeUp,
   fadeUpSoft,
-  imageReveal,
   slideInRight,
   staggerParent,
   staggerParentFast,
@@ -162,8 +161,8 @@ const HomePage: React.FC = () => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
-  const scrollToWorks = () => {
-    const el = document.getElementById('works');
+  const scrollToServices = () => {
+    const el = document.getElementById('services');
     if (!el) return;
     const lenis = getLenis();
     if (lenis) {
@@ -279,9 +278,9 @@ const HomePage: React.FC = () => {
                     variant="secondary"
                     className="btn-outline"
                     style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
-                    onClick={scrollToWorks}
+                    onClick={scrollToServices}
                   >
-                    View Our Work
+                    View Services
                   </Button>
                 </motion.div>
               </div>
@@ -313,107 +312,6 @@ const HomePage: React.FC = () => {
             Vridhio. We craft bold, data-driven<br />
             strategies that captivate, convert, and<br />
             <strong>scale your brand to new heights.</strong>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Selected Works */}
-      <section id="works" className="works-section">
-        <div className="container">
-          <Reveal as="h2" className="works-heading" variants={sectionReveal}>
-            Our selected <span className="emphasis-italic">works</span>
-          </Reveal>
-
-          {/* Row 1: Large left 57% + Smaller right 43% */}
-          <Reveal className="works-row works-row-1" variants={staggerParent}>
-            <motion.div
-              variants={fadeUp}
-              className="work-card-wrap"
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <Link to="/works/1" className="work-card">
-                <div className="work-img-wrap">
-                  <motion.img
-                    src="/works-payx.png"
-                    alt="PayX Rebranding"
-                    variants={imageReveal}
-                  />
-                  <div className="work-arrow">&#8599;</div>
-                </div>
-                <div className="work-caption">
-                  <span className="work-caption-title">PayX Rebranding</span>
-                  <span className="work-caption-sub">Revitalising a Fintech Brand for the Modern Market</span>
-                </div>
-              </Link>
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              className="work-card-wrap"
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <Link to="/works/2" className="work-card">
-                <div className="work-img-wrap">
-                  <motion.img
-                    src="/works-trendwear.png"
-                    alt="Social Growth for TrendWear"
-                    variants={imageReveal}
-                  />
-                  <div className="work-arrow">&#8599;</div>
-                </div>
-                <div className="work-caption">
-                  <span className="work-caption-title">Social Growth for TrendWear</span>
-                  <span className="work-caption-sub">Vridhio Studio built a viral campaign that skyrocketed engagement and sales.</span>
-                </div>
-              </Link>
-            </motion.div>
-          </Reveal>
-
-          {/* Row 2: Medium left 43% + Large right 57% */}
-          <Reveal className="works-row works-row-2" variants={staggerParent}>
-            <motion.div
-              variants={fadeUp}
-              className="work-card-wrap"
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <Link to="/works/3" className="work-card">
-                <div className="work-img-wrap">
-                  <motion.img
-                    src="/works-paidads.png"
-                    alt="Scaling Sales with Paid Ads"
-                    variants={imageReveal}
-                  />
-                  <div className="work-arrow">&#8599;</div>
-                </div>
-                <div className="work-caption">
-                  <span className="work-caption-title">Scaling Sales with Paid Ads</span>
-                  <span className="work-caption-sub">Vridhio Studio optimised their strategy, leading to higher returns and lower acquisition costs.</span>
-                </div>
-              </Link>
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              className="work-card-wrap"
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <Link to="/works/4" className="work-card">
-                <div className="work-img-wrap">
-                  <motion.img
-                    src="/works-aquaflow.png"
-                    alt="Rebranding for AquaFlow"
-                    variants={imageReveal}
-                  />
-                  <div className="work-arrow">&#8599;</div>
-                </div>
-                <div className="work-caption">
-                  <span className="work-caption-title">Rebranding for AquaFlow</span>
-                  <span className="work-caption-sub">AquaFlow needed a modern identity to stand out. Vridhio Studio delivered a fresh, impactful rebrand.</span>
-                </div>
-              </Link>
-            </motion.div>
           </Reveal>
         </div>
       </section>
