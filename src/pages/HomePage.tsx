@@ -194,14 +194,23 @@ const HomePage: React.FC = () => {
     let scaleTarget = 1;
 
     const computeCoords = () => {
-      const currentNavLogo = document.querySelector('.navbar-logo');
-      const splashRect = text.getBoundingClientRect();
+      const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
+      const unscaledWidth = text.offsetWidth;
+      const unscaledHeight = text.offsetHeight;
       const navRect = currentNavLogo ? currentNavLogo.getBoundingClientRect() : null;
 
-      if (navRect && splashRect && splashRect.width > 0 && splashRect.height > 0) {
-        targetX = navRect.left - splashRect.left;
-        targetY = navRect.top - splashRect.top;
-        scaleTarget = navRect.height / splashRect.height;
+      if (navRect && unscaledWidth > 0 && unscaledHeight > 0) {
+        // Document-relative position of header logo
+        const navDocLeft = navRect.left + window.scrollX;
+        const navDocTop = navRect.top + window.scrollY;
+
+        // Document-relative untransformed center position of splash text
+        const splashDocLeft = (window.innerWidth - unscaledWidth) / 2 + window.scrollX;
+        const splashDocTop = (window.innerHeight - unscaledHeight) / 2 + window.scrollY;
+
+        targetX = navDocLeft - splashDocLeft;
+        targetY = navDocTop - splashDocTop;
+        scaleTarget = navRect.height / unscaledHeight;
       } else {
         targetX = -(window.innerWidth / 2 - 90);
         targetY = -(window.innerHeight / 2 - 50);
