@@ -42,6 +42,7 @@ const HomePage: React.FC = () => {
 
   // Refs for VRIDHIO intro overlay
   const overlayRef = useRef<HTMLDivElement>(null);
+  const logoContainerRef = useRef<HTMLDivElement>(null);
   const vridhioRef = useRef<HTMLSpanElement>(null);
   const openBookCall = () => {
     setBookCallPersist(true);
@@ -163,16 +164,25 @@ const HomePage: React.FC = () => {
 
   // VRIDHIO intro animation: starts when user clicks (synchronous with WebGL loader reveal)
   useEffect(() => {
-    if (shouldReduce) {
+    const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
+    const overlay = overlayRef.current;
+    const logoContainer = logoContainerRef.current;
+    const text = vridhioRef.current;
+
+    const finishIntro = () => {
       setHeroIntroComplete(true);
+      if (navLogoEl) navLogoEl.style.opacity = '1';
+      if (overlay) overlay.style.display = 'none';
+      if (logoContainer) logoContainer.style.display = 'none';
+    };
+
+    if (shouldReduce) {
+      finishIntro();
       return;
     }
-    const overlay = overlayRef.current;
-    const text = vridhioRef.current;
     if (!overlay || !text) return;
 
     // Hide static navbar logo during intro animation so only the animated VRIDHIO text is visible
-    const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
     if (navLogoEl) {
       navLogoEl.style.opacity = '0';
     }
@@ -222,8 +232,7 @@ const HomePage: React.FC = () => {
       const tl = gsap.timeline({
         delay: 0.1,
         onComplete: () => {
-          setHeroIntroComplete(true);
-          if (overlay) overlay.style.display = 'none';
+          finishIntro();
         },
       });
 
@@ -244,7 +253,7 @@ const HomePage: React.FC = () => {
         1.5
       );
 
-      // 3. VRIDHIO text HAS LANDED and is now FIXED at the header position!
+      // 3. VRIDHIO text HAS LANDED at header position!
       // Solid white background overlay fades out (0.8s), revealing page beneath
       tl.to(
         overlay,
@@ -253,8 +262,10 @@ const HomePage: React.FC = () => {
           duration: 0.8,
           ease: 'power2.inOut',
           onStart: () => {
-            // Trigger hero section and header elements to fade in around the fixed VRIDHIO text
             setHeroIntroComplete(true);
+          },
+          onComplete: () => {
+            finishIntro();
           },
         },
         3.7
@@ -266,9 +277,8 @@ const HomePage: React.FC = () => {
     return () => {
       window.removeEventListener('click', handleRevealClick);
       window.removeEventListener('resize', handleResize);
-      const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
-      if (currentNavLogo) {
-        currentNavLogo.style.opacity = '1';
+      if (navLogoEl) {
+        navLogoEl.style.opacity = '1';
       }
     };
   }, [shouldReduce]);
@@ -329,7 +339,7 @@ const HomePage: React.FC = () => {
       <div ref={overlayRef} className="hero-intro-overlay-bg" />
 
       {/* VRIDHIO Intro Animated Text (Fixed in header) */}
-      <div className="hero-intro-logo-container">
+      <div ref={logoContainerRef} className="hero-intro-logo-container">
         <span ref={vridhioRef} className="hero-intro-logo">
           VRIDHIO
         </span>
