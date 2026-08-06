@@ -42,7 +42,6 @@ const HomePage: React.FC = () => {
 
   // Refs for VRIDHIO intro overlay
   const overlayRef = useRef<HTMLDivElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
   const vridhioRef = useRef<HTMLSpanElement>(null);
   const openBookCall = () => {
     setBookCallPersist(true);
@@ -164,32 +163,30 @@ const HomePage: React.FC = () => {
 
   // VRIDHIO intro animation: starts when user clicks (synchronous with WebGL loader reveal)
   useEffect(() => {
-    const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
-    const overlay = overlayRef.current;
-    const logoContainer = logoContainerRef.current;
-    const text = vridhioRef.current;
-
-    const finishIntro = () => {
-      setHeroIntroComplete(true);
-      if (navLogoEl) navLogoEl.style.opacity = '1';
-      if (overlay) overlay.style.display = 'none';
-      if (logoContainer) logoContainer.style.display = 'none';
-    };
-
     if (shouldReduce) {
-      finishIntro();
+      setHeroIntroComplete(true);
+      const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
+      if (navLogoEl) navLogoEl.style.opacity = '1';
+      if (overlayRef.current) overlayRef.current.style.display = 'none';
+      const container = vridhioRef.current?.parentElement;
+      if (container) container.style.display = 'none';
       return;
     }
-    if (!overlay || !text) return;
+    const overlay = overlayRef.current;
+    const text = vridhioRef.current;
+    const introContainer = text?.parentElement;
+    if (!overlay || !text || !introContainer) return;
 
     // Hide static navbar logo during intro animation so only the animated VRIDHIO text is visible
+    const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
     if (navLogoEl) {
       navLogoEl.style.opacity = '0';
     }
 
     // Make VRIDHIO centered & visible on solid white overlay behind the loader canvas
     gsap.set(text, { opacity: 1, scale: 1, x: 0, y: 0, transformOrigin: '0% 0%' });
-    gsap.set(overlay, { opacity: 1 });
+    gsap.set(overlay, { opacity: 1, display: 'block' });
+    gsap.set(introContainer, { display: 'flex' });
 
     let isRevealed = false;
     let targetX = 0;
@@ -232,7 +229,11 @@ const HomePage: React.FC = () => {
       const tl = gsap.timeline({
         delay: 0.1,
         onComplete: () => {
-          finishIntro();
+          setHeroIntroComplete(true);
+          // Handover to standard DOM navbar logo so it scrolls naturally with header
+          if (navLogoEl) navLogoEl.style.opacity = '1';
+          if (overlay) overlay.style.display = 'none';
+          if (introContainer) introContainer.style.display = 'none';
         },
       });
 
@@ -253,7 +254,7 @@ const HomePage: React.FC = () => {
         1.5
       );
 
-      // 3. VRIDHIO text HAS LANDED at header position!
+      // 3. VRIDHIO text HAS LANDED and is now at header position!
       // Solid white background overlay fades out (0.8s), revealing page beneath
       tl.to(
         overlay,
@@ -262,10 +263,8 @@ const HomePage: React.FC = () => {
           duration: 0.8,
           ease: 'power2.inOut',
           onStart: () => {
+            // Trigger hero section content fade in around header
             setHeroIntroComplete(true);
-          },
-          onComplete: () => {
-            finishIntro();
           },
         },
         3.7
@@ -277,8 +276,9 @@ const HomePage: React.FC = () => {
     return () => {
       window.removeEventListener('click', handleRevealClick);
       window.removeEventListener('resize', handleResize);
-      if (navLogoEl) {
-        navLogoEl.style.opacity = '1';
+      const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
+      if (currentNavLogo) {
+        currentNavLogo.style.opacity = '1';
       }
     };
   }, [shouldReduce]);
@@ -339,7 +339,7 @@ const HomePage: React.FC = () => {
       <div ref={overlayRef} className="hero-intro-overlay-bg" />
 
       {/* VRIDHIO Intro Animated Text (Fixed in header) */}
-      <div ref={logoContainerRef} className="hero-intro-logo-container">
+      <div className="hero-intro-logo-container">
         <span ref={vridhioRef} className="hero-intro-logo">
           VRIDHIO
         </span>
