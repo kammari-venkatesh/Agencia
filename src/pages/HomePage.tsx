@@ -230,10 +230,13 @@ const HomePage: React.FC = () => {
         delay: 0.1,
         onComplete: () => {
           setHeroIntroComplete(true);
-          // Handover to standard DOM navbar logo so it scrolls naturally with header
-          if (navLogoEl) navLogoEl.style.opacity = '1';
           if (overlay) overlay.style.display = 'none';
-          if (introContainer) introContainer.style.display = 'none';
+          // Switch container from position:fixed to position:absolute so VRIDHIO logo
+          // stays as the single continuous text element and scrolls naturally with the page.
+          if (introContainer) {
+            introContainer.style.position = 'absolute';
+            introContainer.style.zIndex = '51';
+          }
         },
       });
 
@@ -254,7 +257,7 @@ const HomePage: React.FC = () => {
         1.5
       );
 
-      // 3. VRIDHIO text HAS LANDED and is now at header position!
+      // 3. VRIDHIO text HAS LANDED at header position!
       // Solid white background overlay fades out (0.8s), revealing page beneath
       tl.to(
         overlay,
