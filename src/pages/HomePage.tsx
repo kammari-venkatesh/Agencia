@@ -186,31 +186,33 @@ const HomePage: React.FC = () => {
     // Make VRIDHIO centered & visible on solid white overlay behind the loader canvas
     gsap.set(text, { opacity: 1, scale: 1, x: 0, y: 0, transformOrigin: '0% 0%' });
     gsap.set(overlay, { opacity: 1, display: 'block' });
-    gsap.set(introContainer, { display: 'flex' });
+    gsap.set(introContainer, { display: 'flex', position: 'fixed', inset: 0, zIndex: 1000 });
 
     let isRevealed = false;
     let targetX = 0;
     let targetY = 0;
     let scaleTarget = 1;
+    let initialCenterLeft: number | null = null;
+    let initialCenterTop: number | null = null;
 
     const computeCoords = () => {
-      const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
-      const unscaledWidth = text.offsetWidth;
-      const unscaledHeight = text.offsetHeight;
+      const currentNavLogo = document.querySelector('.navbar-logo');
       const navRect = currentNavLogo ? currentNavLogo.getBoundingClientRect() : null;
 
-      if (navRect && unscaledWidth > 0 && unscaledHeight > 0) {
-        // Document-relative position of header logo
-        const navDocLeft = navRect.left + window.scrollX;
-        const navDocTop = navRect.top + window.scrollY;
+      // Capture initial un-transformed center position ONCE before GSAP transform shifts it
+      if (initialCenterLeft === null || initialCenterTop === null) {
+        const splashRect = text.getBoundingClientRect();
+        if (splashRect.width > 0 && splashRect.height > 0) {
+          initialCenterLeft = splashRect.left;
+          initialCenterTop = splashRect.top;
+        }
+      }
 
-        // Document-relative untransformed center position of splash text
-        const splashDocLeft = (window.innerWidth - unscaledWidth) / 2 + window.scrollX;
-        const splashDocTop = (window.innerHeight - unscaledHeight) / 2 + window.scrollY;
-
-        targetX = navDocLeft - splashDocLeft;
-        targetY = navDocTop - splashDocTop;
-        scaleTarget = navRect.height / unscaledHeight;
+      if (navRect && initialCenterLeft !== null && initialCenterTop !== null) {
+        targetX = navRect.left - initialCenterLeft;
+        targetY = navRect.top - initialCenterTop;
+        const splashHeight = text.offsetHeight || 40;
+        scaleTarget = navRect.height > 0 ? navRect.height / splashHeight : 0.22;
       } else {
         targetX = -(window.innerWidth / 2 - 90);
         targetY = -(window.innerHeight / 2 - 50);
@@ -240,12 +242,9 @@ const HomePage: React.FC = () => {
         onComplete: () => {
           setHeroIntroComplete(true);
           if (overlay) overlay.style.display = 'none';
-          // Switch container from position:fixed to position:absolute so VRIDHIO logo
-          // stays as the single continuous text element and scrolls naturally with the page.
-          if (introContainer) {
-            introContainer.style.position = 'absolute';
-            introContainer.style.zIndex = '51';
-          }
+          if (introContainer) introContainer.style.display = 'none';
+          if (navLogoEl) navLogoEl.style.opacity = '1';
+          window.removeEventListener('resize', handleResize);
         },
       });
 
@@ -266,7 +265,7 @@ const HomePage: React.FC = () => {
         1.5
       );
 
-      // 3. VRIDHIO text HAS LANDED at header position!
+      // 3. VRIDHIO text HAS LANDED at header position (t = 3.7s)!
       // Solid white background overlay fades out (0.8s), revealing page beneath
       tl.to(
         overlay,
@@ -275,11 +274,26 @@ const HomePage: React.FC = () => {
           duration: 0.8,
           ease: 'power2.inOut',
           onStart: () => {
-            // Trigger hero section content fade in around header
             setHeroIntroComplete(true);
+            // Smoothly reveal static navbar logo under the fading white overlay
+            if (navLogoEl) {
+              navLogoEl.style.transition = 'opacity 0.4s ease';
+              navLogoEl.style.opacity = '1';
+            }
           },
         },
         3.7
+      );
+
+      // 4. Cross-fade out animated overlay text as real navbar logo takes over smoothly
+      tl.to(
+        text,
+        {
+          opacity: 0,
+          duration: 0.4,
+          ease: 'power1.out',
+        },
+        4.0
       );
     };
 
