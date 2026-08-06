@@ -66,10 +66,10 @@ export const WebGLLoader: React.FC<WebGLLoaderProps> = ({
     window.addEventListener('resize', handleResize);
 
     let animationFrameId: number;
-    const clock = new THREE.Clock();
+    const startTime = performance.now();
 
     const tick = () => {
-      uniforms.uTime.value = clock.getElapsedTime();
+      uniforms.uTime.value = (performance.now() - startTime) * 0.001;
       renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(tick);
     };
