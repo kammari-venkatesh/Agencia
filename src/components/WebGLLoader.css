@@ -1,0 +1,48 @@
+/* Exact replication of the original Loader-main CSS */
+#loader {
+  height: 100dvh;
+  width: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#loader-canvas {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.click-prompt {
+  position: relative;
+  z-index: 2;
+  color: white;
+  cursor: pointer;
+  font-family: 'Josefin Sans', Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.85;
+}
+
+.click-prompt::before,
+.click-prompt::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}

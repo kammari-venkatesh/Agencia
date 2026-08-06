@@ -30,10 +30,11 @@
 }
 
 .footer-logo {
+  font-family: var(--font-vridhio, 'Vastago Grotesk', 'Vástago Grotesk', sans-serif);
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 900;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-vridhio, -0.06em);
   transition: color 0.35s var(--ease-ios);
 }
 
@@ -43,9 +44,9 @@
 
 .footer-tagline {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(0, 0, 0, 0.35);
   line-height: 1.45;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.06em;
   margin: 0;
   max-width: 16rem;
 }
@@ -134,7 +135,7 @@
 
 .footer-bottom {
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .footer-copyright {

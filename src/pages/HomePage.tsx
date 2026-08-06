@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
 import { useLocation } from 'react-router-dom';
 import {
   Plus,
@@ -14,7 +15,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
 import { preloadCalEmbed } from '../lib/ensureCalEmbedScript';
-import Plasma from '../components/PlasmaLazy';
 import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
 import {
@@ -38,7 +38,11 @@ const HomePage: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [bookCallOpen, setBookCallOpen] = useState(false);
   const [bookCallPersist, setBookCallPersist] = useState(false);
+  const [heroIntroComplete, setHeroIntroComplete] = useState(false);
 
+  // Refs for VRIDHIO intro overlay
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const vridhioRef = useRef<HTMLSpanElement>(null);
   const openBookCall = () => {
     setBookCallPersist(true);
     setBookCallOpen(true);
@@ -157,6 +161,119 @@ const HomePage: React.FC = () => {
     };
   }, []);
 
+  // VRIDHIO intro animation: starts when user clicks (synchronous with WebGL loader reveal)
+  useEffect(() => {
+    if (shouldReduce) {
+      setHeroIntroComplete(true);
+      return;
+    }
+    const overlay = overlayRef.current;
+    const text = vridhioRef.current;
+    if (!overlay || !text) return;
+
+    // Hide static navbar logo during intro animation so only the animated VRIDHIO text is visible
+    const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
+    if (navLogoEl) {
+      navLogoEl.style.opacity = '0';
+    }
+
+    // Make VRIDHIO centered & visible on solid white overlay behind the loader canvas
+    gsap.set(text, { opacity: 1, scale: 1, x: 0, y: 0, transformOrigin: '0% 0%' });
+    gsap.set(overlay, { opacity: 1 });
+
+    let isRevealed = false;
+    let targetX = 0;
+    let targetY = 0;
+    let scaleTarget = 1;
+
+    const computeCoords = () => {
+      const currentNavLogo = document.querySelector('.navbar-logo');
+      const splashRect = text.getBoundingClientRect();
+      const navRect = currentNavLogo ? currentNavLogo.getBoundingClientRect() : null;
+
+      if (navRect && splashRect && splashRect.width > 0 && splashRect.height > 0) {
+        targetX = navRect.left - splashRect.left;
+        targetY = navRect.top - splashRect.top;
+        scaleTarget = navRect.height / splashRect.height;
+      } else {
+        targetX = -(window.innerWidth / 2 - 90);
+        targetY = -(window.innerHeight / 2 - 50);
+        scaleTarget = 0.22;
+      }
+    };
+
+    const handleResize = () => {
+      if (!isRevealed) return;
+      computeCoords();
+      gsap.set(text, {
+        x: targetX,
+        y: targetY,
+        scale: scaleTarget,
+        transformOrigin: '0% 0%',
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    const handleRevealClick = () => {
+      isRevealed = true;
+      computeCoords();
+
+      const tl = gsap.timeline({
+        delay: 0.1,
+        onComplete: () => {
+          setHeroIntroComplete(true);
+          if (overlay) overlay.style.display = 'none';
+        },
+      });
+
+      // 1. Hold VRIDHIO centered on solid white while smoke clears (1.5s)
+      tl.to(text, { opacity: 1, scale: 1, duration: 1.5 }, 0);
+
+      // 2. Smoothly shrink & glide VRIDHIO text to top-left header logo position (2.2s)
+      tl.to(
+        text,
+        {
+          x: targetX,
+          y: targetY,
+          scale: scaleTarget,
+          transformOrigin: '0% 0%',
+          duration: 2.2,
+          ease: 'power2.inOut',
+        },
+        1.5
+      );
+
+      // 3. VRIDHIO text HAS LANDED and is now FIXED at the header position!
+      // Solid white background overlay fades out (0.8s), revealing page beneath
+      tl.to(
+        overlay,
+        {
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.inOut',
+          onStart: () => {
+            // Trigger hero section and header elements to fade in around the fixed VRIDHIO text
+            setHeroIntroComplete(true);
+          },
+        },
+        3.7
+      );
+    };
+
+    window.addEventListener('click', handleRevealClick, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleRevealClick);
+      window.removeEventListener('resize', handleResize);
+      const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
+      if (currentNavLogo) {
+        currentNavLogo.style.opacity = '1';
+      }
+    };
+  }, [shouldReduce]);
+
+
   const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index);
   };
@@ -176,13 +293,6 @@ const HomePage: React.FC = () => {
   // background fades first (starts immediately), then the heading, then the
   // stacked text, then the description, then the CTAs — each separated by
   // ~150ms per spec.
-  const heroBg = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { duration: 1.4, ease: easeIOS },
-    },
-  };
 
   const heroParent = {
     hidden: {},
@@ -215,6 +325,16 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-page">
+      {/* VRIDHIO Intro Overlay Background */}
+      <div ref={overlayRef} className="hero-intro-overlay-bg" />
+
+      {/* VRIDHIO Intro Animated Text (Fixed in header) */}
+      <div className="hero-intro-logo-container">
+        <span ref={vridhioRef} className="hero-intro-logo">
+          VRIDHIO
+        </span>
+      </div>
+
       <BookCallModal
         persistShell={bookCallPersist}
         isOpen={bookCallOpen}
@@ -223,25 +343,10 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <motion.div
-          className="hero-background"
-          variants={heroBg}
-          initial="hidden"
-          animate="show"
-        >
-          <Plasma
-            color="#ff6b35"
-            speed={0.3}
-            direction="forward"
-            scale={1.1}
-            opacity={0.8}
-            mouseInteractive={false}
-          />
-        </motion.div>
-        <motion.div
           className="container hero-container"
           variants={heroParent}
           initial="hidden"
-          animate="show"
+          animate={heroIntroComplete ? 'show' : 'hidden'}
         >
           <div className="hero-top">
             <motion.h1 className="hero-title" variants={heroChild}>

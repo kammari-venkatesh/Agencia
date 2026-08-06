@@ -10,7 +10,7 @@
 .lc-bg-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 60%, rgba(241, 90, 36, 0.1) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 30% 60%, rgba(220, 20, 60, 0.07) 0%, transparent 60%);
   filter: blur(90px);
   pointer-events: none;
   z-index: 0;
@@ -19,7 +19,7 @@
 }
 
 .lc-bg-glow--secondary {
-  background: radial-gradient(ellipse at 85% 30%, rgba(241, 90, 36, 0.06) 0%, transparent 55%);
+  background: radial-gradient(ellipse at 85% 30%, rgba(220, 20, 60, 0.04) 0%, transparent 55%);
   animation-duration: 22s;
   animation-direction: alternate-reverse;
 }
@@ -48,15 +48,15 @@
 
 .lc-heading {
   font-size: clamp(2.4rem, 5.6vw, 4.4rem);
-  font-weight: 500;
-  color: #ffffff;
-  letter-spacing: -0.05em;
+  font-weight: 200;
+  letter-spacing: 0.06em;
+  color: #1a1a1a;
   line-height: 0.95;
   margin: 0 0 1.25rem;
 }
 
 .lc-heading-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 40%, var(--accent-cta) 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #333333 40%, var(--accent-cta) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -86,22 +86,19 @@
   gap: 1.4rem;
   padding: 2.5rem 2.35rem 2.4rem;
   border-radius: 20px;
-  background: linear-gradient(165deg, #111111 0%, #0a0a0a 55%, #0d0d0d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 12px 48px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06);
   transition:
     border-color 0.45s var(--ease-ios),
     box-shadow 0.45s var(--ease-ios);
 }
 
 .lc-form-card:focus-within {
-  border-color: rgba(241, 90, 36, 0.28);
+  border-color: rgba(220, 20, 60, 0.3);
   box-shadow:
-    0 16px 56px rgba(241, 90, 36, 0.1),
-    0 12px 48px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    0 16px 56px rgba(220, 20, 60, 0.08),
+    0 12px 48px rgba(0, 0, 0, 0.04);
 }
 
 .lc-field {
@@ -118,9 +115,10 @@
 
 .lc-field label {
   font-size: 0.8rem;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.72);
-  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.55);
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 .lc-field input,
@@ -129,9 +127,9 @@
   width: 100%;
   font-family: var(--font-sans);
   font-size: 0.95rem;
-  color: #f5f5f5;
-  background: #161616;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #1a1a1a;
+  background: #f9f9f9;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 12px;
   padding: 0.9rem 1.05rem;
   transition:
@@ -142,23 +140,23 @@
 
 .lc-field input::placeholder,
 .lc-field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .lc-field input:hover,
 .lc-field textarea:hover,
 .lc-select-wrap select:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  background: #1a1a1a;
+  border-color: rgba(0, 0, 0, 0.22);
+  background: #f3f3f3;
 }
 
 .lc-field input:focus,
 .lc-field textarea:focus,
 .lc-select-wrap select:focus {
   outline: none;
-  border-color: rgba(241, 90, 36, 0.55);
-  background: #1c1c1c;
-  box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.15);
+  border-color: rgba(220, 20, 60, 0.5);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
 }
 
 .lc-field textarea {
@@ -179,15 +177,15 @@
 }
 
 .lc-select-wrap select:invalid {
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(0, 0, 0, 0.35);
 }
 
 .lc-select-wrap select:valid {
-  color: #f5f5f5;
+  color: #1a1a1a;
 }
 
 .lc-select-wrap select option {
-  background: #141414;
+  background: #ffffff;
   color: var(--text-primary);
 }
 
@@ -196,7 +194,7 @@
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.4);
   pointer-events: none;
 }
 
@@ -205,8 +203,10 @@
   margin-top: 0.35rem;
   padding: 1.05rem 1.75rem;
   font-size: 0.95rem;
-  font-weight: 600;
-  box-shadow: 0 8px 28px rgba(241, 90, 36, 0.28);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 28px rgba(220, 20, 60, 0.22);
   transition:
     background-color 0.35s var(--ease-ios),
     transform 0.35s var(--ease-ios),
@@ -215,7 +215,7 @@
 
 .lc-submit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 36px rgba(241, 90, 36, 0.4);
+  box-shadow: 0 14px 36px rgba(220, 20, 60, 0.35);
 }
 
 /* Contact info panel */
@@ -225,11 +225,9 @@
   min-height: 100%;
   padding: 0;
   border-radius: 20px;
-  background: linear-gradient(165deg, #0f0f0f 0%, #0a0a0a 100%);
-  border: 1px solid rgba(241, 90, 36, 0.2);
-  box-shadow:
-    0 12px 48px rgba(241, 90, 36, 0.06),
-    0 8px 32px rgba(0, 0, 0, 0.35);
+  background: #f9f9f9;
+  border: 1px solid rgba(220, 20, 60, 0.15);
+  box-shadow: 0 12px 48px rgba(220, 20, 60, 0.04);
   overflow: hidden;
 }
 
@@ -259,9 +257,9 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.1) 20%,
-    rgba(241, 90, 36, 0.25) 50%,
-    rgba(255, 255, 255, 0.1) 80%,
+    rgba(0, 0, 0, 0.08) 20%,
+    rgba(220, 20, 60, 0.2) 50%,
+    rgba(0, 0, 0, 0.08) 80%,
     transparent 100%
   );
   flex-shrink: 0;
@@ -281,8 +279,8 @@
   align-items: flex-start;
   padding: 1.2rem 1.15rem;
   border-radius: 14px;
-  background: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: inherit;
   transition:
@@ -293,9 +291,9 @@
 }
 
 a.lc-contact-card:hover {
-  border-color: rgba(241, 90, 36, 0.35);
-  background: #181818;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  border-color: rgba(220, 20, 60, 0.25);
+  background: #fafafa;
+  box-shadow: 0 8px 28px rgba(220, 20, 60, 0.06);
   transform: translateY(-2px);
 }
 
@@ -319,8 +317,8 @@ a.lc-contact-card:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(241, 90, 36, 0.14);
-  border: 1px solid rgba(241, 90, 36, 0.28);
+  background: rgba(220, 20, 60, 0.08);
+  border: 1px solid rgba(220, 20, 60, 0.18);
   color: var(--accent-cta);
 }
 
@@ -340,10 +338,10 @@ a.lc-contact-card:hover {
 
 .lc-contact-title {
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: 400;
 }
 
 .lc-contact-value {

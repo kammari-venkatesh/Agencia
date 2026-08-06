@@ -10,7 +10,7 @@
 .wv-bg-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 40% 50%, rgba(241, 90, 36, 0.09) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 40% 50%, rgba(220, 20, 60, 0.05) 0%, transparent 65%);
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
@@ -42,15 +42,18 @@
 
 .wv-heading {
   font-size: clamp(2.4rem, 5.6vw, 4.4rem);
-  font-weight: 500;
-  color: #ffffff;
-  letter-spacing: -0.05em;
+  font-weight: 200;
+  letter-spacing: 0.06em;
+  color: #1a1a1a;
   line-height: 0.95;
   margin: 0 0 1.25rem;
 }
 
 .wv-heading-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 40%, var(--accent-cta) 100%);
+  font-family: var(--font-vridhio, 'Vastago Grotesk', 'Vástago Grotesk', sans-serif);
+  font-weight: 800;
+  letter-spacing: var(--tracking-vridhio, -0.06em);
+  background: linear-gradient(135deg, #1a1a1a 0%, #333333 40%, var(--accent-cta) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -84,13 +87,10 @@
   gap: 1.25rem;
   padding: 2rem 2rem 2.1rem;
   border-radius: 20px;
-  background: rgba(13, 13, 13, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  background: #ffffff;
+  backdrop-filter: none;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
   transition:
     border-color 0.45s var(--ease-ios),
     box-shadow 0.45s var(--ease-ios),
@@ -107,11 +107,9 @@
 }
 
 .wv-card:hover {
-  border-color: rgba(241, 90, 36, 0.35);
-  box-shadow:
-    0 12px 48px rgba(241, 90, 36, 0.12),
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border-color: rgba(220, 20, 60, 0.2);
+  box-shadow: 0 8px 32px rgba(220, 20, 60, 0.07);
+  transform: translateY(-2px);
 }
 
 .wv-icon-wrap {
@@ -121,10 +119,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(241, 90, 36, 0.12);
-  border: 1px solid rgba(241, 90, 36, 0.22);
+  background: rgba(220, 20, 60, 0.08);
+  border: 1px solid rgba(220, 20, 60, 0.18);
   color: var(--accent-cta);
-  box-shadow: 0 0 24px rgba(241, 90, 36, 0.15);
+  box-shadow: 0 0 20px rgba(220, 20, 60, 0.1);
   flex-shrink: 0;
 }
 
@@ -157,15 +155,15 @@
   line-height: 1;
   padding: 0.55rem 1rem;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   transition:
     border-color 0.35s var(--ease-ios),
     color 0.35s var(--ease-ios);
 }
 
 .wv-trust-pill:hover {
-  border-color: rgba(241, 90, 36, 0.25);
+  border-color: rgba(220, 20, 60, 0.2);
   color: var(--text-secondary);
 }
 

@@ -20,23 +20,32 @@
 }
 
 .navbar-logo {
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: #fff;
-  letter-spacing: -0.02em;
+  font-family: var(--font-vridhio, 'Vastago Grotesk', 'Vástago Grotesk', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: var(--tracking-vridhio, -0.06em);
+  color: #DC143C;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.navbar-logo:hover {
+  color: #DC143C;
 }
 
 .navbar-tagline {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.45);
-  letter-spacing: 0.02em;
-  margin-top: 0.2rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.58rem;
+  color: rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.12em;
+  margin-top: 0.25rem;
   line-height: 1.3;
+  text-transform: uppercase;
 }
 
 .menu-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -44,24 +53,26 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s var(--ease-ios);
+  transition: background 0.3s var(--ease-ios), border-color 0.3s var(--ease-ios);
   will-change: transform;
   -webkit-tap-highlight-color: transparent;
 }
 
 .menu-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(220, 20, 60, 0.06);
+  border-color: rgba(220, 20, 60, 0.3);
 }
 
-/* Overlay + content opacity / blur / scale animations are driven by
-   framer-motion in Navbar.tsx. The CSS below is only layout + look. */
+/* Overlay — white frosted glass */
 .nav-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60vh;
-  background: rgba(5, 5, 5, 0.6);
+  height: 65vh;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   z-index: 100;
@@ -69,6 +80,7 @@
   flex-direction: column;
   overflow: hidden;
   will-change: opacity, backdrop-filter;
+  border-bottom: 1px solid rgba(220, 20, 60, 0.08);
 }
 
 .nav-overlay-header {
@@ -97,14 +109,20 @@
 }
 
 .nav-vertical-links a {
-  color: #fff;
+  color: #1a1a1a;
   text-decoration: none;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 200;
+  letter-spacing: 0.08em;
   line-height: 1.2;
   transform-origin: left;
   will-change: transform, opacity;
+  transition: color 0.3s var(--ease-ios);
+}
+
+.nav-vertical-links a:hover {
+  color: #DC143C;
 }
 
 .nav-overlay-right {
@@ -116,11 +134,12 @@
 }
 
 .small-stacked-text {
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
   color: var(--text-muted);
   text-transform: uppercase;
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
 .text-right {
@@ -170,6 +189,6 @@
     gap: 2rem;
   }
   .nav-overlay-right .small-stacked-text {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
   }
 }

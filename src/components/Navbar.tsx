@@ -84,7 +84,7 @@ const Navbar: React.FC = () => {
       <header className="navbar-wrapper">
         <div className="container navbar">
           <Link to="/" className="navbar-logo-block" onClick={goHome}>
-            <span className="navbar-logo">Vridhio</span>
+            <span className="navbar-logo">VRIDHIO</span>
             <span className="navbar-tagline">Where Bold Strategy Meets Innovation.</span>
           </Link>
           <motion.button
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.3, ease: easeIOS }}
             aria-label="Open navigation"
           >
-            <Menu size={20} color="#fff" />
+            <Menu size={20} color="#1a1a1a" />
           </motion.button>
         </div>
       </header>
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
           >
             <div className="container nav-overlay-header">
               <Link to="/" className="navbar-logo-block" onClick={goHome}>
-                <span className="navbar-logo">Vridhio</span>
+                <span className="navbar-logo">VRIDHIO</span>
                 <span className="navbar-tagline">Where Bold Strategy Meets Innovation.</span>
               </Link>
               <motion.button
@@ -125,7 +125,7 @@ const Navbar: React.FC = () => {
                 transition={{ duration: 0.3, ease: easeIOS }}
                 aria-label="Close navigation"
               >
-                <X size={20} color="#fff" />
+                <X size={20} color="#1a1a1a" />
               </motion.button>
             </div>
             <motion.div
