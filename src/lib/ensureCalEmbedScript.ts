@@ -70,6 +70,7 @@ export function ensureCalEmbedScript(): Promise<void> {
     const script = document.createElement('script')
     script.src = CAL_EMBED_SRC
     script.async = true
+    script.crossOrigin = 'anonymous'
     script.dataset.calEmbed = 'true'
     script.addEventListener('load', onReady, { once: true })
     script.addEventListener('error', onFail, { once: true })

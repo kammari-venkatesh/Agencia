@@ -1,15 +1,16 @@
 {
   "name": "Vridhio — Bold Strategy Meets Innovation",
   "short_name": "Vridhio",
+  "description": "Enterprise-grade execution at startup speed.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a0a0a",
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0a0a0a"
+  ]
 }
