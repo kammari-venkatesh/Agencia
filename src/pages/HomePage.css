@@ -435,12 +435,113 @@
   letter-spacing: -0.02em;
 }
 
-/* Intro — centered editorial paragraph with clean, professional Unbounded typography */
+/* Intro — clean white + cherry red professional section */
 .intro-section {
-  padding: 8rem 0 8rem;
+  padding: 9rem 0 18rem;
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 700px;
   background: #ffffff;
+}
+
+/* Subtle cherry red radial glow — decorative background */
+.intro-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 50%, rgba(220, 20, 60, 0.06) 0%, transparent 75%),
+    radial-gradient(ellipse 40% 35% at 20% 80%, rgba(220, 20, 60, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 80% 20%, rgba(220, 20, 60, 0.04) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Soft top border line accent */
+.intro-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #DC143C;
+  border-radius: 0 0 4px 4px;
+  z-index: 2;
+}
+
+/* Curved decorative lines — shared */
+.intro-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.intro-lines-left,
+.intro-lines-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.intro-lines-left {
+  left: 0;
+}
+
+.intro-lines-right {
+  right: 0;
+}
+
+.intro-curve {
+  position: absolute;
+  height: 85%;
+  border: 1.5px solid rgba(220, 20, 60, 0.18);
+  opacity: 0;
+  animation: line-pulse 5s ease-in-out infinite;
+}
+
+.intro-curve-left {
+  border-left: none;
+  border-radius: 0 80% 80% 0;
+  left: 0;
+}
+
+.intro-curve-right {
+  border-right: none;
+  border-radius: 80% 0 0 80%;
+  right: 0;
+}
+
+@keyframes line-pulse {
+  0%   { opacity: 0; transform: scale(1); }
+  15%  { opacity: 0.9; }
+  70%  { opacity: 0.4; }
+  100% { opacity: 0; transform: scale(0.85); }
+}
+
+@media (max-width: 810px) {
+  .intro-lines-left,
+  .intro-lines-right {
+    display: none;
+  }
+}
+
+.intro-text-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 3rem auto;
+  position: relative;
+  z-index: 3;
 }
 
 .intro-text {
@@ -454,7 +555,8 @@
   margin: 0 auto;
   letter-spacing: -0.02em;
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  width: 100%;
 }
 
 .intro-line {
@@ -465,7 +567,7 @@
 .intro-text strong,
 .cherry-accent {
   font-weight: 700;
-  color: #DC143C; /* Crisp, vivid Cherry Red */
+  color: #DC143C;
   letter-spacing: -0.02em;
 }
 

@@ -33,6 +33,7 @@ import {
 import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
+import ScrollFloat from '../components/ScrollFloat';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -473,26 +474,54 @@ const HomePage: React.FC = () => {
 
       {/* Intro */}
       <section id="about" className="intro-section">
+        {/* Curved decorative lines */}
+        <div className="intro-lines" aria-hidden="true">
+          {/* Left curved lines */}
+          <div className="intro-lines-left">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={`left-${i}`}
+                className="intro-curve intro-curve-left"
+                style={{
+                  width: `${60 + i * 10}px`,
+                  animationDelay: `${i * 0.25}s`,
+                  left: 0,
+                }}
+              />
+            ))}
+          </div>
+          {/* Right curved lines */}
+          <div className="intro-lines-right">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={`right-${i}`}
+                className="intro-curve intro-curve-right"
+                style={{
+                  width: `${60 + i * 10}px`,
+                  animationDelay: `${i * 0.25}s`,
+                  right: 0,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className="container">
-          <motion.p
-            className="intro-text font-unbounded"
-            variants={futuristicIntroParent}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+          <ScrollFloat
+            as="p"
+            containerClassName="intro-text-wrapper"
+            textClassName="intro-text font-unbounded"
+            animationDuration={0.65}
+            ease="power2.out"
+            scrollStart="top bottom-=25%"
+            scrollEnd="center center+=10%"
+            stagger={0.012}
           >
-            <motion.span variants={futuristicIntroChild} className="intro-line">
-              Discover <strong className="cherry-accent">the future of marketing</strong> with Vridhio.
-            </motion.span>
-            <br />
-            <motion.span variants={futuristicIntroChild} className="intro-line">
-              We craft bold, data-driven strategies that captivate, convert, and
-            </motion.span>
-            <br />
-            <motion.span variants={futuristicIntroChild} className="intro-line">
-              <strong className="cherry-accent">scale your brand to new heights.</strong>
-            </motion.span>
-          </motion.p>
+            Discover <strong className="cherry-accent">the future of</strong><br />
+            <strong className="cherry-accent">marketing</strong> with Vridhio.<br />
+            We craft bold, data-driven strategies that captivate, convert, and<br />
+            <strong className="cherry-accent">scale your brand to new heights.</strong>
+          </ScrollFloat>
         </div>
       </section>
 
