@@ -435,26 +435,70 @@
   letter-spacing: -0.02em;
 }
 
-/* Intro — centered editorial paragraph */
+/* Intro — centered editorial paragraph with futuristic Unbounded typography */
 .intro-section {
-  padding: 47rem 0 10rem;
+  padding: 10rem 0 10rem;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(220, 20, 60, 0.03) 0%, transparent 70%);
+}
+
+.intro-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  height: 380px;
+  background: radial-gradient(ellipse at center, rgba(220, 20, 60, 0.09) 0%, rgba(220, 20, 60, 0) 75%);
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
 }
 
 .intro-text {
-  font-family: var(--font-comfortaa, 'Comfortaa', sans-serif);
-  font-size: clamp(1.44rem, 3.36vw, 2.8rem);
-  color: rgba(220, 20, 60, 0.75);
-  max-width: 1000px;
-  line-height: 1.45;
+  font-family: 'Unbounded', var(--font-hero), sans-serif;
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  color: #DC143C; /* Cherry Red */
+  max-width: 1050px;
+  line-height: 1.35;
   text-align: center;
-  font-weight: 400;
+  font-weight: 300;
   margin: 0 auto;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 30px rgba(220, 20, 60, 0.22), 0 0 60px rgba(220, 20, 60, 0.1);
 }
 
-.intro-text strong {
+.intro-line {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+.intro-text strong,
+.cherry-accent {
   font-weight: 700;
-  color: var(--accent-cta, #DC143C);
+  color: #FF1E4B;
+  background: linear-gradient(135deg, #DC143C 0%, #FF3366 50%, #B01030 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: futuristicShimmer 4s ease infinite;
+  filter: drop-shadow(0 0 15px rgba(220, 20, 60, 0.45));
+}
+
+@keyframes futuristicShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* -----------------------------------------------

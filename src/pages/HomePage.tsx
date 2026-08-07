@@ -337,6 +337,28 @@ const HomePage: React.FC = () => {
     },
   };
 
+  const futuristicIntroParent = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const futuristicIntroChild = {
+    hidden: { opacity: 0, y: 35, filter: 'blur(12px)', scale: 0.96 },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      scale: 1,
+      transition: { duration: dur.lg, ease: easeIOS },
+    },
+  };
+
   return (
     <div className="home-page">
       {/* VRIDHIO Intro Overlay Background */}
@@ -454,12 +476,29 @@ const HomePage: React.FC = () => {
       {/* Intro */}
       <section id="about" className="intro-section">
         <div className="container">
-          <Reveal as="p" className="intro-text" variants={sectionRevealLg}>
-            Discover <strong>the future of marketing</strong> with<br />
-            Vridhio. We craft bold, data-driven<br />
-            strategies that captivate, convert, and<br />
-            <strong>scale your brand to new heights.</strong>
-          </Reveal>
+          <motion.p
+            className="intro-text font-unbounded"
+            variants={futuristicIntroParent}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-100px' }}
+          >
+            <motion.span variants={futuristicIntroChild} className="intro-line">
+              Discover <strong className="cherry-accent">the future of marketing</strong> with
+            </motion.span>
+            <br />
+            <motion.span variants={futuristicIntroChild} className="intro-line">
+              Vridhio. We craft bold, data-driven
+            </motion.span>
+            <br />
+            <motion.span variants={futuristicIntroChild} className="intro-line">
+              strategies that captivate, convert, and
+            </motion.span>
+            <br />
+            <motion.span variants={futuristicIntroChild} className="intro-line">
+              <strong className="cherry-accent">scale your brand to new heights.</strong>
+            </motion.span>
+          </motion.p>
         </div>
       </section>
 
