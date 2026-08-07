@@ -33,6 +33,7 @@ import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
 import ScrollFloat from '../components/ScrollFloat';
+import DotGrid from '../components/DotGrid';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -455,6 +456,18 @@ const HomePage: React.FC = () => {
 
       {/* Intro */}
       <section id="about" className="intro-section">
+        {/* Interactive DotGrid Background */}
+        <DotGrid
+          dotSize={4}
+          gap={18}
+          baseColor="#ffffff"
+          activeColor="#DC143C"
+          proximity={140}
+          shockRadius={240}
+          shockStrength={4}
+          resistance={750}
+          returnDuration={1.2}
+        />
         {/* Curved decorative lines */}
         <div className="intro-lines" aria-hidden="true">
           {/* Left curved lines */}
