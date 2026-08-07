@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Reveal } from '../motion/Reveal';
+import { AnimatedNumber } from '../components/AnimatedNumber';
 import { getLenis } from '../motion/SmoothScroll';
 import {
   fadeUp,
@@ -91,11 +92,11 @@ const CaseStudyPage: React.FC = () => {
             <h2>Key Results</h2>
             <Reveal className="cs-results-grid" variants={staggerParent}>
               <motion.div className="cs-result-item" variants={fadeUp}>
-                <span className="cs-result-number">120%</span>
+                <AnimatedNumber value="120%" className="cs-result-number" />
                 <span className="cs-result-label">increase in sales</span>
               </motion.div>
               <motion.div className="cs-result-item" variants={fadeUp}>
-                <span className="cs-result-number">5x</span>
+                <AnimatedNumber value="5x" className="cs-result-number" />
                 <span className="cs-result-label">ROAS</span>
               </motion.div>
             </Reveal>

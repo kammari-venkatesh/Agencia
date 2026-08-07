@@ -88,13 +88,11 @@
   transform: translateY(-50%);
   width: 2px;
   height: 30%;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--accent-cta) 20%,
-    var(--accent-cta) 80%,
-    transparent
-  );
+  background: linear-gradient(to bottom,
+      transparent,
+      var(--accent-cta) 20%,
+      var(--accent-cta) 80%,
+      transparent);
   border-radius: 2px;
 }
 
@@ -253,11 +251,9 @@
   left: 0;
   width: 80px;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.9) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0.9) 0%,
+      transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -270,13 +266,11 @@
   left: 0;
   right: 0;
   height: 30%;
-  background: linear-gradient(
-    to top,
-    #ffffff 0%,
-    rgba(255, 255, 255, 0.85) 25%,
-    rgba(255, 255, 255, 0.5) 55%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0.85) 25%,
+      rgba(255, 255, 255, 0.5) 55%,
+      transparent 100%);
   backdrop-filter: blur(0px);
   z-index: 2;
   pointer-events: none;
@@ -313,8 +307,17 @@
 }
 
 @keyframes heroPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.7; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.7;
+  }
 }
 
 .hero-badge-top {

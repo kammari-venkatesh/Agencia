@@ -14,6 +14,7 @@ import {
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
+import { AnimatedNumber } from '../components/AnimatedNumber';
 import { preloadCalEmbed } from '../lib/ensureCalEmbedScript';
 import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
@@ -401,17 +402,17 @@ const HomePage: React.FC = () => {
 
             <motion.div className="hero-stats-row" variants={heroSmallChild}>
               <div className="hero-stat">
-                <span className="hero-stat-num">150+</span>
+                <AnimatedNumber value="150+" className="hero-stat-num" trigger={heroIntroComplete} />
                 <span className="hero-stat-label">Brands Grown</span>
               </div>
               <div className="hero-stat-divider" />
               <div className="hero-stat">
-                <span className="hero-stat-num">8×</span>
+                <AnimatedNumber value="8×" className="hero-stat-num" trigger={heroIntroComplete} />
                 <span className="hero-stat-label">Avg. ROI</span>
               </div>
               <div className="hero-stat-divider" />
               <div className="hero-stat">
-                <span className="hero-stat-num">98%</span>
+                <AnimatedNumber value="98%" className="hero-stat-num" trigger={heroIntroComplete} />
                 <span className="hero-stat-label">Client Satisfaction</span>
               </div>
             </motion.div>

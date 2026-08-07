@@ -130,23 +130,24 @@ h6 {
 }
 
 h1 {
-  font-size: clamp(3.5rem, 7vw, 7.5rem);
-  margin-bottom: 1.5rem;
+  font-size: clamp(2.6rem, 5vw, 5.2rem);
+  margin-bottom: 1.25rem;
 }
 
 h2 {
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.9rem, 3.6vw, 3.8rem);
+  margin-bottom: 1.25rem;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
 }
 
 p {
   color: var(--text-secondary);
   font-size: 1.125rem;
-  max-width: 600px;
+  line-height: 1.7;
+  max-width: 650px;
 }
 
 .emphasis-italic {
@@ -247,41 +248,55 @@ p {
   background: #ccc;
 }
 
-/* Book-a-call CTA — solid cherry red pill */
+/* Book-a-call CTA — premium cherry red gradient capsule button */
 .book-call-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-width: 150px;
-  padding: 0.75rem 1.75rem;
+  min-width: 170px;
+  padding: 0.95rem 2.1rem;
   border-radius: 9999px;
-  border: none;
-  background-color: var(--accent-cta);
-  color: #fff;
-  font-family: var(--font-sans);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #E61E44 0%, #C40D33 100%);
+  color: #ffffff;
+  font-family: var(--font-hero, 'Montserrat', sans-serif);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: none;
-  transition: background-color 0.2s var(--ease-ios), transform 0.2s var(--ease-ios);
+  box-shadow:
+    0 4px 16px rgba(220, 20, 60, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition:
+    background 0.3s var(--ease-ios),
+    transform 0.3s var(--ease-ios),
+    box-shadow 0.3s var(--ease-ios),
+    border-color 0.3s var(--ease-ios);
+  position: relative;
+  overflow: hidden;
+  will-change: transform, box-shadow;
 }
 
 .book-call-btn:hover {
-  background-color: var(--accent-hover);
+  background: linear-gradient(135deg, #F0244C 0%, #D11238 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 8px 24px rgba(220, 20, 60, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .book-call-btn:active {
-  background-color: #8B0020;
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #C40D33 0%, #A00A28 100%);
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.3);
 }
 
 .book-call-btn:focus-visible {
   outline: 2px solid var(--accent-cta);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* Cal.com embed host */
