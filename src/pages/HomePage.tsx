@@ -342,20 +342,18 @@ const HomePage: React.FC = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
+        staggerChildren: 0.12,
+        delayChildren: 0.05,
       },
     },
   };
 
   const futuristicIntroChild = {
-    hidden: { opacity: 0, y: 35, filter: 'blur(12px)', scale: 0.96 },
+    hidden: { opacity: 0, y: 22 },
     show: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
-      scale: 1,
-      transition: { duration: dur.lg, ease: easeIOS },
+      transition: { duration: dur.md, ease: easeIOS },
     },
   };
 
@@ -481,18 +479,14 @@ const HomePage: React.FC = () => {
             variants={futuristicIntroParent}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-100px' }}
+            viewport={{ once: true, margin: '-80px' }}
           >
             <motion.span variants={futuristicIntroChild} className="intro-line">
-              Discover <strong className="cherry-accent">the future of marketing</strong> with
+              Discover <strong className="cherry-accent">the future of marketing</strong> with Vridhio.
             </motion.span>
             <br />
             <motion.span variants={futuristicIntroChild} className="intro-line">
-              Vridhio. We craft bold, data-driven
-            </motion.span>
-            <br />
-            <motion.span variants={futuristicIntroChild} className="intro-line">
-              strategies that captivate, convert, and
+              We craft bold, data-driven strategies that captivate, convert, and
             </motion.span>
             <br />
             <motion.span variants={futuristicIntroChild} className="intro-line">
