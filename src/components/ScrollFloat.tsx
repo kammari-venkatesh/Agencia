@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, ReactNode, RefObject } from 'react';
+import React, { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollFloatProps {
   children: ReactNode;
-  scrollContainerRef?: RefObject<HTMLElement>;
+  scrollContainerRef?: RefObject<HTMLElement | null>;
   containerClassName?: string;
   textClassName?: string;
   animationDuration?: number;
@@ -124,7 +124,6 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
     };
   }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger]);
 
-  // @ts-expect-error Tag element ref type
   return (
     <Component ref={containerRef} className={`scroll-float ${containerClassName}`}>
       <span className={`scroll-float-text ${textClassName}`}>{splitText}</span>

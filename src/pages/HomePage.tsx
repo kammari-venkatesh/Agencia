@@ -28,7 +28,6 @@ import {
   staggerParentFast,
   staggerParentSlow,
   sectionReveal,
-  sectionRevealLg,
 } from '../motion/variants';
 import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
@@ -338,25 +337,7 @@ const HomePage: React.FC = () => {
     },
   };
 
-  const futuristicIntroParent = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.05,
-      },
-    },
-  };
 
-  const futuristicIntroChild = {
-    hidden: { opacity: 0, y: 22 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: dur.md, ease: easeIOS },
-    },
-  };
 
   return (
     <div className="home-page">
