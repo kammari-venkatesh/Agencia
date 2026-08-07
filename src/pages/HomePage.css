@@ -103,9 +103,9 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.65rem;
   font-family: var(--font-hero);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
@@ -124,12 +124,12 @@
 /* Headline — Montserrat 700 bold geometric sans-serif */
 .hero-title {
   font-family: var(--font-hero);
-  font-size: clamp(3.4rem, 5vw, 6.2rem);
-  line-height: 1.04;
+  font-size: clamp(3.8rem, 5.5vw, 6.8rem);
+  line-height: 1.03;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: #0d0d0d;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.65rem;
 }
 
 /* Italic red accent — Montserrat italic */
@@ -145,11 +145,11 @@
 /* Description */
 .hero-desc {
   font-family: var(--font-hero);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   color: #555555;
   line-height: 1.7;
-  max-width: 660px;
-  margin-bottom: 2.5rem;
+  max-width: 720px;
+  margin-bottom: 2.75rem;
   font-weight: 400;
   letter-spacing: 0.01em;
 }
@@ -170,10 +170,10 @@
   border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
   color: #1a1a1a !important;
   font-family: var(--font-hero) !important;
-  font-size: 1rem !important;
+  font-size: 1.05rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.04em !important;
-  padding: 1.05rem 2.4rem !important;
+  padding: 1.15rem 2.6rem !important;
   border-radius: 9999px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
   transition: all 0.3s var(--ease-ios) !important;
@@ -191,10 +191,10 @@
 .hero-stats-row {
   display: flex;
   align-items: center;
-  gap: 3rem;
-  padding-top: 1.75rem;
+  gap: 3.5rem;
+  padding-top: 2rem;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  max-width: 640px;
+  max-width: 720px;
 }
 
 .hero-stat {
@@ -205,7 +205,7 @@
 
 .hero-stat-num {
   font-family: var(--font-hero);
-  font-size: 2.5rem;
+  font-size: 2.85rem;
   font-weight: 700;
   color: #0d0d0d;
   letter-spacing: -0.03em;
@@ -220,7 +220,7 @@
 
 .hero-stat-label {
   font-family: var(--font-hero);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -230,7 +230,7 @@
 
 .hero-stat-divider {
   width: 1px;
-  height: 42px;
+  height: 48px;
   background: rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
 }
