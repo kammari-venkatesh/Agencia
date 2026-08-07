@@ -355,55 +355,91 @@ const HomePage: React.FC = () => {
       />
       {/* Hero Section */}
       <section className="hero-section">
+        {/* Soft tint glow behind the portrait */}
+        <div className="hero-portrait-glow" aria-hidden="true" />
+
         <motion.div
-          className="container hero-container"
+          className="hero-container"
           variants={heroParent}
           initial="hidden"
           animate={heroIntroComplete ? 'show' : 'hidden'}
         >
-          <div className="hero-top">
+          {/* ── LEFT: editorial copy column ── */}
+          <div className="hero-left">
+
+            <motion.div className="hero-eyebrow" variants={heroSmallChild}>
+              <span className="hero-eyebrow-line" />
+              <span>DIGITAL AGENCY · EST. 2026</span>
+            </motion.div>
+
             <motion.h1 className="hero-title" variants={heroChild}>
-              We Build Websites, Apps &<br />
-              Marketing Systems That<br />
-              Generate Leads — <span className="emphasis-italic">Not Just Looks</span>
+              We Build<br />
+              Websites, Apps<br />
+              &amp; Marketing<br />
+              <span className="hero-title-accent">That Convert</span>
             </motion.h1>
-            <motion.div className="hero-top-right" variants={heroSmallChild}>
-              <div className="small-stacked-text text-right">
-                GROW<br />YOUR BRAND<br />BEYOND<br />BOUNDARIES
+
+            <motion.p className="hero-desc" variants={heroSmallChild}>
+              We help startups and businesses create high-performing websites,
+              powerful apps, and result-driven marketing strategies that
+              actually grow revenue.
+            </motion.p>
+
+            <motion.div className="hero-cta-row" variants={heroSmallChild}>
+              <BookCallButton type="button" onClick={openBookCall}>
+                Get Free Consultation
+              </BookCallButton>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="btn-outline hero-btn-ghost"
+                onClick={scrollToServices}
+              >
+                View Services
+              </Button>
+            </motion.div>
+
+            <motion.div className="hero-stats-row" variants={heroSmallChild}>
+              <div className="hero-stat">
+                <span className="hero-stat-num">150+</span>
+                <span className="hero-stat-label">Brands Grown</span>
+              </div>
+              <div className="hero-stat-divider" />
+              <div className="hero-stat">
+                <span className="hero-stat-num">8×</span>
+                <span className="hero-stat-label">Avg. ROI</span>
+              </div>
+              <div className="hero-stat-divider" />
+              <div className="hero-stat">
+                <span className="hero-stat-num">98%</span>
+                <span className="hero-stat-label">Client Satisfaction</span>
               </div>
             </motion.div>
           </div>
 
-          <div className="hero-bottom">
-            <motion.div className="hero-bottom-left" variants={heroSmallChild}>
-              <div className="small-stacked-text">
-                BREAK LIMITS<br />BUILD<br />STRONGER<br />BRANDS
+          {/* ── RIGHT: full-height portrait image ── */}
+          <motion.div className="hero-right" variants={heroChild}>
+            <div className="hero-portrait-wrap">
+              <img
+                src="/hero-portrait.png"
+                alt="Vridhio — Bold Strategy Meets Innovation"
+                className="hero-portrait-img"
+              />
+              {/* Floating glass badge */}
+              <div className="hero-portrait-badge">
+                <span className="hero-badge-pulse" />
+                <div>
+                  <span className="hero-badge-top">BOLD STRATEGY</span>
+                  <span className="hero-badge-bottom">Meets Innovation</span>
+                </div>
               </div>
-            </motion.div>
-            <motion.div className="hero-bottom-right" variants={heroSmallChild}>
-              <div className="hero-bottom-right-inner">
-                <p className="hero-desc">
-                  We help startups and businesses create high-performing websites,<br />
-                  powerful apps, and result-driven marketing strategies that<br />
-                  actually grow revenue.
-                </p>
-                <motion.div className="hero-cta-group justify-end" variants={heroSmallChild}>
-                  <BookCallButton type="button" onClick={openBookCall}>
-                    Get Free Consultation
-                  </BookCallButton>
-                  <Button
-                    size="lg"
-                    variant="secondary"
-                    className="btn-outline"
-                    style={{ background: 'transparent', border: '1px solid var(--border-light)' }}
-                    onClick={scrollToServices}
-                  >
-                    View Services
-                  </Button>
-                </motion.div>
+              {/* Bottom left accent line */}
+              <div className="hero-portrait-tag">
+                <span className="hero-tag-line" />
+                <span className="hero-tag-text">GENERATE LEADS — NOT JUST LOOKS</span>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </motion.div>
       </section>
 
