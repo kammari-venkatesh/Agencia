@@ -170,10 +170,10 @@
   border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
   color: #1a1a1a !important;
   font-family: var(--font-hero) !important;
-  font-size: 0.9rem !important;
+  font-size: 0.78rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.04em !important;
-  padding: 0.95rem 2.25rem !important;
+  padding: 0.65rem 1.4rem !important;
   border-radius: 9999px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
   transition: all 0.3s var(--ease-ios) !important;
