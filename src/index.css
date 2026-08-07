@@ -254,14 +254,14 @@ p {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-width: 190px;
-  padding: 1.25rem 2.85rem;
+  min-width: 170px;
+  padding: 0.95rem 2.1rem;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(135deg, #E61E44 0%, #C40D33 100%);
   color: #ffffff;
   font-family: var(--font-hero, 'Montserrat', sans-serif);
-  font-size: 1.15rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
