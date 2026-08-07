@@ -33,6 +33,7 @@ import {
 import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
+import ParticleText from '../components/ParticleText';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -454,6 +455,21 @@ const HomePage: React.FC = () => {
       {/* Intro */}
       <section id="about" className="intro-section">
         <div className="container">
+          <div style={{ width: '100%', height: 220, marginBottom: '2rem' }}>
+            <ParticleText
+              text="Future of Marketing"
+              color="#DC143C"
+              highlightColor="#FF2E55"
+              fontFamily="Comfortaa, sans-serif"
+              fontWeight={700}
+              fontSize="clamp(2.5rem, 8vw, 5rem)"
+              particleSize={2}
+              scatter={160}
+              density={4}
+              glow
+              trigger="hover"
+            />
+          </div>
           <Reveal as="p" className="intro-text" variants={sectionRevealLg}>
             Discover <strong>the future of marketing</strong> with<br />
             Vridhio. We craft bold, data-driven<br />

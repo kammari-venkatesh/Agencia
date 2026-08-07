@@ -441,19 +441,20 @@
 }
 
 .intro-text {
+  font-family: 'Comfortaa', var(--font-hero);
   font-size: clamp(1.44rem, 3.36vw, 2.8rem);
-  color: #aaaaaa;
+  color: #777777;
   max-width: 1000px;
-  line-height: 1.1;
+  line-height: 1.4;
   text-align: center;
-  font-weight: 300;
+  font-weight: 400;
   margin: 0 auto;
   letter-spacing: -0.01em;
 }
 
 .intro-text strong {
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 700;
+  color: #DC143C;
 }
 
 /* -----------------------------------------------
