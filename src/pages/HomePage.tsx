@@ -425,14 +425,6 @@ const HomePage: React.FC = () => {
                 alt="Vridhio — Bold Strategy Meets Innovation"
                 className="hero-portrait-img"
               />
-              {/* Floating glass badge */}
-              <div className="hero-portrait-badge">
-                <span className="hero-badge-pulse" />
-                <div>
-                  <span className="hero-badge-top">BOLD STRATEGY</span>
-                  <span className="hero-badge-bottom">Meets Innovation</span>
-                </div>
-              </div>
               {/* Bottom left accent line */}
               <div className="hero-portrait-tag">
                 <span className="hero-tag-line" />
