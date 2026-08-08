@@ -1,16 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { useLocation } from 'react-router-dom';
-import {
-  Plus,
-  XCircle,
-  Palette,
-  Code2,
-  Megaphone,
-  Users,
-  TrendingUp,
-  ArrowRight,
-} from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
@@ -31,6 +22,7 @@ import {
 } from '../motion/variants';
 import { services } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
+import SystemTransformationSection from '../components/SystemTransformationSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
 import ScrollFloat from '../components/ScrollFloat';
 import DotGrid from '../components/DotGrid';
@@ -530,118 +522,8 @@ const HomePage: React.FC = () => {
         </ScrollStack>
       </section>
 
-      {/* Problem → Solution */}
-      <section id="problem-solution" className="ps-section" aria-labelledby="ps-heading">
-        <div className="ps-bg-glow" aria-hidden="true" />
-        <div className="container ps-section-inner">
-          <motion.div
-            className="ps-header"
-            variants={sectionReveal}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-5% 0px', amount: 0.2 }}
-          >
-            <h2 id="ps-heading" className="ps-heading">
-              Why Most Businesses Struggle <span className="emphasis-italic">Online</span>
-            </h2>
-            <p className="ps-subheading">
-              Most businesses fail because design, strategy, and marketing are disconnected.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="ps-columns"
-            variants={staggerParent}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-5% 0px', amount: 0.15 }}
-          >
-            <motion.article
-              className="ps-problem-card"
-              variants={fadeUp}
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <span className="ps-badge ps-badge--problem">THE PROBLEM</span>
-              <p className="ps-card-desc">
-                Poor website design, no clear strategy, and weak marketing lead to low visibility and zero conversions.
-              </p>
-              <div className="ps-divider" aria-hidden="true" />
-              <p className="ps-spends-label">Businesses spend money on:</p>
-              <ul className="ps-problem-list">
-                {[
-                  'Random marketing',
-                  'Slow websites',
-                  'Poor branding',
-                  'Weak online presence',
-                ].map((item) => (
-                  <li key={item}>
-                    <XCircle className="ps-problem-icon" size={18} aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="ps-result-line">…and don&apos;t get results.</p>
-            </motion.article>
-
-            <motion.article
-              className="ps-solution-card"
-              variants={fadeUp}
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.45, ease: easeIOS }}
-            >
-              <span className="ps-badge ps-badge--solution">THE SOLUTION</span>
-              <p className="ps-card-desc">
-                We fix that by combining design, development, and marketing into one powerful system that consistently brings you leads and growth.
-              </p>
-              <motion.div
-                className="ps-flow"
-                variants={staggerParentSlow}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-5% 0px', amount: 0.2 }}
-              >
-                {[
-                  { label: 'Design', icon: Palette },
-                  { label: 'Development', icon: Code2 },
-                  { label: 'Marketing', icon: Megaphone },
-                  { label: 'Leads', icon: Users },
-                  { label: 'Growth', icon: TrendingUp },
-                ].flatMap((step, index, arr) => {
-                  const Icon = step.icon;
-                  const nodes = [
-                    <motion.div
-                      key={step.label}
-                      className="ps-flow-step"
-                      variants={fadeUpSoft}
-                      whileHover={{ y: -3, scale: 1.02 }}
-                      transition={{ duration: 0.35, ease: easeIOS }}
-                    >
-                      <div className="ps-flow-icon">
-                        <Icon size={18} aria-hidden="true" />
-                      </div>
-                      <span className="ps-flow-label">{step.label}</span>
-                    </motion.div>,
-                  ];
-                  if (index < arr.length - 1) {
-                    nodes.push(
-                      <motion.div
-                        key={`${step.label}-arrow`}
-                        className="ps-flow-connector"
-                        variants={fadeUpSoft}
-                        aria-hidden="true"
-                      >
-                        <ArrowRight size={16} />
-                      </motion.div>,
-                    );
-                  }
-                  return nodes;
-                })}
-              </motion.div>
-            </motion.article>
-          </motion.div>
-        </div>
-      </section>
+      {/* System Transformation Section (Reinvented Chaos -> System Section) */}
+      <SystemTransformationSection onBookCall={openBookCall} />
 
       <WhyVridhioSection />
 
