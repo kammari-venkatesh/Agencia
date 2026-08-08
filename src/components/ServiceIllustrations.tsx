@@ -54,31 +54,16 @@ export const Workflow3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 5. AI Calling Systems: Photorealistic 3D Headphones & Voice Mic */
+/* 5. AI Calling Systems: User Cloudinary 3D Graphic */
 export const PhoneCall3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="headsetGloss" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#FFE3D6" />
-        <stop offset="100%" stopColor="#C8583B" />
-      </linearGradient>
-      <filter id="headsetShadow">
-        <feDropShadow dx="12" dy="20" stdDeviation="15" floodColor="#40000A" floodOpacity="0.4" />
-      </filter>
-    </defs>
-
-    <g filter="url(#headsetShadow)" transform="translate(60, 20)">
-      <path d="M 40 140 A 75 75 0 0 1 180 140" fill="none" stroke="url(#headsetGloss)" strokeWidth="22" strokeLinecap="round" />
-      <rect x="24" y="120" width="34" height="65" rx="16" fill="url(#headsetGloss)" stroke="#FFFFFF" strokeWidth="2" />
-      <rect x="162" y="120" width="34" height="65" rx="16" fill="url(#headsetGloss)" stroke="#FFFFFF" strokeWidth="2" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/ai-calling-systems.png"
+      alt="AI Calling Systems 3D Graphic"
+      className="ssc-3d-image ssc-3d-call-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 6. Graphic Designing: User Cloudinary 3D Graphic */
@@ -138,142 +123,50 @@ export const Camera3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 9. Digital Marketing: Photorealistic 3D Darts & Bullseye Target */
+/* 9. Digital Marketing: User Cloudinary 3D Graphic */
 export const Target3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="dartRed" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="40%" stopColor="#FF0033" />
-        <stop offset="100%" stopColor="#800016" />
-      </linearGradient>
-      <linearGradient id="targetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="100%" stopColor="#E0E0E0" />
-      </linearGradient>
-      <filter id="targetShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#40000A" floodOpacity="0.45" />
-      </filter>
-    </defs>
-
-    <g filter="url(#targetShadow)" transform="translate(50, 15)">
-      <ellipse cx="140" cy="180" rx="100" ry="55" fill="url(#targetWhite)" stroke="#FFFFFF" strokeWidth="4" />
-      <ellipse cx="140" cy="180" rx="70" ry="38" fill="#1A1A1A" />
-      <ellipse cx="140" cy="180" rx="42" ry="23" fill="url(#targetWhite)" />
-      <ellipse cx="140" cy="180" rx="18" ry="10" fill="url(#dartRed)" />
-      <g transform="translate(100, 40) rotate(35, 40, 70)">
-        <path d="M 30 10 L 50 50 L 30 45 L 10 50 Z" fill="url(#dartRed)" />
-        <rect x="27" y="45" width="6" height="85" fill="#FFFFFF" />
-        <polygon points="30,140 25,130 35,130" fill="#D4C5BC" />
-      </g>
-      <g transform="translate(145, 10) rotate(20, 40, 70)">
-        <path d="M 30 10 L 50 50 L 30 45 L 10 50 Z" fill="url(#dartRed)" />
-        <rect x="27" y="45" width="6" height="95" fill="#FFFFFF" />
-      </g>
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/digital-marketing.png"
+      alt="Digital Marketing 3D Graphic"
+      className="ssc-3d-image ssc-3d-target-image"
+      loading="lazy"
+    />
+  </div>
 );
 
-/* 10. Influencer Marketing: Photorealistic 3D Star Trophy */
+/* 10. Influencer Marketing: User Cloudinary 3D Graphic */
 export const Star3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="starSilver" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#8C7B70" />
-      </linearGradient>
-      <filter id="starShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#40000A" floodOpacity="0.4" />
-      </filter>
-    </defs>
-
-    <g filter="url(#starShadow)" transform="translate(60, 15) rotate(10, 110, 110)">
-      <polygon
-        points="110,15 138,78 206,85 155,130 170,196 110,160 50,196 65,130 14,85 82,78"
-        fill="url(#starSilver)"
-        stroke="#FFFFFF"
-        strokeWidth="3"
-      />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/influencer-marketing.png"
+      alt="Influencer Marketing 3D Graphic"
+      className="ssc-3d-image ssc-3d-star-image"
+      loading="lazy"
+    />
+  </div>
 );
 
-/* 11. Sales & Growth Systems: Photorealistic 3D Rocket Launch */
+/* 11. Sales & Growth Systems: User Cloudinary 3D Graphic */
 export const Rocket3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="rocketBody" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#FFEFE6" />
-        <stop offset="100%" stopColor="#D9583B" />
-      </linearGradient>
-      <linearGradient id="rocketFin" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#7A685D" />
-      </linearGradient>
-      <filter id="rocketShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#40000A" floodOpacity="0.45" />
-      </filter>
-    </defs>
-
-    <g filter="url(#rocketShadow)" transform="translate(60, 15) rotate(-35, 110, 120)">
-      <path d="M 65 150 L 30 190 L 75 180 Z" fill="url(#rocketFin)" />
-      <path d="M 155 150 L 190 190 L 145 180 Z" fill="url(#rocketFin)" />
-      <path d="M 110 20 C 140 70 145 140 140 185 L 80 185 C 75 140 80 70 110 20 Z" fill="url(#rocketBody)" stroke="#FFFFFF" strokeWidth="2" />
-      <circle cx="110" cy="95" r="22" fill="url(#rocketFin)" stroke="#FFFFFF" strokeWidth="3" />
-      <circle cx="110" cy="95" r="14" fill="#FFFFFF" opacity="0.9" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/sales-growth-systems.png"
+      alt="Sales & Growth Systems 3D Graphic"
+      className="ssc-3d-image ssc-3d-rocket-image"
+      loading="lazy"
+    />
+  </div>
 );
 
-/* 12. Content Marketing: Photorealistic 3D Magnifying Glass */
+/* 12. Content Marketing: User Cloudinary 3D Graphic */
 export const Search3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="searchRim" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="35%" stopColor="#666666" />
-        <stop offset="70%" stopColor="#222222" />
-        <stop offset="100%" stopColor="#050505" />
-      </linearGradient>
-      <radialGradient id="searchLens" cx="35%" cy="35%" r="65%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="40%" stopColor="#F5F5F5" stopOpacity="0.8" />
-        <stop offset="85%" stopColor="#D0D0D0" stopOpacity="0.5" />
-        <stop offset="100%" stopColor="#A0A0A0" stopOpacity="0.3" />
-      </radialGradient>
-      <filter id="searchShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#000000" floodOpacity="0.5" />
-      </filter>
-    </defs>
-
-    <g filter="url(#searchShadow)" transform="translate(60, 15) rotate(22, 110, 110)">
-      <rect x="98" y="160" width="28" height="115" rx="14" fill="url(#searchRim)" stroke="#FFFFFF" strokeWidth="1.5" />
-      <circle cx="112" cy="100" r="78" fill="url(#searchRim)" stroke="#FFFFFF" strokeWidth="3" />
-      <circle cx="112" cy="100" r="60" fill="url(#searchLens)" />
-      <ellipse cx="90" cy="78" rx="28" ry="14" fill="#FFFFFF" opacity="0.75" transform="rotate(-30, 90, 78)" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/content-marketing.png"
+      alt="Content Marketing 3D Graphic"
+      className="ssc-3d-image ssc-3d-search-image"
+      loading="lazy"
+    />
+  </div>
 );

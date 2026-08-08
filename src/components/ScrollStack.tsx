@@ -59,39 +59,39 @@ const ScrollStack: React.FC<ScrollStackProps> = ({ children, className = '' }) =
     const totalIntervals = Math.max(totalCards - 1, 1);
     const step = 1 / totalIntervals;
 
-    // Calculate current base card index (0 to totalCards - 1)
-    const activeIndex = Math.min(Math.floor(progress * totalIntervals), totalCards - 1);
-
     cards.forEach((card, i) => {
       if (!card) return;
 
-      if (i < activeIndex) {
-        // Covered card behind active layer -> hidden to prevent peeking text/shadow overlap
-        card.style.transform = 'translate3d(0, 0%, 0) scale(0.96)';
-        card.style.opacity = '0';
-        card.style.pointerEvents = 'none';
-      } else if (i === activeIndex) {
-        // Current active base pinned card
+      if (i === 0) {
+        // Card 0 remains frozen at translateY(0)
+        const incomingProgress = Math.min(Math.max(progress / step, 0), 1);
         card.style.transform = 'translate3d(0, 0%, 0) scale(1)';
-        card.style.opacity = '1';
-        card.style.pointerEvents = 'auto';
-      } else if (i === activeIndex + 1) {
-        // Incoming card sliding UP over active base card
-        const intervalStart = activeIndex * step;
-        const cardProgress = Math.min(Math.max((progress - intervalStart) / step, 0), 1);
-
-        // Smooth cubic ease-out for natural gliding motion
-        const easedProgress = 1 - Math.pow(1 - cardProgress, 2.5);
-        const translateY = (1 - easedProgress) * 105;
-
-        card.style.transform = `translate3d(0, ${translateY.toFixed(2)}%, 0) scale(1)`;
-        card.style.opacity = '1';
-        card.style.pointerEvents = 'auto';
+        card.style.opacity = incomingProgress >= 0.96 ? '0' : '1';
+        card.style.pointerEvents = incomingProgress >= 0.96 ? 'none' : 'auto';
       } else {
-        // Future cards waiting below off-screen
-        card.style.transform = 'translate3d(0, 105%, 0) scale(1)';
-        card.style.opacity = '0';
-        card.style.pointerEvents = 'none';
+        const cardStart = (i - 1) * step;
+        const cardProgress = Math.min(Math.max((progress - cardStart) / step, 0), 1);
+
+        if (cardProgress <= 0) {
+          // Waiting below off-screen
+          card.style.transform = 'translate3d(0, 105%, 0) scale(1)';
+          card.style.opacity = '0';
+          card.style.pointerEvents = 'none';
+        } else if (cardProgress < 1) {
+          // Sliding UP smoothly into view over previous card
+          const eased = 1 - Math.pow(1 - cardProgress, 2.2);
+          const translateY = (1 - eased) * 105;
+          card.style.transform = `translate3d(0, ${translateY.toFixed(2)}%, 0) scale(1)`;
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
+        } else {
+          // Fully arrived at translateY(0)
+          const nextCardStart = i * step;
+          const nextCardProgress = Math.min(Math.max((progress - nextCardStart) / step, 0), 1);
+          card.style.transform = 'translate3d(0, 0%, 0) scale(1)';
+          card.style.opacity = nextCardProgress >= 0.96 ? '0' : '1';
+          card.style.pointerEvents = nextCardProgress >= 0.96 ? 'none' : 'auto';
+        }
       }
     });
 

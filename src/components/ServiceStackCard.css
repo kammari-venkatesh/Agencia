@@ -240,7 +240,7 @@
 /* ── 3D Image Wrapper for isolated reference PNGs ── */
 .ssc-3d-image-wrap {
   width: 100%;
-  max-width: 320px;
+  max-width: 290px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -251,120 +251,205 @@
 .ssc-3d-image {
   width: 100%;
   height: auto;
-  max-height: 290px;
+  max-height: 265px;
   object-fit: contain;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 15px 36px rgba(0, 0, 0, 0.42));
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ssc-3d-phone-image {
-  max-height: 290px;
-  max-height: 310px;
-  transform: scale(1.04) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.02) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-3d-web-image {
-  max-height: 310px;
-  transform: scale(1.08) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-3d-bot-image {
-  max-height: 310px;
-  transform: scale(1.08) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-3d-workflow-image {
-  max-height: 310px;
-  transform: scale(1.08) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-3d-call-image {
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-3d-pen-image {
-  max-height: 310px;
-  transform: scale(1.08) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-3d-film-image {
-  max-height: 310px;
-  transform: scale(1.08) translateY(2px);
+  max-height: 268px;
+  transform: scale(1.03) translateY(0px);
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-3d-target-image {
+  max-height: 275px;
+  transform: scale(1.08) translateY(0px);
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-3d-star-image {
+  max-height: 275px;
+  transform: scale(1.08) translateY(0px);
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-3d-rocket-image {
+  max-height: 275px;
+  transform: scale(1.08) translateY(0px);
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-3d-search-image {
+  max-height: 275px;
+  transform: scale(1.08) translateY(0px);
   object-fit: contain;
   object-position: center center;
 }
 
 .ssc-card:hover .ssc-3d-phone-image {
-  transform: translateY(-2px) scale(1.1);
+  transform: translateY(-3px) scale(1.07);
 }
 
 .ssc-card:hover .ssc-3d-web-image {
-  transform: translateY(-2px) scale(1.12);
+  transform: translateY(-3px) scale(1.08);
 }
 
 .ssc-card:hover .ssc-3d-bot-image {
-  transform: translateY(-2px) scale(1.14);
+  transform: translateY(-3px) scale(1.08);
 }
 
 .ssc-card:hover .ssc-3d-workflow-image {
-  transform: translateY(-2px) scale(1.14);
+  transform: translateY(-3px) scale(1.08);
+}
+
+.ssc-card:hover .ssc-3d-call-image {
+  transform: translateY(-3px) scale(1.08);
 }
 
 .ssc-card:hover .ssc-3d-pen-image {
-  transform: translateY(-2px) scale(1.14);
+  transform: translateY(-3px) scale(1.08);
 }
 
 .ssc-card:hover .ssc-3d-film-image {
-  transform: translateY(-2px) scale(1.14);
+  transform: translateY(-3px) scale(1.08);
+}
+
+.ssc-card:hover .ssc-3d-target-image {
+  transform: translateY(-3px) scale(1.14);
+}
+
+.ssc-card:hover .ssc-3d-star-image {
+  transform: translateY(-3px) scale(1.14);
+}
+
+.ssc-card:hover .ssc-3d-rocket-image {
+  transform: translateY(-3px) scale(1.14);
+}
+
+.ssc-card:hover .ssc-3d-search-image {
+  transform: translateY(-3px) scale(1.14);
 }
 
 /* ── Responsive adjustments ── */
-@media (max-width: 840px) {
+@media (max-width: 1024px) {
+  .ssc-content {
+    width: 60%;
+    padding: 2rem 2.25rem;
+  }
+  .ssc-graphic-side {
+    width: 44%;
+  }
+  .ssc-3d-image-wrap {
+    max-width: 260px;
+  }
+  .ssc-3d-image {
+    max-height: 230px;
+  }
+}
+
+@media (max-width: 768px) {
   .ssc-card {
-    height: 280px;
-    min-height: 280px;
+    height: auto;
+    min-height: 290px;
     border-radius: 24px;
   }
 
   .ssc-content {
-    width: 65%;
-    padding: 1.85rem 1.85rem;
+    width: 72%;
+    padding: 1.85rem 1.65rem;
   }
 
   .ssc-title {
-    font-size: 1.55rem;
+    font-size: clamp(1.4rem, 4.5vw, 1.85rem);
   }
 
   .ssc-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .ssc-tags {
+    gap: 0.4rem;
+  }
+
+  .ssc-tag-pill {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.75rem;
   }
 
   .ssc-graphic-side {
     width: 38%;
-    padding-right: 1rem;
+    padding-right: 0.75rem;
+    opacity: 0.85;
   }
 
-  .ssc-3d-illustration {
-    max-width: 200px;
+  .ssc-3d-image-wrap {
+    max-width: 220px;
+  }
+
+  .ssc-3d-image {
+    max-height: 200px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 520px) {
   .ssc-card {
     height: auto;
-    min-height: 220px;
+    min-height: 260px;
     border-radius: 20px;
   }
 
   .ssc-content {
     width: 100%;
-    padding: 1.5rem 1.25rem;
+    padding: 1.6rem 1.35rem;
   }
 
   .ssc-title {
@@ -372,25 +457,43 @@
   }
 
   .ssc-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
   }
 
   .ssc-tags {
-    display: none;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+  }
+
+  .ssc-tag-pill {
+    font-size: 0.68rem;
+    padding: 0.28rem 0.65rem;
   }
 
   .ssc-graphic-side {
-    opacity: 0.18;
-    width: 45%;
-    right: -5%;
+    position: absolute;
+    right: -2%;
+    top: 5%;
+    bottom: 5%;
+    width: 55%;
+    opacity: 0.22;
+    padding-right: 0;
+  }
+
+  .ssc-3d-image-wrap {
+    max-width: 200px;
+  }
+
+  .ssc-3d-image {
+    max-height: 180px;
   }
 
   .ssc-arrow-circle {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
   }
 
   .ssc-btn-text {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 }
