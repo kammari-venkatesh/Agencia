@@ -42,7 +42,13 @@ import {
   Bot3DIllustration,
   Workflow3DIllustration,
   PhoneCall3DIllustration,
-  Generic3DIllustration,
+  Pen3DIllustration,
+  Film3DIllustration,
+  Camera3DIllustration,
+  Target3DIllustration,
+  Star3DIllustration,
+  Rocket3DIllustration,
+  Search3DIllustration,
 } from '../components/ServiceIllustrations';
 import './HomePage.css';
 
@@ -501,6 +507,13 @@ const HomePage: React.FC = () => {
                 'AI Chatbots': <Bot3DIllustration />,
                 'Workflow Automations': <Workflow3DIllustration />,
                 'AI Calling Systems': <PhoneCall3DIllustration />,
+                'Graphic Designing': <Pen3DIllustration />,
+                'Video Editing': <Film3DIllustration />,
+                'Multimedia Production': <Camera3DIllustration />,
+                'Digital Marketing': <Target3DIllustration />,
+                'Influencer Marketing': <Star3DIllustration />,
+                'Sales & Growth Systems': <Rocket3DIllustration />,
+                'Content Marketing': <Search3DIllustration />,
               };
               return (
                 <ScrollStackItem key={service.title}>
@@ -508,7 +521,7 @@ const HomePage: React.FC = () => {
                     title={service.title}
                     subtitle={service.description}
                     points={service.points}
-                    illustration={illustrationMap[service.title] || <Generic3DIllustration />}
+                    illustration={illustrationMap[service.title] || <Cursor3DIllustration />}
                     variant={index + 1}
                     onLearnMore={openBookCall}
                   />
