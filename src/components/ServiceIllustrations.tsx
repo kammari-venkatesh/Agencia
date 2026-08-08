@@ -42,41 +42,16 @@ export const Bot3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 4. Workflow Automations: Photorealistic 3D Interlocking Metallic Gears */
+/* 4. Workflow Automations: User Cloudinary 3D Graphic */
 export const Workflow3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="gearMetal1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#FFE0D4" />
-        <stop offset="100%" stopColor="#B8583B" />
-      </linearGradient>
-      <linearGradient id="gearMetal2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#8C7B70" />
-      </linearGradient>
-      <filter id="gearShadow">
-        <feDropShadow dx="12" dy="20" stdDeviation="15" floodColor="#40000A" floodOpacity="0.4" />
-      </filter>
-    </defs>
-
-    <g filter="url(#gearShadow)" transform="translate(40, 10)">
-      <g transform="translate(40, 40) rotate(15, 60, 60)">
-        <circle cx="60" cy="60" r="55" fill="url(#gearMetal1)" stroke="#FFFFFF" strokeWidth="3" />
-        <circle cx="60" cy="60" r="22" fill="#FFFFFF" />
-      </g>
-      <g transform="translate(130, 110) rotate(-20, 65, 65)">
-        <circle cx="65" cy="65" r="60" fill="url(#gearMetal2)" stroke="#FFFFFF" strokeWidth="3" />
-        <circle cx="65" cy="65" r="25" fill="#FFFFFF" />
-      </g>
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/workflow-automations.png"
+      alt="Workflow Automations 3D Graphic"
+      className="ssc-3d-image ssc-3d-workflow-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 5. AI Calling Systems: Photorealistic 3D Headphones & Voice Mic */
