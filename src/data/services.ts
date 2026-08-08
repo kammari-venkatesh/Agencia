@@ -87,20 +87,6 @@ export const services: ServiceOffering[] = [
     imagePosition: 'center center',
   },
   {
-    title: 'Multimedia Production',
-    description:
-      'High-quality multimedia production services that help brands communicate visually and creatively.',
-    points: [
-      'Content production',
-      'Brand storytelling',
-      'Commercial creatives',
-      'Multimedia campaigns',
-    ],
-    image: serviceImage('multimedia-production'),
-    imageAlt: 'Professional film crew shooting a brand video production',
-    imagePosition: 'center center',
-  },
-  {
     title: 'Digital Marketing',
     description:
       'Data-driven marketing strategies to generate leads, increase visibility, and boost revenue.',
