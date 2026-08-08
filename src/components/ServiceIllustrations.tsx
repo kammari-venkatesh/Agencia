@@ -93,45 +93,16 @@ export const Pen3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 7. Video Editing: Photorealistic 3D Vintage Cinema Camera */
+/* 7. Video Editing: User Cloudinary 3D Graphic */
 export const Film3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="camBodyDark" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="40%" stopColor="#E0E0E0" />
-        <stop offset="80%" stopColor="#333333" />
-        <stop offset="100%" stopColor="#1A1A1A" />
-      </linearGradient>
-      <linearGradient id="camReelSilver" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#66564C" />
-      </linearGradient>
-      <filter id="camShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#000000" floodOpacity="0.5" />
-      </filter>
-    </defs>
-
-    <g filter="url(#camShadow)" transform="translate(45, 15)">
-      <circle cx="85" cy="70" r="48" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="3" />
-      <circle cx="85" cy="70" r="14" fill="#1A1A1A" />
-      <circle cx="65" cy="60" r="10" fill="#1A1A1A" />
-      <circle cx="105" cy="60" r="10" fill="#1A1A1A" />
-      <circle cx="85" cy="95" r="10" fill="#1A1A1A" />
-
-      <circle cx="165" cy="60" r="40" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="3" />
-      <circle cx="165" cy="60" r="12" fill="#1A1A1A" />
-
-      <rect x="45" y="110" width="135" height="110" rx="20" fill="url(#camBodyDark)" stroke="#FFFFFF" strokeWidth="2" />
-      <rect x="180" y="130" width="55" height="70" rx="10" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="2" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/video-editing.png"
+      alt="Video Editing 3D Graphic"
+      className="ssc-3d-image ssc-3d-film-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 8. Multimedia Production: Photorealistic 3D Camera Lens */

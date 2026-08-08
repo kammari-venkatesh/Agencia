@@ -293,6 +293,13 @@
   object-position: center center;
 }
 
+.ssc-3d-film-image {
+  max-height: 310px;
+  transform: scale(1.08) translateY(2px);
+  object-fit: contain;
+  object-position: center center;
+}
+
 .ssc-card:hover .ssc-3d-phone-image {
   transform: translateY(-2px) scale(1.1);
 }
@@ -310,6 +317,10 @@
 }
 
 .ssc-card:hover .ssc-3d-pen-image {
+  transform: translateY(-2px) scale(1.14);
+}
+
+.ssc-card:hover .ssc-3d-film-image {
   transform: translateY(-2px) scale(1.14);
 }
 
