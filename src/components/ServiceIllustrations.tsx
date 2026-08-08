@@ -81,30 +81,16 @@ export const PhoneCall3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 6. Graphic Designing: Photorealistic 3D Stylus & Palette Spheres */
+/* 6. Graphic Designing: User Cloudinary 3D Graphic */
 export const Pen3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="penGloss" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#FFE0D4" />
-        <stop offset="100%" stopColor="#B8482B" />
-      </linearGradient>
-      <filter id="penShadow">
-        <feDropShadow dx="12" dy="20" stdDeviation="15" floodColor="#40000A" floodOpacity="0.4" />
-      </filter>
-    </defs>
-
-    <g filter="url(#penShadow)" transform="translate(60, 20) rotate(-25, 110, 110)">
-      <rect x="95" y="10" width="28" height="210" rx="14" fill="url(#penGloss)" stroke="#FFFFFF" strokeWidth="2" />
-      <polygon points="109,240 95,210 123,210" fill="#FFFFFF" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/graphic-designing.png"
+      alt="Graphic Designing 3D Graphic"
+      className="ssc-3d-image ssc-3d-pen-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 7. Video Editing: Photorealistic 3D Vintage Cinema Camera */
