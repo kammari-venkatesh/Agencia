@@ -237,6 +237,35 @@
   transform: translateY(-4px) scale(1.04) rotate(1.5deg);
 }
 
+/* ── 3D Image Wrapper for isolated reference PNGs ── */
+.ssc-3d-image-wrap {
+  width: 100%;
+  max-width: 320px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.ssc-3d-image {
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ssc-3d-phone-image {
+  max-height: 310px;
+  transform: scale(1.08) rotate(-1.5deg);
+}
+
+.ssc-card:hover .ssc-3d-image {
+  transform: translateY(-4px) scale(1.12) rotate(0.5deg);
+}
+
 /* ── Responsive adjustments ── */
 @media (max-width: 840px) {
   .ssc-card {

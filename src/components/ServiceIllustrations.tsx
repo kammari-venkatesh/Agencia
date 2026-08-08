@@ -1,11 +1,12 @@
 import React from 'react';
 
 /**
- * Photorealistic 3D Vector Illustrations.
- * Card 1: Bright White 3D Globe Grid Icon matching user reference image.
+ * Photorealistic 3D Vector & Image Illustrations.
+ * Card 1: Bright White 3D Globe Grid Icon.
+ * Card 2: User Reference Smartphone held in hands with isolated background.
  */
 
-/* 1. Website Development: Bright White 3D Globe Grid Icon (Exact reference match!) */
+/* 1. Website Development: Bright White 3D Globe Grid Icon */
 export const Cursor3DIllustration: React.FC = () => (
   <svg
     viewBox="0 0 300 300"
@@ -21,61 +22,27 @@ export const Cursor3DIllustration: React.FC = () => (
     </defs>
 
     <g filter="url(#whiteGlobeShadow)">
-      {/* Outer Circle Rim */}
       <circle cx="150" cy="150" r="120" stroke="#FFFFFF" strokeWidth="16" fill="none" />
-
-      {/* Center Vertical Line */}
       <line x1="150" y1="30" x2="150" y2="270" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
-
-      {/* Left Curved Meridian */}
       <path d="M 150 30 A 75 120 0 0 0 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-
-      {/* Right Curved Meridian */}
       <path d="M 150 30 A 75 120 0 0 1 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-
-      {/* Center Horizontal Equator Line */}
       <line x1="30" y1="150" x2="270" y2="150" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
-
-      {/* Top Curved Latitude */}
       <path d="M 42 105 A 120 60 0 0 1 258 105" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-
-      {/* Bottom Curved Latitude */}
       <path d="M 42 195 A 120 60 0 0 0 258 195" stroke="#FFFFFF" strokeWidth="14" fill="none" />
     </g>
   </svg>
 );
 
-/* 2. App Development: Photorealistic 3D Floating Smartphone Frame */
+/* 2. App Development: User Reference Isolated Smartphone in Hands Image */
 export const Phone3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#FFF5F0" />
-        <stop offset="100%" stopColor="#FFE0D4" />
-      </linearGradient>
-      <linearGradient id="phoneRim" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#99877C" />
-      </linearGradient>
-      <filter id="phoneShadow" x="-20%" y="-20%" width="160%" height="160%">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#40000A" floodOpacity="0.45" />
-      </filter>
-    </defs>
-
-    <g filter="url(#phoneShadow)" transform="translate(85, 20) rotate(16, 85, 120)">
-      <rect x="15" y="10" width="140" height="245" rx="32" fill="url(#phoneRim)" />
-      <rect x="20" y="15" width="130" height="235" rx="28" fill="url(#phoneBody)" stroke="#FFFFFF" strokeWidth="2" />
-      <rect x="28" y="32" width="114" height="200" rx="20" fill="rgba(255, 255, 255, 0.4)" />
-      <rect x="68" y="24" width="34" height="8" rx="4" fill="#99877C" opacity="0.8" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/app-development.png"
+      alt="App Development Mobile Preview"
+      className="ssc-3d-image ssc-3d-phone-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 3. AI Chatbots: Photorealistic 3D Chrome & Glass AI Sphere */
@@ -201,7 +168,7 @@ export const Pen3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 7. Video Editing: Photorealistic 3D Vintage Cinema Camera (Exact reference match top-left!) */
+/* 7. Video Editing: Photorealistic 3D Vintage Cinema Camera */
 export const Film3DIllustration: React.FC = () => (
   <svg
     viewBox="0 0 340 300"
@@ -232,10 +199,8 @@ export const Film3DIllustration: React.FC = () => (
       <circle cx="65" cy="60" r="10" fill="#1A1A1A" />
       <circle cx="105" cy="60" r="10" fill="#1A1A1A" />
       <circle cx="85" cy="95" r="10" fill="#1A1A1A" />
-
       <circle cx="165" cy="60" r="40" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="3" />
       <circle cx="165" cy="60" r="12" fill="#1A1A1A" />
-
       <rect x="45" y="110" width="135" height="110" rx="20" fill="url(#camBodyDark)" stroke="#FFFFFF" strokeWidth="2" />
       <rect x="180" y="130" width="55" height="70" rx="10" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="2" />
     </g>
@@ -275,7 +240,7 @@ export const Camera3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 9. Digital Marketing: Photorealistic 3D Darts & Bullseye Target (Exact reference match bottom-left!) */
+/* 9. Digital Marketing: Photorealistic 3D Darts & Bullseye Target */
 export const Target3DIllustration: React.FC = () => (
   <svg
     viewBox="0 0 340 300"
@@ -303,13 +268,11 @@ export const Target3DIllustration: React.FC = () => (
       <ellipse cx="140" cy="180" rx="70" ry="38" fill="#1A1A1A" />
       <ellipse cx="140" cy="180" rx="42" ry="23" fill="url(#targetWhite)" />
       <ellipse cx="140" cy="180" rx="18" ry="10" fill="url(#dartRed)" />
-
       <g transform="translate(100, 40) rotate(35, 40, 70)">
         <path d="M 30 10 L 50 50 L 30 45 L 10 50 Z" fill="url(#dartRed)" />
         <rect x="27" y="45" width="6" height="85" fill="#FFFFFF" />
         <polygon points="30,140 25,130 35,130" fill="#D4C5BC" />
       </g>
-
       <g transform="translate(145, 10) rotate(20, 40, 70)">
         <path d="M 30 10 L 50 50 L 30 45 L 10 50 Z" fill="url(#dartRed)" />
         <rect x="27" y="45" width="6" height="95" fill="#FFFFFF" />
@@ -382,7 +345,7 @@ export const Rocket3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 12. Content Marketing: Photorealistic 3D Magnifying Glass (Exact reference match bottom-right!) */
+/* 12. Content Marketing: Photorealistic 3D Magnifying Glass */
 export const Search3DIllustration: React.FC = () => (
   <svg
     viewBox="0 0 340 300"
