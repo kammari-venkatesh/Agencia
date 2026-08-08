@@ -30,37 +30,16 @@ export const Phone3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 3. AI Chatbots: Photorealistic 3D Chrome & Glass AI Sphere */
+/* 3. AI Chatbots: User Cloudinary 3D Graphic */
 export const Bot3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 340 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <radialGradient id="aiOrbGlass" cx="30%" cy="30%" r="70%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="35%" stopColor="#FFF0EB" />
-        <stop offset="70%" stopColor="#FFC8B8" />
-        <stop offset="100%" stopColor="#D9684C" />
-      </radialGradient>
-      <linearGradient id="aiSilverRing" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="50%" stopColor="#D4C5BC" />
-        <stop offset="100%" stopColor="#8C7B70" />
-      </linearGradient>
-      <filter id="aiOrbShadow">
-        <feDropShadow dx="14" dy="22" stdDeviation="16" floodColor="#40000A" floodOpacity="0.4" />
-      </filter>
-    </defs>
-
-    <g filter="url(#aiOrbShadow)" transform="translate(60, 15)">
-      <ellipse cx="110" cy="130" rx="95" ry="32" fill="none" stroke="url(#aiSilverRing)" strokeWidth="12" transform="rotate(-20, 110, 130)" />
-      <circle cx="110" cy="120" r="80" fill="url(#aiOrbGlass)" />
-      <path d="M110 75 L118 112 L155 120 L118 128 L110 165 L102 128 L65 120 L102 112 Z" fill="#FFFFFF" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/ai-chatbots.png"
+      alt="AI Chatbots 3D Graphic"
+      className="ssc-3d-image ssc-3d-bot-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 4. Workflow Automations: Photorealistic 3D Interlocking Metallic Gears */
