@@ -14,7 +14,6 @@ import {
   dur,
   fadeUp,
   fadeUpSoft,
-  slideInRight,
   staggerParent,
   staggerParentFast,
   staggerParentSlow,
@@ -23,6 +22,7 @@ import {
 import { services } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import SystemTransformationSection from '../components/SystemTransformationSection';
+import FlowingMenu from '../components/FlowingMenu';
 import LeadCaptureSection from '../components/LeadCaptureSection';
 import ScrollFloat from '../components/ScrollFloat';
 import DotGrid from '../components/DotGrid';
@@ -534,26 +534,41 @@ const HomePage: React.FC = () => {
             Our Simple <span className="emphasis-italic">Process</span>
           </Reveal>
         </div>
-        <motion.div
-          className="process-list"
-          variants={staggerParentSlow}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10% 0px', amount: 0.1 }}
-        >
-          {[
-            { title: 'Strategy Call', desc: 'We understand your business, goals, audience, and requirements to create the right growth strategy.', num: '01' },
-            { title: 'Planning & Design', desc: 'We plan the structure, user experience, visuals, and workflows tailored to your business needs.', num: '02' },
-            { title: 'Development', desc: 'Our team builds fast, scalable, and modern digital solutions using the latest technologies.', num: '03' },
-            { title: 'Launch & Marketing', desc: 'We launch, optimize, and market your business to generate visibility, leads, and long-term growth.', num: '04' },
-          ].map((row) => (
-            <motion.div key={row.num} className="process-row" variants={fadeUp}>
-              <h3>{row.title}</h3>
-              <p>{row.desc}</p>
-              <motion.div className="process-num" variants={slideInRight}>{row.num}</motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <FlowingMenu
+          items={[
+            {
+              num: '01',
+              text: 'Strategy Call',
+              desc: 'We understand your business, goals, audience, and requirements to create the right growth strategy.',
+              link: '#contact',
+            },
+            {
+              num: '02',
+              text: 'Planning & Design',
+              desc: 'We plan the structure, user experience, visuals, and workflows tailored to your business needs.',
+              link: '#contact',
+            },
+            {
+              num: '03',
+              text: 'Development',
+              desc: 'Our team builds fast, scalable, and modern digital solutions using the latest technologies.',
+              link: '#contact',
+            },
+            {
+              num: '04',
+              text: 'Launch & Marketing',
+              desc: 'We launch, optimize, and market your business to generate visibility, leads, and long-term growth.',
+              link: '#contact',
+            },
+          ]}
+          speed={14}
+          bgColor="transparent"
+          textColor="#1a1a1a"
+          marqueeBgColor="#111111"
+          marqueeTextColor="#FAF9F6"
+          borderColor="rgba(0, 0, 0, 0.08)"
+          onItemClick={openBookCall}
+        />
       </section>
 
       {/* Testimonials */}
