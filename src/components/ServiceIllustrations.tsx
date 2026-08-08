@@ -2,86 +2,45 @@ import React from 'react';
 
 /**
  * Photorealistic 3D Vector Illustrations.
- * Card 1: Minimalistic 3D Pure White Arrow Cursor matching reference image.
+ * Card 1: Bright White 3D Globe Grid Icon matching user reference image.
  */
 
-/* 1. Website Development: Minimalistic 3D Pure White Arrow Cursor (Exact reference match!) */
+/* 1. Website Development: Bright White 3D Globe Grid Icon (Exact reference match!) */
 export const Cursor3DIllustration: React.FC = () => (
   <svg
-    viewBox="0 0 340 300"
+    viewBox="0 0 300 300"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="ssc-3d-illustration"
   >
     <defs>
-      {/* Front Face: Pristine Glossy Pure White */}
-      <linearGradient id="whiteCursorFront" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="55%" stopColor="#FCFAF8" />
-        <stop offset="85%" stopColor="#F7EFE9" />
-        <stop offset="100%" stopColor="#EFE3DA" />
-      </linearGradient>
-
-      {/* Minimalistic 3D Bevel (Soft Warm Pearl / Champagne Shadow) */}
-      <linearGradient id="whiteCursorBevelSide" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#EBE0D8" />
-        <stop offset="45%" stopColor="#D8C8BD" />
-        <stop offset="100%" stopColor="#B5A499" />
-      </linearGradient>
-
-      {/* Darker Under Bevel Shadow */}
-      <linearGradient id="whiteCursorBevelUnder" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#C4B3A8" />
-        <stop offset="100%" stopColor="#99877C" />
-      </linearGradient>
-
-      {/* Pure Specular Glass Glare */}
-      <linearGradient id="whiteCursorGlare" x1="0%" y1="0%" x2="80%" y2="80%">
-        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.4" />
-        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-      </linearGradient>
-
-      {/* Soft Multi-Stage Ambient Shadow */}
-      <filter id="whiteCursorShadow" x="-20%" y="-20%" width="160%" height="160%">
-        <feDropShadow dx="12" dy="22" stdDeviation="16" floodColor="#3D000A" floodOpacity="0.4" />
-        <feDropShadow dx="4" dy="8" stdDeviation="6" floodColor="#000000" floodOpacity="0.2" />
+      <filter id="whiteGlobeShadow" x="-20%" y="-20%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#000000" floodOpacity="0.22" />
+        <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#40000A" floodOpacity="0.3" />
       </filter>
     </defs>
 
-    <g filter="url(#whiteCursorShadow)" transform="translate(45, 18) rotate(-14, 120, 120)">
-      {/* ── 3D Extrusion Under Bevel (Bottom Soft Shadow Face) ── */}
-      <path
-        d="M 65 24 L 235 134 L 155 156 L 195 246 L 148 262 L 108 172 L 42 212 Z"
-        fill="url(#whiteCursorBevelUnder)"
-      />
+    <g filter="url(#whiteGlobeShadow)">
+      {/* Outer Circle Rim */}
+      <circle cx="150" cy="150" r="120" stroke="#FFFFFF" strokeWidth="16" fill="none" />
 
-      {/* ── 3D Extrusion Side Bevel (Side Soft Champagne Face) ── */}
-      <path
-        d="M 60 18 L 230 128 L 150 150 L 190 240 L 145 256 L 105 166 L 38 206 Z"
-        fill="url(#whiteCursorBevelSide)"
-      />
+      {/* Center Vertical Line */}
+      <line x1="150" y1="30" x2="150" y2="270" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
 
-      {/* ── 3D Front Top Surface (Pristine Glossy Pure White) ── */}
-      <path
-        d="M 50 10 L 220 120 L 140 142 L 180 232 L 135 248 L 95 158 L 28 198 Z"
-        fill="url(#whiteCursorFront)"
-        stroke="#FFFFFF"
-        strokeWidth="1.5"
-      />
+      {/* Left Curved Meridian */}
+      <path d="M 150 30 A 75 120 0 0 0 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
 
-      {/* ── Inner Reflective Bevel Inset ── */}
-      <path
-        d="M 88 128 L 140 142 L 180 232 L 150 242 L 118 168 L 78 190 L 88 128 Z"
-        fill="url(#whiteCursorBevelSide)"
-        opacity="0.75"
-      />
+      {/* Right Curved Meridian */}
+      <path d="M 150 30 A 75 120 0 0 1 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
 
-      {/* ── Pure Specular Glare Overlay ── */}
-      <path
-        d="M 50 10 L 220 120 L 140 142 L 85 130 Z"
-        fill="url(#whiteCursorGlare)"
-      />
+      {/* Center Horizontal Equator Line */}
+      <line x1="30" y1="150" x2="270" y2="150" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
+
+      {/* Top Curved Latitude */}
+      <path d="M 42 105 A 120 60 0 0 1 258 105" stroke="#FFFFFF" strokeWidth="14" fill="none" />
+
+      {/* Bottom Curved Latitude */}
+      <path d="M 42 195 A 120 60 0 0 0 258 195" stroke="#FFFFFF" strokeWidth="14" fill="none" />
     </g>
   </svg>
 );
