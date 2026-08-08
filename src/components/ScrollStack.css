@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════
+   SCROLL STACK — Pinned Viewport Deck
+   100% smooth 60-120fps card overlay deck
+═══════════════════════════════════════════════════ */
+
+.services-pinned-section {
+  position: relative;
+  height: 450vh;
+  background: var(--bg-primary, #ffffff);
+}
+
+.services-sticky-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 5.5rem;
+  padding-bottom: 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.services-card-stack-deck {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  height: 330px;
+  margin-top: 1.25rem;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Absolute card layers inside deck frame */
+.services-stack-card-layer {
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 100%;
+  will-change: transform, opacity;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Mobile Breakpoints ── */
+@media (max-width: 768px) {
+  .services-pinned-section {
+    height: auto;
+  }
+
+  .services-sticky-viewport {
+    position: static !important;
+    height: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    overflow: visible;
+  }
+
+  .services-card-stack-deck {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .services-stack-card-layer {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    left: 0;
+    right: 0;
+  }
+}

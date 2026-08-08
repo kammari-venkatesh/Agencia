@@ -29,11 +29,21 @@ import {
   staggerParentSlow,
   sectionReveal,
 } from '../motion/variants';
-import { services, SERVICE_IMAGE_FALLBACK } from '../data/services';
+import { services } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import LeadCaptureSection from '../components/LeadCaptureSection';
 import ScrollFloat from '../components/ScrollFloat';
 import DotGrid from '../components/DotGrid';
+import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
+import ServiceStackCard from '../components/ServiceStackCard';
+import {
+  Cursor3DIllustration,
+  Phone3DIllustration,
+  Bot3DIllustration,
+  Workflow3DIllustration,
+  PhoneCall3DIllustration,
+  Generic3DIllustration,
+} from '../components/ServiceIllustrations';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -49,8 +59,6 @@ const HomePage: React.FC = () => {
     setBookCallPersist(true);
     setBookCallOpen(true);
   };
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const shouldReduce = useReducedMotion();
 
@@ -84,57 +92,7 @@ const HomePage: React.FC = () => {
     return () => clearTimeout(t);
   }, [location.pathname, location.hash]);
 
-  useEffect(() => {
-    // Services horizontal-pin handler. Heavily throttled:
-    //  1. Coalesced via requestAnimationFrame so it runs at most once per frame
-    //     regardless of how many scroll events Lenis emits.
-    //  2. Early-exits when the services section is fully outside the viewport,
-    //     so hero / FAQ / contact scrolls don't pay for getBoundingClientRect
-    //     or scrollWidth reads.
-    let rafId = 0;
-    let pending = false;
 
-    const update = () => {
-      pending = false;
-      const section = sectionRef.current;
-      const track = trackRef.current;
-      if (!section || !track) return;
-
-      if (window.innerWidth <= 1024) {
-        if (track.style.transform) track.style.transform = '';
-        return;
-      }
-
-      const rect = section.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      if (rect.bottom < 0 || rect.top > windowHeight) return;
-
-      const progress = -rect.top / (rect.height - windowHeight);
-      const clampedProgress = Math.min(Math.max(progress, 0), 1);
-      const maxTranslate = track.scrollWidth - window.innerWidth;
-
-      if (maxTranslate > 0) {
-        track.style.transform = `translateX(-${clampedProgress * maxTranslate}px)`;
-      }
-    };
-
-    const onScroll = () => {
-      if (pending) return;
-      pending = true;
-      rafId = requestAnimationFrame(update);
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    onScroll();
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, []);
 
   // Warm the Cal.com embed during browser idle after first paint. By the time
   // the user clicks Book a call, embed.js is cached and Cal('init') has run,
@@ -519,80 +477,46 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Services */}
-      <section id="services" className="services-scroll-wrapper" ref={sectionRef}>
-        <div className="services-sticky">
-          <div className="container">
-            <Reveal as="h2" className="services-header" variants={sectionReveal}>
-              What we <span className="emphasis-italic">offer</span>
+      {/* Services — Pinned Section Overlay Card Stack */}
+      <section id="services">
+        <ScrollStack>
+          <div className="container services-hero-header-wrap">
+            <Reveal className="services-eyebrow" variants={fadeUpSoft}>
+              <span className="services-eyebrow-line" />
+              <span>OUR EXPERTISE · WHAT WE OFFER</span>
+            </Reveal>
+            <Reveal as="h2" className="services-hero-title" variants={sectionReveal}>
+              What We <span className="services-hero-accent">Offer</span>
+            </Reveal>
+            <Reveal as="p" className="services-hero-desc" variants={fadeUpSoft}>
+              We build high-converting websites, powerful apps, and result-driven marketing strategies that grow your revenue.
             </Reveal>
           </div>
 
-          <div className="services-track-container">
-            <div className="services-track" ref={trackRef}>
-              {services.map((service, index) => {
-                const imageFirst = index % 2 === 1;
-                const media = (
-                  <div className="service-card-media">
-                    <img
-                      src={service.image}
-                      alt={service.imageAlt}
-                      loading="lazy"
-                      decoding="async"
-                      width={960}
-                      height={600}
-                      style={{ objectPosition: service.imagePosition ?? 'center center' }}
-                      onError={(e) => {
-                        const el = e.currentTarget;
-                        if (el.dataset.fallbackApplied !== '1') {
-                          el.dataset.fallbackApplied = '1';
-                          el.src = SERVICE_IMAGE_FALLBACK;
-                        }
-                      }}
-                    />
-                    <div className="service-card-media-shade" aria-hidden="true" />
-                  </div>
-                );
-                const body = (
-                  <div className="service-card-body">
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-                    <ul className="service-points">
-                      {service.points.map((point) => (
-                        <li key={point}>{point}</li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-                return (
-                  <Reveal
-                    key={service.title}
-                    className="service-col"
-                    variants={fadeUp}
-                    viewportMargin="0px"
-                    delay={index * 0.05}
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.45, ease: easeIOS }}
-                  >
-                    <article className="service-card-inner">
-                      {imageFirst ? (
-                        <>
-                          {media}
-                          {body}
-                        </>
-                      ) : (
-                        <>
-                          {body}
-                          {media}
-                        </>
-                      )}
-                    </article>
-                  </Reveal>
-                );
-              })}
-            </div>
+          <div className="services-card-stack-deck">
+            {services.map((service, index) => {
+              const illustrationMap: Record<string, React.ReactNode> = {
+                'Website Development': <Cursor3DIllustration />,
+                'App Development': <Phone3DIllustration />,
+                'AI Chatbots': <Bot3DIllustration />,
+                'Workflow Automations': <Workflow3DIllustration />,
+                'AI Calling Systems': <PhoneCall3DIllustration />,
+              };
+              return (
+                <ScrollStackItem key={service.title}>
+                  <ServiceStackCard
+                    title={service.title}
+                    subtitle={service.description}
+                    points={service.points}
+                    illustration={illustrationMap[service.title] || <Generic3DIllustration />}
+                    variant={index + 1}
+                    onLearnMore={openBookCall}
+                  />
+                </ScrollStackItem>
+              );
+            })}
           </div>
-        </div>
+        </ScrollStack>
       </section>
 
       {/* Problem → Solution */}

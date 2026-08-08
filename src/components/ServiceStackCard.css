@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════════════════
+   SERVICE STACK CARD — HYPER-VIBRANT CHERRY RED
+   Full context visibility, 330px height, high saturation
+   electric cherry red gradient, glass glare highlights
+═══════════════════════════════════════════════════ */
+
+.ssc-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 330px;
+  min-height: 330px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.55),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.22),
+    0 20px 54px rgba(255, 0, 51, 0.35),
+    0 5px 18px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ssc-card:hover {
+  transform: translateY(-3px) scale(1.005);
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.7),
+    0 28px 68px rgba(255, 0, 51, 0.48),
+    0 7px 22px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Hyper-Vibrant Electric Cherry Red Gradient Variants ── */
+.ssc-variant-1 {
+  background: linear-gradient(135deg, #FF0033 0%, #E6002E 50%, #B30024 100%);
+}
+
+.ssc-variant-2 {
+  background: linear-gradient(135deg, #FF0B3A 0%, #D60029 50%, #99001C 100%);
+}
+
+.ssc-variant-3 {
+  background: linear-gradient(135deg, #FF1A43 0%, #E60033 50%, #A60020 100%);
+}
+
+.ssc-variant-4 {
+  background: linear-gradient(135deg, #FF0040 0%, #D60030 50%, #8C001A 100%);
+}
+
+/* ── Specular Glare Overlay ── */
+.ssc-glass-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ssc-ambient-glow {
+  position: absolute;
+  top: -30%;
+  right: 8%;
+  width: 55%;
+  height: 140%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 170, 190, 0.28) 0%,
+    rgba(255, 0, 51, 0.12) 50%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Left Content Area ── */
+.ssc-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.25rem 2.75rem;
+  width: 62%;
+  max-width: 520px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.ssc-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+/* Title — Prevent word breaks like "Developme/nt" */
+.ssc-title {
+  font-family: var(--font-hero, 'Montserrat', sans-serif);
+  font-size: clamp(1.75rem, 2.8vw, 2.3rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(100, 0, 20, 0.45);
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.ssc-subtitle {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.94);
+  line-height: 1.45;
+  margin: 0;
+  max-width: 450px;
+  font-weight: 400;
+}
+
+.ssc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+}
+
+.ssc-tag {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ── Action Button (White Circle + Bold Text) ── */
+.ssc-action-row {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.ssc-learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.ssc-arrow-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #ff0033;
+  box-shadow:
+    0 4px 14px rgba(100, 0, 20, 0.35),
+    0 1px 3px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.ssc-btn-text {
+  font-family: var(--font-hero, 'Montserrat', sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(80, 0, 15, 0.45);
+  transition: opacity 0.3s ease;
+}
+
+.ssc-learn-more-btn:hover .ssc-arrow-circle {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow:
+    0 6px 18px rgba(100, 0, 20, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+}
+
+.ssc-learn-more-btn:hover .ssc-btn-text {
+  opacity: 0.9;
+}
+
+/* ── Right Side 3D Graphic Area ── */
+.ssc-graphic-side {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 42%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  padding-right: 1.75rem;
+  box-sizing: border-box;
+}
+
+.ssc-3d-illustration {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  max-height: 230px;
+  filter: drop-shadow(0 14px 30px rgba(80, 0, 15, 0.45));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ssc-card:hover .ssc-3d-illustration {
+  transform: translateY(-4px) scale(1.04) rotate(1.5deg);
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 840px) {
+  .ssc-card {
+    height: 280px;
+    min-height: 280px;
+    border-radius: 24px;
+  }
+
+  .ssc-content {
+    width: 65%;
+    padding: 1.85rem 1.85rem;
+  }
+
+  .ssc-title {
+    font-size: 1.55rem;
+  }
+
+  .ssc-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .ssc-graphic-side {
+    width: 38%;
+    padding-right: 1rem;
+  }
+
+  .ssc-3d-illustration {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ssc-card {
+    height: auto;
+    min-height: 220px;
+    border-radius: 20px;
+  }
+
+  .ssc-content {
+    width: 100%;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .ssc-title {
+    font-size: 1.35rem;
+  }
+
+  .ssc-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .ssc-tags {
+    display: none;
+  }
+
+  .ssc-graphic-side {
+    opacity: 0.18;
+    width: 45%;
+    right: -5%;
+  }
+
+  .ssc-arrow-circle {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ssc-btn-text {
+    font-size: 0.72rem;
+  }
+}
