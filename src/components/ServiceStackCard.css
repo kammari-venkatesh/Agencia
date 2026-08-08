@@ -264,8 +264,19 @@
   object-position: center center;
 }
 
+.ssc-3d-web-image {
+  max-height: 310px;
+  transform: scale(1.08) translateY(2px);
+  object-fit: contain;
+  object-position: center center;
+}
+
 .ssc-card:hover .ssc-3d-phone-image {
   transform: translateY(-2px) scale(1.06);
+}
+
+.ssc-card:hover .ssc-3d-web-image {
+  transform: translateY(-2px) scale(1.12);
 }
 
 /* ── Responsive adjustments ── */

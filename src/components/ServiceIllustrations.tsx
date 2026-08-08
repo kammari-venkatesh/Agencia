@@ -1,36 +1,21 @@
 import React from 'react';
 
 /**
- * Photorealistic 3D Vector & Image Illustrations.
- * Card 1: Bright White 3D Globe Grid Icon.
- * Card 2: User Reference Smartphone held in hands with isolated background.
+ * Photorealistic 3D Image & Vector Illustrations.
+ * Card 1: User Cloudinary 3D Website Development Graphic.
+ * Card 2: User Reference Isolated Smartphone in Hands Image.
  */
 
-/* 1. Website Development: Bright White 3D Globe Grid Icon */
+/* 1. Website Development: User Cloudinary 3D Graphic */
 export const Cursor3DIllustration: React.FC = () => (
-  <svg
-    viewBox="0 0 300 300"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="ssc-3d-illustration"
-  >
-    <defs>
-      <filter id="whiteGlobeShadow" x="-20%" y="-20%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#000000" floodOpacity="0.22" />
-        <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#40000A" floodOpacity="0.3" />
-      </filter>
-    </defs>
-
-    <g filter="url(#whiteGlobeShadow)">
-      <circle cx="150" cy="150" r="120" stroke="#FFFFFF" strokeWidth="16" fill="none" />
-      <line x1="150" y1="30" x2="150" y2="270" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
-      <path d="M 150 30 A 75 120 0 0 0 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-      <path d="M 150 30 A 75 120 0 0 1 150 270" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-      <line x1="30" y1="150" x2="270" y2="150" stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round" />
-      <path d="M 42 105 A 120 60 0 0 1 258 105" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-      <path d="M 42 195 A 120 60 0 0 0 258 195" stroke="#FFFFFF" strokeWidth="14" fill="none" />
-    </g>
-  </svg>
+  <div className="ssc-3d-image-wrap">
+    <img
+      src="/images/services-3d/website-development.png"
+      alt="Website Development 3D Graphic"
+      className="ssc-3d-image ssc-3d-web-image"
+      loading="lazy"
+    />
+  </div>
 );
 
 /* 2. App Development: User Reference Isolated Smartphone in Hands Image */
@@ -199,8 +184,10 @@ export const Film3DIllustration: React.FC = () => (
       <circle cx="65" cy="60" r="10" fill="#1A1A1A" />
       <circle cx="105" cy="60" r="10" fill="#1A1A1A" />
       <circle cx="85" cy="95" r="10" fill="#1A1A1A" />
+
       <circle cx="165" cy="60" r="40" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="3" />
       <circle cx="165" cy="60" r="12" fill="#1A1A1A" />
+
       <rect x="45" y="110" width="135" height="110" rx="20" fill="url(#camBodyDark)" stroke="#FFFFFF" strokeWidth="2" />
       <rect x="180" y="130" width="55" height="70" rx="10" fill="url(#camReelSilver)" stroke="#FFFFFF" strokeWidth="2" />
     </g>
