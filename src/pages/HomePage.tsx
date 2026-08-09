@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { useLocation } from 'react-router-dom';
-import { Plus } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
@@ -10,10 +9,7 @@ import { preloadCalEmbed } from '../lib/ensureCalEmbedScript';
 import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
 import {
-  easeIOS,
-  dur,
   fadeUpSoft,
-  staggerParent,
   staggerParentFast,
   sectionReveal,
 } from '../motion/variants';

@@ -402,7 +402,7 @@ const ClientTestimonialsMobile: React.FC<{ items: TestimonialItem[] }> = ({ item
             return (
               <button
                 key={t.id}
-                ref={(el) => (tabRefs.current[idx] = el)}
+                ref={(el) => { tabRefs.current[idx] = el; }}
                 type="button"
                 role="tab"
                 aria-selected={isActive}

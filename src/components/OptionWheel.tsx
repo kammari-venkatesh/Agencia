@@ -127,6 +127,7 @@ export const OptionWheel: React.FC<OptionWheelProps> = ({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
+      onWheel={handleWheel}
       role="region"
       aria-label="Option Wheel Selection"
     >
