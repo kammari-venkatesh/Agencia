@@ -45,7 +45,7 @@
   --tracking-vridhio: 0.03em;
   /* Tracking -60 in 1000em (-0.06em) */
 
-  --spacing-container: clamp(2rem, 5vw, 8rem);
+  --spacing-container: clamp(1.5rem, 3.5vw, 4.5rem);
   --spacing-section: clamp(6rem, 15vw, 15rem);
 
   /* iOS-style motion tokens */
@@ -168,7 +168,7 @@ p {
 
 .container {
   width: 100%;
-  max-width: 1600px;
+  max-width: 1720px;
   margin: 0 auto;
   padding-left: var(--spacing-container);
   padding-right: var(--spacing-container);
