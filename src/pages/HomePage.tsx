@@ -265,24 +265,6 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // High-performance DOM Mouse Parallax tracking (0 React re-renders for buttery 120fps)
-  const heroLeftRef = useRef<HTMLDivElement>(null);
-  const heroPortraitWrapRef = useRef<HTMLDivElement>(null);
-
-  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (shouldReduce) return;
-    const { innerWidth, innerHeight } = window;
-    const x = (e.clientX / innerWidth - 0.5) * 2;
-    const y = (e.clientY / innerHeight - 0.5) * 2;
-
-    if (heroLeftRef.current) {
-      heroLeftRef.current.style.transform = `translate3d(${-x * 6}px, ${-y * 4}px, 0)`;
-    }
-    if (heroPortraitWrapRef.current) {
-      heroPortraitWrapRef.current.style.transform = `translate3d(${x * 12}px, ${y * 8}px, 0)`;
-    }
-  };
-
   const EASE_CINEMATIC = [0.22, 1, 0.36, 1] as const;
 
   const heroContainerVariants = {
@@ -416,7 +398,7 @@ const HomePage: React.FC = () => {
         onClose={() => setBookCallOpen(false)}
       />
       {/* Hero Section */}
-      <section className="hero-section" onMouseMove={handleHeroMouseMove}>
+      <section className="hero-section">
         {/* Soft tint glow behind the portrait */}
         <div className="hero-portrait-glow" aria-hidden="true" />
 
@@ -427,13 +409,7 @@ const HomePage: React.FC = () => {
           animate={heroIntroComplete ? 'show' : 'hidden'}
         >
           {/* ── LEFT: editorial copy column ── */}
-          <div
-            ref={heroLeftRef}
-            className="hero-left"
-            style={{
-              transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
-            }}
-          >
+          <div className="hero-left">
 
             <motion.div className="hero-eyebrow" variants={eyebrowVariants}>
               <span className="hero-eyebrow-line" />
@@ -503,13 +479,7 @@ const HomePage: React.FC = () => {
 
           {/* ── RIGHT: full-height portrait image ── */}
           <motion.div className="hero-right" variants={characterVariants}>
-            <div
-              ref={heroPortraitWrapRef}
-              className="hero-portrait-wrap"
-              style={{
-                transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
-              }}
-            >
+            <div className="hero-portrait-wrap">
               <img
                 src="/hero-portrait.png"
                 alt="Vridhio — Bold Strategy Meets Innovation"

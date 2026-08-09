@@ -262,8 +262,6 @@
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.4s var(--ease-ios, ease-out);
-  will-change: transform;
 }
 
 /* Image fills the right column prominently — cover so figure is large like reference */
@@ -273,13 +271,6 @@
   object-fit: cover;
   object-position: center top;
   display: block;
-  animation: heroCharacterFloat 7s ease-in-out infinite;
-  will-change: transform, filter;
-}
-
-@keyframes heroCharacterFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-7px); }
 }
 
 /* Red Visor Light Sweep & Ambient Pulse */
