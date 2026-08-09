@@ -26,11 +26,13 @@
   width: 100%;
   background-color: #FAFAF8;
   color: #0F1013;
-  padding: clamp(2rem, 4vh, 3.5rem) 0;
+  padding: clamp(1.25rem, 2.5vh, 2.5rem) 0;
   overflow: hidden;
   border-top: 1px solid rgba(0, 0, 0, 0.07);
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   min-height: 100%;
   box-sizing: border-box;
@@ -74,11 +76,11 @@
 
 .ts-header {
   max-width: 800px;
-  margin-bottom: clamp(1.25rem, 3vh, 2.25rem);
+  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
 }
 
 .ts-eyebrow {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .ts-eyebrow-badge {
@@ -107,12 +109,12 @@
 
 .ts-title {
   font-family: var(--font-unbounded, 'Unbounded', sans-serif);
-  font-size: clamp(2.2rem, 4.8vw, 4.2rem);
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: #0F1013;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .ts-cherry-accent {
@@ -121,9 +123,9 @@
 
 .ts-subtitle {
   font-family: var(--font-sans, 'Josefin Sans', sans-serif);
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-size: clamp(0.92rem, 1.2vw, 1.1rem);
   color: #666666;
-  line-height: 1.6;
+  line-height: 1.5;
   max-width: 600px;
   margin: 0;
 }
@@ -241,7 +243,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 480px;
+  min-height: clamp(340px, 42vh, 420px);
 }
 
 .ts-story-content {
@@ -405,6 +407,43 @@
 
   .ts-left-col {
     padding: 1.75rem 1.5rem;
+  }
+}
+
+/* Compact vertical height viewports (laptop / desktop screens) */
+@media (min-width: 769px) and (max-height: 850px) {
+  .ts-section {
+    padding: 0.75rem 0;
+  }
+  .ts-header {
+    margin-bottom: 0.65rem;
+  }
+  .ts-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.6rem);
+    margin-bottom: 0.35rem;
+  }
+  .ts-eyebrow {
+    margin-bottom: 0.35rem;
+  }
+  .ts-subtitle {
+    font-size: 0.9rem;
+  }
+  .ts-right-col {
+    min-height: auto;
+  }
+  .ts-left-col {
+    padding: 1.15rem 1.35rem;
+  }
+  .ts-quote-text {
+    font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+    margin-bottom: 0.85rem;
+  }
+  .ts-quote-mark-icon {
+    font-size: 3.2rem;
+    margin-bottom: 0.15rem;
+  }
+  .ts-story-footer-grid {
+    padding-top: 1rem;
   }
 }
 
