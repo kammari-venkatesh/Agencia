@@ -12,11 +12,9 @@ import { getLenis } from '../motion/SmoothScroll';
 import {
   easeIOS,
   dur,
-  fadeUp,
   fadeUpSoft,
   staggerParent,
   staggerParentFast,
-  staggerParentSlow,
   sectionReveal,
 } from '../motion/variants';
 import { services } from '../data/services';
@@ -28,6 +26,8 @@ import ScrollFloat from '../components/ScrollFloat';
 import DotGrid from '../components/DotGrid';
 import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 import ServiceStackCard from '../components/ServiceStackCard';
+import TestimonialsSection from '../components/TestimonialsSection';
+import FaqSection from '../components/FaqSection';
 import {
   Cursor3DIllustration,
   Phone3DIllustration,
@@ -44,7 +44,6 @@ import {
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [bookCallOpen, setBookCallOpen] = useState(false);
   const [bookCallPersist, setBookCallPersist] = useState(false);
   const [heroIntroComplete, setHeroIntroComplete] = useState(false);
@@ -62,13 +61,18 @@ const HomePage: React.FC = () => {
   // On first mount, if the URL has no hash, guarantee the page starts at the
   // hero. This prevents any residual scroll from a bfcache restore or a race
   // with scrollRestoration=manual from being visible to the user.
+  // On first mount, if the URL has no hash, guarantee the page starts at the
+  // hero. This prevents any residual scroll from a bfcache restore or a race
+  // with scrollRestoration=manual from being visible to the user.
   useEffect(() => {
     if (location.hash) return;
+    if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
     const lenis = getLenis();
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo(0, 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,8 +92,6 @@ const HomePage: React.FC = () => {
     }, 200);
     return () => clearTimeout(t);
   }, [location.pathname, location.hash]);
-
-
 
   // Warm the Cal.com embed during browser idle after first paint. By the time
   // the user clicks Book a call, embed.js is cached and Cal('init') has run,
@@ -118,9 +120,13 @@ const HomePage: React.FC = () => {
     };
   }, []);
 
-  // VRIDHIO intro animation: starts when user clicks (synchronous with WebGL loader reveal)
+  // VRIDHIO intro animation: auto-starts on mount (synchronous with WebGL loader reveal)
   useEffect(() => {
-    if (shouldReduce) {
+    const isMobile =
+      typeof window !== 'undefined' &&
+      (window.innerWidth <= 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    if (shouldReduce || isMobile) {
       setHeroIntroComplete(true);
       const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
       if (navLogoEl) navLogoEl.style.opacity = '1';
@@ -129,10 +135,14 @@ const HomePage: React.FC = () => {
       if (container) container.style.display = 'none';
       return;
     }
+
     const overlay = overlayRef.current;
     const text = vridhioRef.current;
     const introContainer = text?.parentElement;
-    if (!overlay || !text || !introContainer) return;
+    if (!overlay || !text || !introContainer) {
+      setHeroIntroComplete(true);
+      return;
+    }
 
     // Hide static navbar logo during intro animation so only the animated VRIDHIO text is visible
     const navLogoEl = document.querySelector('.navbar-logo') as HTMLElement | null;
@@ -179,28 +189,25 @@ const HomePage: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    const handleRevealClick = () => {
+    const startAutoReveal = () => {
+      if (isRevealed) return;
       isRevealed = true;
+
       computeCoords();
 
       const tl = gsap.timeline({
-        delay: 0.1,
         onComplete: () => {
           setHeroIntroComplete(true);
+          if (navLogoEl) navLogoEl.style.opacity = '1';
           if (overlay) overlay.style.display = 'none';
-          // Switch container from position:fixed to position:absolute so VRIDHIO logo
-          // stays as the single continuous text element and scrolls naturally with the page.
-          if (introContainer) {
-            introContainer.style.position = 'absolute';
-            introContainer.style.zIndex = '51';
-          }
+          if (introContainer) introContainer.style.display = 'none';
         },
       });
 
-      // 1. Hold VRIDHIO centered on solid white while smoke clears (1.5s)
-      tl.to(text, { opacity: 1, scale: 1, duration: 1.5 }, 0);
+      // 1. Hold centered gracefully (1.2s)
+      tl.to(text, { opacity: 1, scale: 1, duration: 1.2 }, 0);
 
-      // 2. Smoothly shrink & glide VRIDHIO text to top-left header logo position (2.2s)
+      // 2. Smoothly glide VRIDHIO text to header logo position (2.0s)
       tl.to(
         text,
         {
@@ -208,14 +215,13 @@ const HomePage: React.FC = () => {
           y: targetY,
           scale: scaleTarget,
           transformOrigin: '0% 0%',
-          duration: 2.2,
+          duration: 2.0,
           ease: 'power2.inOut',
         },
-        1.5
+        1.2
       );
 
-      // 3. VRIDHIO text HAS LANDED at header position!
-      // Solid white background overlay fades out (0.8s), revealing page beneath
+      // 3. Fade out overlay and reveal page hero content (0.8s)
       tl.to(
         overlay,
         {
@@ -223,18 +229,27 @@ const HomePage: React.FC = () => {
           duration: 0.8,
           ease: 'power2.inOut',
           onStart: () => {
-            // Trigger hero section content fade in around header
             setHeroIntroComplete(true);
           },
         },
-        3.7
+        3.0
       );
     };
 
-    window.addEventListener('click', handleRevealClick, { once: true });
+    // Auto-start intro sequence automatically after 150ms
+    const autoTimer = setTimeout(startAutoReveal, 150);
+
+    // Hard failsafe timer: guarantee hero section is complete within 4.2s
+    const failsafeTimer = setTimeout(() => {
+      setHeroIntroComplete(true);
+      if (navLogoEl) navLogoEl.style.opacity = '1';
+      if (overlay) overlay.style.display = 'none';
+      if (introContainer) introContainer.style.display = 'none';
+    }, 4200);
 
     return () => {
-      window.removeEventListener('click', handleRevealClick);
+      clearTimeout(autoTimer);
+      clearTimeout(failsafeTimer);
       window.removeEventListener('resize', handleResize);
       const currentNavLogo = document.querySelector('.navbar-logo') as HTMLElement | null;
       if (currentNavLogo) {
@@ -242,11 +257,6 @@ const HomePage: React.FC = () => {
       }
     };
   }, [shouldReduce]);
-
-
-  const toggleFaq = (index: number) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
 
   const scrollToServices = () => {
     const el = document.getElementById('services');
@@ -259,41 +269,138 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // Hero entrance plays on mount (above the fold). Calm, cinematic sequence:
-  // background fades first (starts immediately), then the heading, then the
-  // stacked text, then the description, then the CTAs — each separated by
-  // ~150ms per spec.
+  // High-performance DOM Mouse Parallax tracking (0 React re-renders for buttery 120fps)
+  const heroLeftRef = useRef<HTMLDivElement>(null);
+  const heroPortraitWrapRef = useRef<HTMLDivElement>(null);
 
-  const heroParent = {
-    hidden: {},
+  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (shouldReduce) return;
+    const { innerWidth, innerHeight } = window;
+    const x = (e.clientX / innerWidth - 0.5) * 2;
+    const y = (e.clientY / innerHeight - 0.5) * 2;
+
+    if (heroLeftRef.current) {
+      heroLeftRef.current.style.transform = `translate3d(${-x * 6}px, ${-y * 4}px, 0)`;
+    }
+    if (heroPortraitWrapRef.current) {
+      heroPortraitWrapRef.current.style.transform = `translate3d(${x * 12}px, ${y * 8}px, 0)`;
+    }
+  };
+
+  const EASE_CINEMATIC = [0.22, 1, 0.36, 1] as const;
+
+  const heroContainerVariants = {
+    hidden: { opacity: 0.94 },
     show: {
+      opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: shouldReduce ? 0 : 0.35,
+        duration: 0.8,
+        ease: EASE_CINEMATIC,
       },
     },
   };
 
-  const heroChild = {
-    hidden: { opacity: 0, y: 24 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: dur.md, ease: easeIOS },
+  // 1. Character Image reveals FIRST: soft blur to sharp, scale 1.05 -> 1.0, y: 20 -> 0
+  const characterVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 1.05,
+      y: 20,
+      filter: 'blur(14px)',
     },
-  };
-
-  const heroSmallChild = {
-    hidden: { opacity: 0, y: 24, scale: 0.985 },
     show: {
       opacity: 1,
-      y: 0,
       scale: 1,
-      transition: { duration: dur.md, ease: easeIOS },
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: shouldReduce ? 0.01 : 1.1,
+        ease: EASE_CINEMATIC,
+        delay: shouldReduce ? 0 : 0.05,
+      },
     },
   };
 
+  // 2. Eyebrow Label
+  const eyebrowVariants = {
+    hidden: { opacity: 0, x: -16 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: shouldReduce ? 0.01 : 0.65,
+        ease: EASE_CINEMATIC,
+        delay: shouldReduce ? 0 : 0.3,
+      },
+    },
+  };
 
+  // 3. Masked Headline Lines (staggered)
+  const headlineLine1 = {
+    hidden: { opacity: 0, y: '110%' },
+    show: {
+      opacity: 1,
+      y: '0%',
+      transition: { duration: shouldReduce ? 0.01 : 0.75, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 0.45 },
+    },
+  };
+
+  const headlineLine2 = {
+    hidden: { opacity: 0, y: '110%' },
+    show: {
+      opacity: 1,
+      y: '0%',
+      transition: { duration: shouldReduce ? 0.01 : 0.75, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 0.58 },
+    },
+  };
+
+  const headlineLine3 = {
+    hidden: { opacity: 0, y: '110%' },
+    show: {
+      opacity: 1,
+      y: '0%',
+      transition: { duration: shouldReduce ? 0.01 : 0.75, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 0.71 },
+    },
+  };
+
+  const headlineLine4 = {
+    hidden: { opacity: 0, y: '110%' },
+    show: {
+      opacity: 1,
+      y: '0%',
+      transition: { duration: shouldReduce ? 0.01 : 0.8, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 0.85 },
+    },
+  };
+
+  // 4. Description soft fade
+  const descVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: shouldReduce ? 0.01 : 0.65, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 1.0 },
+    },
+  };
+
+  // 5. CTA buttons upward stagger
+  const ctaVariants = {
+    hidden: { opacity: 0, y: 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: shouldReduce ? 0.01 : 0.65, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 1.15 },
+    },
+  };
+
+  // 6. Stats row
+  const statsVariants = {
+    hidden: { opacity: 0, y: 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: shouldReduce ? 0.01 : 0.65, ease: EASE_CINEMATIC, delay: shouldReduce ? 0 : 1.3 },
+    },
+  };
 
   return (
     <div className="home-page">
@@ -313,38 +420,60 @@ const HomePage: React.FC = () => {
         onClose={() => setBookCallOpen(false)}
       />
       {/* Hero Section */}
-      <section className="hero-section">
+      <section className="hero-section" onMouseMove={handleHeroMouseMove}>
         {/* Soft tint glow behind the portrait */}
         <div className="hero-portrait-glow" aria-hidden="true" />
 
         <motion.div
           className="hero-container"
-          variants={heroParent}
+          variants={heroContainerVariants}
           initial="hidden"
           animate={heroIntroComplete ? 'show' : 'hidden'}
         >
           {/* ── LEFT: editorial copy column ── */}
-          <div className="hero-left">
+          <div
+            ref={heroLeftRef}
+            className="hero-left"
+            style={{
+              transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+            }}
+          >
 
-            <motion.div className="hero-eyebrow" variants={heroSmallChild}>
+            <motion.div className="hero-eyebrow" variants={eyebrowVariants}>
               <span className="hero-eyebrow-line" />
               <span>DIGITAL AGENCY · EST. 2026</span>
             </motion.div>
 
-            <motion.h1 className="hero-title" variants={heroChild}>
-              We Build<br />
-              Websites, Apps<br />
-              &amp; Marketing<br />
-              <span className="hero-title-accent">That Convert</span>
-            </motion.h1>
+            <h1 className="hero-title">
+              <span className="hero-title-line-wrap">
+                <motion.span className="hero-title-line" variants={headlineLine1}>
+                  We Build
+                </motion.span>
+              </span>
+              <span className="hero-title-line-wrap">
+                <motion.span className="hero-title-line" variants={headlineLine2}>
+                  Websites, Apps
+                </motion.span>
+              </span>
+              <span className="hero-title-line-wrap">
+                <motion.span className="hero-title-line" variants={headlineLine3}>
+                  &amp; Marketing
+                </motion.span>
+              </span>
+              <span className="hero-title-line-wrap">
+                <motion.span className="hero-title-line hero-title-accent" variants={headlineLine4}>
+                  That Convert
+                </motion.span>
+              </span>
+            </h1>
 
-            <motion.p className="hero-desc" variants={heroSmallChild}>
+            <motion.p className="hero-desc" variants={descVariants}>
               We help startups and businesses create high-performing websites,
               powerful apps, and result-driven marketing strategies that
               actually grow revenue.
             </motion.p>
 
-            <motion.div className="hero-cta-row" variants={heroSmallChild}>
+            <motion.div className="hero-cta-row" variants={ctaVariants}>
               <BookCallButton type="button" onClick={openBookCall}>
                 Get Free Consultation
               </BookCallButton>
@@ -358,7 +487,7 @@ const HomePage: React.FC = () => {
               </Button>
             </motion.div>
 
-            <motion.div className="hero-stats-row" variants={heroSmallChild}>
+            <motion.div className="hero-stats-row" variants={statsVariants}>
               <div className="hero-stat">
                 <AnimatedNumber value="150+" className="hero-stat-num" trigger={heroIntroComplete} />
                 <span className="hero-stat-label">Brands Grown</span>
@@ -377,13 +506,31 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* ── RIGHT: full-height portrait image ── */}
-          <motion.div className="hero-right" variants={heroChild}>
-            <div className="hero-portrait-wrap">
+          <motion.div className="hero-right" variants={characterVariants}>
+            <div
+              ref={heroPortraitWrapRef}
+              className="hero-portrait-wrap"
+              style={{
+                transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            >
               <img
                 src="/hero-portrait.png"
                 alt="Vridhio — Bold Strategy Meets Innovation"
                 className="hero-portrait-img"
               />
+
+              {/* Red Visor Light Sweep once during entrance & ambient glow */}
+              <div className="hero-visor-glow-wrap" aria-hidden="true">
+                <motion.div
+                  className="hero-visor-sweep-bar"
+                  initial={{ x: '-100%', opacity: 0 }}
+                  animate={heroIntroComplete ? { x: '220%', opacity: [0, 1, 1, 0] } : {}}
+                  transition={{ duration: 1.25, delay: 0.65, ease: EASE_CINEMATIC }}
+                />
+                <div className="hero-visor-pulse-glow" />
+              </div>
+
               {/* Bottom left accent line */}
               <div className="hero-portrait-tag">
                 <span className="hero-tag-line" />
@@ -527,11 +674,17 @@ const HomePage: React.FC = () => {
 
       <WhyVridhioSection />
 
-      {/* Process */}
-      <section className="process-section">
-        <div className="container">
-          <Reveal as="h2" className="process-heading" variants={sectionReveal}>
-            Our Simple <span className="emphasis-italic">Process</span>
+      {/* Process Section */}
+      <section id="process" className="process-section">
+        <div className="container process-header-container">
+          <Reveal className="process-header-wrap" variants={sectionReveal}>
+            <span className="process-eyebrow">
+              <span className="process-eyebrow-line" />
+              <span>HOW WE WORK · STEP BY STEP</span>
+            </span>
+            <h2 className="process-heading">
+              Our Simple <span className="process-heading-accent">Process</span>
+            </h2>
           </Reveal>
         </div>
         <FlowingMenu
@@ -561,95 +714,19 @@ const HomePage: React.FC = () => {
               link: '#contact',
             },
           ]}
-          speed={14}
-          bgColor="transparent"
+          accentColor="#D90445"
+          bgColor="#ffffff"
           textColor="#1a1a1a"
-          marqueeBgColor="#111111"
-          marqueeTextColor="#FAF9F6"
           borderColor="rgba(0, 0, 0, 0.08)"
           onItemClick={openBookCall}
         />
       </section>
 
-      {/* Testimonials */}
-      <section className="testimonials-section">
-        <div className="container">
-          <Reveal as="h2" className="testimonials-heading" variants={sectionReveal}>
-            Hear what clients have to say about us
-          </Reveal>
-          <Reveal className="testimonials-grid" variants={staggerParentSlow}>
-            {[
-              {
-                text: 'Vridhio completely transformed our online presence. Our lead generation increased by 40% in just two months.',
-                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=facearea&facepad=3',
-                name: 'Sarah Jenkins, CEO at TechFlow',
-              },
-              {
-                text: 'The team at Vridhio understands both aesthetics and business strategy. A rare combination in agencies today.',
-                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=facearea&facepad=3',
-                name: 'Michael Chen, Founder at NovaApp',
-              },
-              {
-                text: 'They delivered our rebrand perfectly and increased our conversion rate significantly. Truly top-tier work.',
-                avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=facearea&facepad=3',
-                name: 'Elena Rostova, CMO at Horizon',
-              },
-            ].map((t) => (
-              <motion.article
-                key={t.name}
-                className="testimonial-card"
-                variants={fadeUp}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.45, ease: easeIOS }}
-              >
-                <span className="testimonial-quote" aria-hidden="true">&#8221;</span>
-                <p className="testimonial-text">{t.text}</p>
-                <div className="testimonial-footer">
-                  <img className="testimonial-avatar" src={t.avatar} alt={t.name} loading="lazy" decoding="async" width={52} height={52} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
-                  <div className="testimonial-meta">{t.name}</div>
-                </div>
-              </motion.article>
-            ))}
-          </Reveal>
-        </div>
-      </section>
+      {/* Testimonials (OptionWheel + Editorial Client Stories) */}
+      <TestimonialsSection />
 
-      {/* FAQ */}
-      <section id="faqs" className="container faq-section">
-        <Reveal className="faq-list" variants={staggerParent}>
-          {[
-            { q: 'What industries do you work with?', a: "We partner with a wide range of industries including SaaS, e-commerce, finance, healthcare, hospitality, and emerging tech startups. Our approach adapts to your market, audience, and goals." },
-            { q: 'How long does a typical project take?', a: "Most engagements run between 4 and 8 weeks, depending on scope and complexity. We'll share a detailed timeline during the strategy call once we understand your requirements." },
-            { q: 'Do you offer custom marketing strategies?', a: "Yes. Every strategy is tailored to your brand, audience, and business objectives. We don't use templates or cookie-cutter playbooks." },
-            { q: 'Can you manage our social media accounts?', a: 'Absolutely. We handle content creation, scheduling, community engagement, and performance reporting across all major platforms.' },
-            { q: "What's the first step to working with you?", a: "Book a free strategy call. We'll discuss your goals, audit your current setup, and outline a clear roadmap before any commitment." },
-          ].map((faq, i) => {
-            const open = activeFaq === i;
-            return (
-              <motion.div
-                key={faq.q}
-                className={`faq-row ${open ? 'active' : ''}`}
-                variants={fadeUpSoft}
-              >
-                <button
-                  type="button"
-                  className="faq-question"
-                  onClick={() => toggleFaq(i)}
-                  aria-expanded={open}
-                >
-                  <span>{faq.q}</span>
-                  <span className={`faq-icon ${open ? 'open' : ''}`} aria-hidden="true">
-                    <Plus size={20} />
-                  </span>
-                </button>
-                <div className="faq-answer-wrap">
-                  <div className="faq-answer">{faq.a}</div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </Reveal>
-      </section>
+      {/* Redesigned Editorial FAQ Section */}
+      <FaqSection onBookCall={openBookCall} />
 
       <LeadCaptureSection onBookCall={openBookCall} />
     </div>

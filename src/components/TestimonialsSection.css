@@ -1,0 +1,639 @@
+/* ==========================================================================
+   TESTIMONIALS SECTION — EDITORIAL CLIENT STORIES WITH OPTIONWHEEL NAV
+   ========================================================================== */
+
+.ts-pinned-wrapper {
+  position: relative;
+  width: 100%;
+  height: 380vh;
+  background-color: #FAFAF8;
+}
+
+.ts-sticky-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.ts-section {
+  position: relative;
+  width: 100%;
+  background-color: #FAFAF8;
+  color: #0F1013;
+  padding: clamp(2rem, 4vh, 3.5rem) 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.ts-bg-glow {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(220, 20, 60, 0.035) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ts-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ts-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+}
+
+/* ==========================================================================
+   HEADER BLOCK
+   ========================================================================== */
+
+.ts-header {
+  max-width: 800px;
+  margin-bottom: clamp(1.25rem, 3vh, 2.25rem);
+}
+
+.ts-eyebrow {
+  margin-bottom: 1rem;
+}
+
+.ts-eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: rgba(220, 20, 60, 0.05);
+  border: 1px solid rgba(220, 20, 60, 0.2);
+  border-radius: 100px;
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #DC143C;
+  text-transform: uppercase;
+}
+
+.ts-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #DC143C;
+  box-shadow: 0 0 8px rgba(220, 20, 60, 0.8);
+}
+
+.ts-title {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: clamp(2.2rem, 4.8vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #0F1013;
+  margin-bottom: 1rem;
+}
+
+.ts-cherry-accent {
+  color: #DC143C;
+}
+
+.ts-subtitle {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  color: #666666;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0;
+}
+
+/* ==========================================================================
+   2-COLUMN EDITORIAL EXPERIENCE GRID
+   ========================================================================== */
+
+.ts-experience-grid {
+  display: grid;
+  grid-template-columns: 0.42fr 0.58fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+/* LEFT COLUMN — OPTIONWHEEL NAVIGATION */
+.ts-left-col {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.04);
+}
+
+.ts-nav-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ts-nav-label {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #888888;
+  text-transform: uppercase;
+}
+
+.ts-nav-code {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #DC143C;
+  font-weight: 700;
+}
+
+.ts-wheel-wrapper {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+}
+
+.ts-index-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  z-index: 5;
+}
+
+.ts-index-item {
+  font-family: monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cccccc;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.ts-index-item:hover,
+.ts-index-item.active {
+  color: #DC143C;
+  transform: translateX(3px);
+}
+
+.ts-nav-footer-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ts-drag-hint {
+  font-family: monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: #999999;
+  text-transform: uppercase;
+}
+
+.ts-progress-bar-wrap {
+  width: 100%;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.ts-progress-bar-fill {
+  height: 100%;
+  background-color: #DC143C;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* RIGHT COLUMN — EDITORIAL TESTIMONIAL STORY */
+.ts-right-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 480px;
+}
+
+.ts-story-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.ts-story-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.ts-story-number {
+  font-family: monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: #888888;
+  text-transform: uppercase;
+}
+
+.ts-category-tag {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #DC143C;
+  text-transform: uppercase;
+  background-color: rgba(220, 20, 60, 0.06);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.ts-quote-mark-icon {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 5rem;
+  line-height: 0.6;
+  color: #DC143C;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+  user-select: none;
+}
+
+.ts-quote-text {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: clamp(1.35rem, 2.3vw, 2.05rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: #0F1013;
+  margin: 0 0 clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.01em;
+}
+
+/* Story Footer Grid: Client Identity & Result Metric */
+.ts-story-footer-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+}
+
+.ts-client-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.ts-avatar-monogram {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #18181B;
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.ts-client-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ts-client-name {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0F1013;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ts-client-role {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: 0.88rem;
+  color: #666666;
+  margin: 0;
+}
+
+.ts-company-name {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Result Metric Card */
+.ts-result-metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.ts-metric-num {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  color: #DC143C;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.ts-metric-label {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #666666;
+  text-transform: uppercase;
+  margin-top: 0.35rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .ts-pinned-wrapper {
+    height: 340vh;
+  }
+
+  .ts-experience-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .ts-right-col {
+    min-height: auto;
+  }
+
+  .ts-left-col {
+    padding: 1.75rem 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   MOBILE DEDICATED EXPERIENTIAL LAYOUT (<= 768px)
+   ========================================================================== */
+
+.ts-mobile-section {
+  position: relative;
+  width: 100%;
+  background-color: #FAFAF8;
+  color: #0F1013;
+  padding: 3.5rem 0 4rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  box-sizing: border-box;
+}
+
+.ts-mobile-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.ts-mobile-header {
+  margin-bottom: 1.75rem;
+}
+
+.ts-mobile-eyebrow {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #DC143C;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.ts-mobile-title {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #0F1013;
+  margin: 0;
+}
+
+/* HORIZONTAL CATEGORY SELECTOR */
+.ts-mobile-category-bar {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  scrollbar-width: none;
+}
+
+.ts-mobile-category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.ts-mobile-category-tab {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0 0.75rem;
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #888888;
+  text-transform: uppercase;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.ts-mobile-category-tab.active {
+  color: #DC143C;
+}
+
+.ts-mobile-active-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #DC143C;
+  border-radius: 100px;
+}
+
+/* MOBILE STORY VIEWPORT & CARD */
+.ts-mobile-story-viewport {
+  position: relative;
+  min-height: 400px;
+}
+
+.ts-mobile-story-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.ts-mobile-story-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888888;
+  letter-spacing: 0.1em;
+}
+
+.ts-mobile-story-category {
+  color: #DC143C;
+}
+
+.ts-mobile-quote {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: clamp(1.4rem, 5.2vw, 1.75rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: #0F1013;
+  margin: 0;
+  letter-spacing: -0.01em;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ts-mobile-metric-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ts-mobile-metric-num {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: clamp(2.8rem, 10vw, 3.8rem);
+  font-weight: 800;
+  color: #DC143C;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.ts-mobile-metric-label {
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+.ts-mobile-client-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.ts-mobile-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #18181B;
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.ts-mobile-client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ts-mobile-client-name {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F1013;
+  margin: 0;
+}
+
+.ts-mobile-client-role {
+  font-family: var(--font-sans, 'Josefin Sans', sans-serif);
+  font-size: 0.85rem;
+  color: #666666;
+  margin: 0;
+}
+
+.ts-mobile-swipe-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-family: monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #999999;
+  text-transform: uppercase;
+  transition: opacity 0.4s ease;
+}
+
+.ts-mobile-swipe-hint.interacted {
+  opacity: 0.4;
+}

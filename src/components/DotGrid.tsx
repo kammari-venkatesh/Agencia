@@ -131,12 +131,13 @@ const DotGrid: React.FC<DotGridProps> = ({
   }, [dotSize, gap]);
 
   useEffect(() => {
-    if (!circlePath) return;
-
     let rafId: number;
+    let isVisible = true;
     const proxSq = proximity * proximity;
+    const halfDot = dotSize / 2;
 
     const draw = () => {
+      if (!isVisible) return;
       const canvas = canvasRef.current;
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -162,19 +163,40 @@ const DotGrid: React.FC<DotGridProps> = ({
           styleStr = `rgb(${r},${g},${b})`;
         }
 
-        ctx.save();
-        ctx.translate(ox, oy);
+        ctx.beginPath();
+        ctx.arc(ox, oy, halfDot, 0, Math.PI * 2);
         ctx.fillStyle = styleStr;
-        ctx.fill(circlePath);
-        ctx.restore();
+        ctx.fill();
       }
 
       rafId = requestAnimationFrame(draw);
     };
 
-    draw();
-    return () => cancelAnimationFrame(rafId);
-  }, [proximity, baseColor, activeRgb, baseRgb, circlePath]);
+    // IntersectionObserver to pause loop when out of viewport
+    let observer: IntersectionObserver | null = null;
+    const wrap = wrapperRef.current;
+    if (wrap && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            cancelAnimationFrame(rafId);
+            draw();
+          }
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(wrap);
+    } else {
+      draw();
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (observer) observer.disconnect();
+    };
+  }, [proximity, baseColor, activeRgb, baseRgb, dotSize]);
 
   useEffect(() => {
     buildGrid();

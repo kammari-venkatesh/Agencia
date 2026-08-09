@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import {
   Palette,
   Code2,
@@ -99,38 +100,120 @@ const PROBLEM_ITEMS = [
   }
 ];
 
+// ─── Shared Spring Easing (matches Apple HIG) ─────────────────────────────────
+const SPRING_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+// ─── Clip-reveal variants (each "line" slides up from behind a mask) ──────────
+const containerVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.11,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+// Badge / eyebrow: subtle fade + lift
+const eyebrowVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: SPRING_EASE },
+  },
+};
+
+// Each headline "line" — clipped slide-up for iPhone crispness
+const lineVariants: Variants = {
+  hidden: { opacity: 0, y: '110%' },
+  show: {
+    opacity: 1,
+    y: '0%',
+    transition: { duration: 0.72, ease: SPRING_EASE },
+  },
+};
+
+// Subtitle: soft stagger after title
+const subtitleVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.60, ease: SPRING_EASE },
+  },
+};
+
+// Chaos section entrance
+const chaosVariants: Variants = {
+  hidden: { opacity: 0, y: 36 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: SPRING_EASE },
+  },
+};
+
+// Problem rows — stagger in
+const problemRowVariants: Variants = {
+  hidden: { opacity: 0, x: -14 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.55, ease: SPRING_EASE },
+  },
+};
+
+const problemContainerVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.12 },
+  },
+};
+
+// Problem left col
+const problemLeftVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.70, ease: SPRING_EASE },
+  },
+};
+
+// ─── Clip wrapper — each line needs overflow:hidden parent ────────────────────
+const LineClip: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <span className={`sys-line-clip${className ? ` ${className}` : ''}`}>
+    {children}
+  </span>
+);
+
 export const SystemTransformationSection: React.FC<SystemTransformationSectionProps> = () => {
   const [activeStage, setActiveStage] = useState<number>(0);
   const [hoveredProblem, setHoveredProblem] = useState<string | null>(null);
   const [manualState, setManualState] = useState<'auto' | 'chaos' | 'connected'>('auto');
-  
-  // Mouse tracking for localized cherry-red glow
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollSectionRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Scroll Progress binding for Chaos -> System Transformation
   const { scrollYProgress } = useScroll({
     target: scrollSectionRef,
     offset: ['start end', 'end start'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 80,
+    damping: 28,
     restDelta: 0.001,
   });
 
-  // Interpolated progress for chaos transform
   const chaosProgress = useTransform(smoothProgress, [0.15, 0.55], [0, 1]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
@@ -141,7 +224,6 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
       onMouseMove={handleMouseMove}
       aria-label="The Digital System Difference"
     >
-      {/* Background Subtle Ambient Glow + Grain */}
       <div
         className="sys-mouse-glow"
         style={{
@@ -152,33 +234,65 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
       <div className="sys-bg-grid" aria-hidden="true" />
 
       <div className="sys-container">
-        {/* =========================================================
-            HEADER BLOCK
-           ========================================================= */}
-        <header className="sys-header">
-          <div className="sys-eyebrow">
+
+        {/* ══════════════════════════════════════════════════════════════════
+            HEADER — LINE-BY-LINE CLIP REVEAL (Apple / Vercel style)
+           ══════════════════════════════════════════════════════════════════ */}
+        <motion.header
+          className="sys-header"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.18 }}
+        >
+          {/* Eyebrow badge */}
+          <motion.div className="sys-eyebrow" variants={eyebrowVariants}>
             <span className="sys-eyebrow-badge">
               <span className="sys-status-dot" />
               THE REAL PROBLEM
             </span>
             <span className="sys-eyebrow-code">[ SYS_DIAGNOSTIC // 2026 ]</span>
-          </div>
+          </motion.div>
 
-          <h2 className="sys-title">
-            Your business doesn’t need<br />
-            <span className="sys-title-muted">MORE marketing.</span><br />
-            It needs a better <span className="sys-cherry-highlight">SYSTEM.</span>
+          {/* Title — each line wrapped in overflow:hidden for crisp clip-reveal */}
+          <h2 className="sys-title sys-title--reveal">
+            <LineClip>
+              <motion.span className="sys-title-line" variants={lineVariants}>
+                Your business doesn't need
+              </motion.span>
+            </LineClip>
+
+            <LineClip>
+              <motion.span className="sys-title-line sys-title-muted" variants={lineVariants}>
+                MORE marketing.
+              </motion.span>
+            </LineClip>
+
+            <LineClip>
+              <motion.span className="sys-title-line" variants={lineVariants}>
+                It needs a better{' '}
+                <span className="sys-cherry-highlight">SYSTEM.</span>
+              </motion.span>
+            </LineClip>
           </h2>
 
-          <p className="sys-subtitle">
+          {/* Subtitle */}
+          <motion.p className="sys-subtitle" variants={subtitleVariants}>
             Great design without strategy gets ignored. Great marketing without infrastructure burns money. We connect everything.
-          </p>
-        </header>
+          </motion.p>
+        </motion.header>
 
-        {/* =========================================================
-            INTERACTIVE CHAOS VISUAL (CHAOS → SYSTEM SCROLL)
-           ========================================================= */}
-        <div ref={scrollSectionRef} className="sys-chaos-stage-wrapper">
+        {/* ══════════════════════════════════════════════════════════════════
+            INTERACTIVE CHAOS VISUAL — scroll-driven entrance
+           ══════════════════════════════════════════════════════════════════ */}
+        <motion.div
+          ref={scrollSectionRef}
+          className="sys-chaos-stage-wrapper"
+          variants={chaosVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.12 }}
+        >
           <div className="sys-chaos-header">
             <div className="sys-chaos-label">
               <span className="sys-tag-icon"><Activity size={14} /></span>
@@ -211,9 +325,7 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
             </div>
           </div>
 
-          {/* Interactive Canvas Grid */}
           <div className="sys-chaos-canvas">
-            {/* Background Status Indicator */}
             <motion.div
               className="sys-status-banner"
               style={{
@@ -237,34 +349,24 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
               </div>
             </motion.div>
 
-            {/* Connecting Railway SVG Beam */}
             <svg className="sys-rail-svg" preserveAspectRatio="none" viewBox="0 0 1000 120">
-              {/* Dashed background rail */}
               <line x1="80" y1="60" x2="920" y2="60" className="sys-rail-line-bg" />
-              
-              {/* Animated Cherry-red beam line */}
               <line x1="80" y1="60" x2="920" y2="60" className="sys-rail-line-active" />
-              
-              {/* Traveling light pulse */}
               <circle r="4" className="sys-rail-pulse-dot">
                 <animateMotion path="M 80 60 L 920 60" dur="3.5s" repeatCount="indefinite" />
               </circle>
             </svg>
 
-            {/* 5 FLOATING / SYSTEM NODES */}
             <div className="sys-nodes-grid">
               {SYSTEM_STAGES.map((stage, idx) => {
                 const Icon = stage.icon;
-
-                // Offsets for CHAOS mode
                 const chaosOffsets = [
-                  { x: -18, y: -24, rot: -2.5, status: 'DISCONNECTED', warnColor: '#DC143C' },
-                  { x: 14, y: 20, rot: 2.2, status: 'NO INFRA', warnColor: '#DC143C' },
-                  { x: -12, y: -18, rot: -1.8, status: 'UNALIGNED', warnColor: '#DC143C' },
-                  { x: 18, y: 22, rot: 2.6, status: 'LEAKING', warnColor: '#DC143C' },
-                  { x: -8, y: -16, rot: -2.0, status: 'STAGNANT', warnColor: '#DC143C' },
+                  { x: -18, y: -24, rot: -2.5, status: 'DISCONNECTED' },
+                  { x: 14, y: 20, rot: 2.2, status: 'NO INFRA' },
+                  { x: -12, y: -18, rot: -1.8, status: 'UNALIGNED' },
+                  { x: 18, y: 22, rot: 2.6, status: 'LEAKING' },
+                  { x: -8, y: -16, rot: -2.0, status: 'STAGNANT' },
                 ];
-
                 const offset = chaosOffsets[idx];
 
                 return (
@@ -273,21 +375,10 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                       className={`sys-chaos-node ${activeStage === idx ? 'sys-chaos-node--active' : ''}`}
                       animate={
                         manualState === 'chaos'
-                          ? {
-                              x: offset.x,
-                              y: offset.y,
-                              rotate: offset.rot,
-                              scale: 1,
-                            }
+                          ? { x: offset.x, y: offset.y, rotate: offset.rot, scale: 1 }
                           : manualState === 'connected'
-                          ? {
-                              x: 0,
-                              y: 0,
-                              rotate: 0,
-                              scale: 1.03,
-                            }
+                          ? { x: 0, y: 0, rotate: 0, scale: 1.03 }
                           : {
-                              // Scroll driven
                               x: offset.x * (1 - (chaosProgress.get() || 0)),
                               y: offset.y * (1 - (chaosProgress.get() || 0)),
                               rotate: offset.rot * (1 - (chaosProgress.get() || 0)),
@@ -296,21 +387,14 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
                       onClick={() => setActiveStage(idx)}
                     >
-                      {/* Node Header */}
                       <div className="sys-node-top">
                         <span className="sys-node-num">{stage.id}</span>
-                        <div className="sys-node-icon-wrap">
-                          <Icon size={16} />
-                        </div>
+                        <div className="sys-node-icon-wrap"><Icon size={16} /></div>
                       </div>
-
-                      {/* Node Label */}
                       <div className="sys-node-body">
                         <span className="sys-node-name">{stage.name}</span>
-                        <span className="sys-node-short">“{stage.shortDesc}”</span>
+                        <span className="sys-node-short">"{stage.shortDesc}"</span>
                       </div>
-
-                      {/* Node Status Badge */}
                       <div className="sys-node-footer">
                         {manualState === 'chaos' ? (
                           <span className="sys-warn-badge">
@@ -322,8 +406,6 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                           </span>
                         )}
                       </div>
-
-                      {/* Connection arrow to next */}
                       {idx < SYSTEM_STAGES.length - 1 && (
                         <div className="sys-node-arrow" aria-hidden="true">
                           <ArrowRight size={14} />
@@ -335,7 +417,6 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
               })}
             </div>
 
-            {/* Bottom Summary Banner */}
             <div className="sys-chaos-footer-bar">
               <div className="sys-footer-flow-preview">
                 <span className="sys-flow-tag">DESIGN</span>
@@ -353,15 +434,22 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* =========================================================
-            PROBLEM SECTION ("THE USUAL APPROACH")
-           ========================================================= */}
+        {/* ══════════════════════════════════════════════════════════════════
+            PROBLEM SECTION — staggered row entrance
+           ══════════════════════════════════════════════════════════════════ */}
         <div className="sys-problem-section">
           <div className="sys-problem-grid-layout">
-            {/* Left Header Column */}
-            <div className="sys-problem-left-col">
+
+            {/* Left column — slide up */}
+            <motion.div
+              className="sys-problem-left-col"
+              variants={problemLeftVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <div className="sys-section-label">
                 <span className="sys-label-dot" />
                 THE USUAL APPROACH
@@ -373,10 +461,16 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
               <p className="sys-problem-copy">
                 Hiring separate agencies for design, dev, and marketing creates friction, delay, and wasted budget. Every disconnected vendor optimizes for their deliverable — not your bottom line.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Right Interactive Rows Column */}
-            <div className="sys-problem-right-col">
+            {/* Right column — rows stagger in */}
+            <motion.div
+              className="sys-problem-right-col"
+              variants={problemContainerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+            >
               <div className="sys-rows-list">
                 {PROBLEM_ITEMS.map((item) => {
                   const isHovered = hoveredProblem === item.id;
@@ -384,10 +478,11 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                     <motion.div
                       key={item.id}
                       className={`sys-problem-row ${isHovered ? 'sys-problem-row--active' : ''}`}
+                      variants={problemRowVariants}
                       onMouseEnter={() => setHoveredProblem(item.id)}
                       onMouseLeave={() => setHoveredProblem(null)}
                       whileHover={{ x: 6 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.22 }}
                     >
                       <div className="sys-row-main">
                         <div className="sys-row-left">
@@ -403,7 +498,6 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                         </div>
                       </div>
 
-                      {/* Slide-in subtle explanation */}
                       <AnimatePresence>
                         {isHovered && (
                           <motion.div
@@ -422,7 +516,8 @@ export const SystemTransformationSection: React.FC<SystemTransformationSectionPr
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
+
           </div>
         </div>
 

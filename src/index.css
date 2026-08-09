@@ -42,7 +42,7 @@
   --font-comfortaa: 'Comfortaa', sans-serif;
   --font-unbounded: 'Unbounded', sans-serif;
   --font-vridhio: 'Vastago Grotesk', 'Vástago Grotesk', 'Bricolage Grotesque', 'Space Grotesk', 'Syne', sans-serif;
-  --tracking-vridhio: -0.06em;
+  --tracking-vridhio: 0.03em;
   /* Tracking -60 in 1000em (-0.06em) */
 
   --spacing-container: clamp(2rem, 5vw, 8rem);

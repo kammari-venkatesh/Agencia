@@ -1,128 +1,185 @@
-import type { FC, SVGProps } from 'react'
-import { Link } from 'react-router-dom'
-import { Mail, Phone } from 'lucide-react'
-import { LEAD_CONTACT } from '../data/leadCapture'
-import { FOOTER_SERVICES, FOOTER_SOCIAL, FOOTER_TAGLINE } from '../data/footer'
-import './Footer.css'
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { getLenis } from '../motion/SmoothScroll';
+import './Footer.css';
 
-function InstagramIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={16}
-      height={16}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.75}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <rect width={20} height={20} x={2} y={2} rx={5} ry={5} />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1={17.5} x2={17.51} y1={6.5} y2={6.5} />
-    </svg>
-  )
-}
+const exploreLinks = [
+  { label: 'Services', id: 'services' },
+  { label: 'System', id: 'problem-solution' },
+  { label: 'Why Vridhiō', id: 'why-vridhio' },
+  { label: 'FAQ', id: 'faqs' },
+  { label: 'Contact', id: 'contact' },
+];
 
-function LinkedInIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={16}
-      height={16}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.75}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect width={4} height={12} x={2} y={9} />
-      <circle cx={4} cy={4} r={2} />
-    </svg>
-  )
-}
+const socialLinks = [
+  { label: 'Instagram', handle: '@vridhio.tech', href: 'https://instagram.com' },
+  { label: 'LinkedIn', handle: 'Vridhiō Growth', href: 'https://linkedin.com' },
+  { label: 'WhatsApp', handle: '+91 93471 71519', href: 'https://wa.me/919347171519' },
+  { label: 'Email', handle: 'tech@vridhio.com', href: 'mailto:tech@vridhio.com' },
+];
 
-const socialIcons = {
-  Instagram: InstagramIcon,
-  LinkedIn: LinkedInIcon,
-} as const
+const Footer: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
 
-const Footer: FC = () => {
-  const year = new Date().getFullYear()
+  const handleNavClick = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    const scrollToId = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(el, { offset: -80 });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    if (location.pathname === '/') {
+      void navigate({ pathname: '/', hash: `#${id}` });
+      requestAnimationFrame(() => {
+        requestAnimationFrame(scrollToId);
+      });
+    } else {
+      void navigate({ pathname: '/', hash: `#${id}` });
+    }
+  };
 
   return (
-    <footer className="footer-wrapper">
-      <div className="container footer">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <Link to="/" className="footer-logo-link">
-              <span className="footer-logo">Vridhio</span>
-            </Link>
-            <p className="footer-tagline">{FOOTER_TAGLINE}</p>
-          </div>
+    <footer className="vrd-footer-section">
+      <div className="vrd-footer-outer-container">
+        {/* LARGE EDITORIAL ROUNDED FOOTER CONTAINER */}
+        <div className="vrd-footer-card">
 
-          <div className="footer-col">
-            <span className="footer-col-label">Services:</span>
-            <nav className="footer-nav footer-services-list" aria-label="Services">
-              {FOOTER_SERVICES.map((service) => (
-                <Link key={service} to="/#services">
-                  {service}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {/* TOP EDITORIAL NAVIGATION GRID */}
+          <div className="vrd-footer-top-grid">
 
-          <div className="footer-col">
-            <span className="footer-col-label">Contact:</span>
-            <div className="footer-contact-list">
-              <a href={LEAD_CONTACT.emailHref} className="footer-contact-link">
-                <Mail size={16} aria-hidden="true" />
-                <span>{LEAD_CONTACT.email}</span>
-              </a>
-              <a href={LEAD_CONTACT.phoneHref} className="footer-contact-link">
-                <Phone size={16} aria-hidden="true" />
-                <span>{LEAD_CONTACT.phone}</span>
-              </a>
+            {/* COLUMN 1: BRAND IDENTITY & DESCRIPTION */}
+            <div className="vrd-footer-col vrd-footer-col-brand">
+              <Link to="/" className="vrd-footer-logo-link" onClick={(e) => handleNavClick(e, 'hero')}>
+                <span className="vrd-footer-brand-name">VRIDHIŌ</span>
+              </Link>
+              <p className="vrd-footer-description">
+                Vridhiō is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.
+              </p>
+              <div className="vrd-footer-status-pill">
+                <span className="vrd-footer-status-dot" />
+                <span>AVAILABLE FOR NEW PROJECTS — Q1/Q2 {currentYear}</span>
+              </div>
             </div>
-          </div>
 
-          <div className="footer-col">
-            <span className="footer-col-label">Social Links:</span>
-            <nav className="footer-nav footer-social-links" aria-label="Social links">
-              {FOOTER_SOCIAL.map((item) => {
-                const Icon = socialIcons[item.label as keyof typeof socialIcons]
-                return (
+            {/* COLUMN 2: EXPLORE NAVIGATION */}
+            <div className="vrd-footer-col vrd-footer-col-explore">
+              <span className="vrd-footer-heading">Explore</span>
+              <nav className="vrd-footer-nav">
+                {exploreLinks.map((item) => (
                   <a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-social-link"
+                    key={item.id}
+                    href={`/#${item.id}`}
+                    className="vrd-footer-link"
+                    onClick={(e) => handleNavClick(e, item.id)}
                   >
-                    {Icon ? <Icon /> : null}
-                    <span>{item.label}</span>
+                    <span className="vrd-link-text">{item.label}</span>
+                    <span className="vrd-link-dot" />
                   </a>
-                )
-              })}
-            </nav>
+                ))}
+              </nav>
+            </div>
+
+            {/* COLUMN 3: CONNECT & SOCIAL */}
+            <div className="vrd-footer-col vrd-footer-col-social">
+              <span className="vrd-footer-heading">Connect</span>
+              <ul className="vrd-footer-social-list">
+                {socialLinks.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      target={item.href.startsWith('http') ? '_blank' : undefined}
+                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="vrd-footer-social-link"
+                    >
+                      <span className="vrd-social-platform">{item.label}</span>
+                      <span className="vrd-social-handle">{item.handle}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* COLUMN 4: ACTION CTAS */}
+            <div className="vrd-footer-col vrd-footer-col-cta">
+              <div className="vrd-footer-cta-block">
+                <a
+                  href="/#contact"
+                  className="vrd-footer-primary-cta"
+                  onClick={(e) => handleNavClick(e, 'contact')}
+                >
+                  <div className="vrd-cta-text-wrap">
+                    <span className="vrd-cta-title">Start a Project</span>
+                    <span className="vrd-cta-sub">Let's build something big</span>
+                  </div>
+                  <div className="vrd-cta-arrow-btn">
+                    <ArrowRight size={18} />
+                  </div>
+                </a>
+
+                <div className="vrd-footer-secondary-cta">
+                  <a
+                    href="/#contact"
+                    className="vrd-secondary-link"
+                    onClick={(e) => handleNavClick(e, 'contact')}
+                  >
+                    <div className="vrd-sec-text">
+                      <span className="vrd-sec-title">Book Consultation</span>
+                      <span className="vrd-sec-sub">30-min strategy call</span>
+                    </div>
+                    <ArrowUpRight size={16} className="vrd-sec-arrow" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* GIANT OVERSIZED CROPPED WORDMARK AT CONTAINER BOTTOM */}
+          <div className="vrd-footer-wordmark-container" aria-hidden="true">
+            <motion.h1
+              className="vrd-footer-giant-wordmark"
+              initial={{ y: '35%', opacity: 0 }}
+              whileInView={{ y: '0%', opacity: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+            >
+              VRIDHI<span className="vrd-cherry-o">Ō</span>
+            </motion.h1>
+          </div>
+
+        </div>
+
+        {/* THIN BOTTOM BAR */}
+        <div className="vrd-footer-bottom-bar">
+          <div className="vrd-bottom-left">
+            <span className="vrd-copyright">© {currentYear} Vridhiō. All rights reserved.</span>
+            <span className="vrd-bottom-sep">•</span>
+            <a href="/#privacy" className="vrd-bottom-link" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+            <span className="vrd-bottom-sep">•</span>
+            <a href="/#terms" className="vrd-bottom-link" onClick={(e) => e.preventDefault()}>Terms of Service</a>
+          </div>
+
+          <div className="vrd-bottom-right">
+            <span className="vrd-location-tag">BASED IN INDIA</span>
+            <span className="vrd-bottom-sep">•</span>
+            <span className="vrd-location-tag">WORKING GLOBALLY</span>
+            <span className="vrd-flag">🇮🇳</span>
           </div>
         </div>
 
-        <div className="footer-bottom">
-          <p className="footer-copyright">
-            &copy; {year} Vridhio. All rights reserved.
-          </p>
-        </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

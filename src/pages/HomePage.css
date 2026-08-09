@@ -130,6 +130,20 @@
   letter-spacing: -0.03em;
   color: #0d0d0d;
   margin-bottom: clamp(0.85rem, 1.8vh, 1.35rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title-line-wrap {
+  display: block;
+  overflow: hidden;
+  line-height: 1.1;
+  padding-bottom: 0.05em;
+}
+
+.hero-title-line {
+  display: block;
+  will-change: transform, opacity;
 }
 
 /* Italic red accent — Montserrat italic */
@@ -241,12 +255,15 @@
   overflow: hidden;
   /* Slightly off-white background matching image edge tone */
   background: #f8f8f8;
+  will-change: transform, filter, opacity;
 }
 
 .hero-portrait-wrap {
   position: relative;
   width: 100%;
   height: 100%;
+  transition: transform 0.4s var(--ease-ios, ease-out);
+  will-change: transform;
 }
 
 /* Image fills the right column prominently — cover so figure is large like reference */
@@ -256,6 +273,57 @@
   object-fit: cover;
   object-position: center top;
   display: block;
+  animation: heroCharacterFloat 7s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+@keyframes heroCharacterFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+
+/* Red Visor Light Sweep & Ambient Pulse */
+.hero-visor-glow-wrap {
+  position: absolute;
+  top: 18%;
+  left: 20%;
+  width: 60%;
+  height: 22%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+  border-radius: 12px;
+}
+
+.hero-visor-sweep-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 60, 90, 0.95) 50%,
+    rgba(255, 255, 255, 0.9) 70%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.hero-visor-pulse-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(220, 20, 60, 0.35) 0%, transparent 75%);
+  animation: visorPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes visorPulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.98); }
+  50% { opacity: 0.75; transform: scale(1.04); }
 }
 
 .hero-portrait-wrap:hover .hero-portrait-img {
@@ -1041,74 +1109,58 @@
   display: block;
 }
 
-/* Process: Horizontal Steps */
+/* Process: Minimal Editorial Section */
 .process-section {
-  padding-top: 8rem;
-  padding-bottom: 8rem;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
   width: 100%;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary, #ffffff);
+  position: relative;
+}
+
+.process-header-container {
+  margin-bottom: 3.5rem;
+}
+
+.process-header-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.process-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-unbounded, 'Unbounded', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-muted, #888888);
+  text-transform: uppercase;
+}
+
+.process-eyebrow-line {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--brand-red, #D90445);
 }
 
 .process-heading {
-  font-size: clamp(3rem, 6vw, 4.5rem);
-  font-weight: 200;
-  color: #1a1a1a;
-  letter-spacing: 0.06em;
-  line-height: 1.1;
-  margin-bottom: 5rem;
-}
-
-.process-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.process-row {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1fr;
-  align-items: center;
-  padding: 32px max(2rem, calc((100vw - 1200px) / 2));
-  transition: filter 0.45s var(--ease-ios);
-}
-
-/* Background Styling: Alternating Rows */
-.process-row:nth-child(1),
-.process-row:nth-child(3) {
-  background: linear-gradient(90deg, #f9f9f9 0%, #f3f3f3 100%);
-}
-
-.process-row:nth-child(2),
-.process-row:nth-child(4) {
-  background-color: #ffffff;
-}
-
-.process-row:hover {
-  filter: brightness(1.3);
-}
-
-.process-row h3 {
-  font-size: 1.5rem;
+  font-family: var(--font-vridhio, var(--font-unbounded, 'Unbounded', sans-serif));
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
   font-weight: 300;
   color: #1a1a1a;
-  text-align: left;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
 }
 
-.process-row p {
-  color: #888888;
-  font-size: 0.95rem;
-  text-align: center;
-  line-height: 1.6;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.process-num {
-  font-size: 1.8rem;
-  color: var(--accent-cta);
-  text-align: right;
-  font-weight: 100;
-  opacity: 0.6;
+.process-heading-accent {
+  color: var(--brand-red, #D90445);
+  font-style: italic;
+  font-weight: 400;
 }
 
 /* Testimonials — 100vw background strip; inner .container holds the grid */

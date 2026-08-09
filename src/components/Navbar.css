@@ -23,7 +23,7 @@
   font-family: var(--font-vridhio, 'Vastago Grotesk', 'Vástago Grotesk', sans-serif);
   font-size: 1.35rem;
   font-weight: 900;
-  letter-spacing: var(--tracking-vridhio, -0.06em);
+  letter-spacing: var(--tracking-vridhio, 0.03em);
   color: #DC143C;
   transition: color 0.3s ease;
   display: inline-block;
@@ -36,8 +36,9 @@
 .navbar-tagline {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 0.58rem;
-  color: rgba(0, 0, 0, 0.35);
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: 0.14em;
   margin-top: 0.25rem;
   line-height: 1.3;
   text-transform: uppercase;
