@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-import { useLocation } from 'react-router-dom';
+import { usePageContext } from 'vike-react/usePageContext';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
@@ -40,6 +40,7 @@ import {
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
+  const pageContext = usePageContext();
   const [bookCallOpen, setBookCallOpen] = useState(false);
   const [bookCallPersist, setBookCallPersist] = useState(false);
   const [heroIntroComplete, setHeroIntroComplete] = useState(false);
@@ -51,17 +52,15 @@ const HomePage: React.FC = () => {
     setBookCallPersist(true);
     setBookCallOpen(true);
   };
-  const location = useLocation();
+  const locationHash =
+    typeof window !== 'undefined' ? window.location.hash : '';
   const shouldReduce = useReducedMotion();
 
   // On first mount, if the URL has no hash, guarantee the page starts at the
   // hero. This prevents any residual scroll from a bfcache restore or a race
   // with scrollRestoration=manual from being visible to the user.
-  // On first mount, if the URL has no hash, guarantee the page starts at the
-  // hero. This prevents any residual scroll from a bfcache restore or a race
-  // with scrollRestoration=manual from being visible to the user.
   useEffect(() => {
-    if (location.hash) return;
+    if (locationHash) return;
     if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
@@ -74,7 +73,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const id = location.hash?.replace(/^#/, '');
+    const id = locationHash?.replace(/^#/, '');
     if (!id) return;
     const t = window.setTimeout(() => {
       const target = document.getElementById(id);
@@ -87,7 +86,7 @@ const HomePage: React.FC = () => {
       }
     }, 200);
     return () => clearTimeout(t);
-  }, [location.pathname, location.hash]);
+  }, [pageContext.urlPathname, locationHash]);
 
   // Warm the Cal.com embed during browser idle after first paint. By the time
   // the user clicks Book a call, embed.js is cached and Cal('init') has run,

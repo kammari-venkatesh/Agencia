@@ -326,10 +326,16 @@ p {
   }
 }
 
-/* Stop modal scroll chaining to the page body on mobile */
+/* Stop modal scroll chaining to the page body on mobile.
+   position:relative on html satisfies Framer Motion useScroll offset
+   measurement when tracking section targets against the viewport. */
 html,
 body {
   overscroll-behavior: contain;
+}
+
+html {
+  position: relative;
 }
 
 /* Respect user's motion preference — collapse all animations to near-instant. */

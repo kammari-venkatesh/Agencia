@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { usePageContext } from 'vike-react/usePageContext';
 import { motion } from 'framer-motion';
 import { Reveal } from '../motion/Reveal';
 import { AnimatedNumber } from '../components/AnimatedNumber';
@@ -14,7 +14,8 @@ import {
 import './CaseStudyPage.css';
 
 const CaseStudyPage: React.FC = () => {
-  const { id } = useParams();
+  const pageContext = usePageContext();
+  const id = pageContext.routeParams.id;
 
   useEffect(() => {
     const lenis = getLenis();

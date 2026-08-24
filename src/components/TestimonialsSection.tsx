@@ -75,13 +75,11 @@ const TESTIMONIALS: TestimonialItem[] = [
 ];
 
 function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth <= breakpoint;
-  });
+  // Always start `false` so SSR HTML and the first client render match.
+  // Viewport is applied after mount (useEffect) to avoid hydration mismatches.
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
     const handleChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
 

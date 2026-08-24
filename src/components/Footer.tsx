@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { getLenis } from '../motion/SmoothScroll';
@@ -21,8 +22,8 @@ const socialLinks = [
 ];
 
 const Footer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pageContext = usePageContext();
+  const pathname = pageContext.urlPathname;
   const currentYear = new Date().getFullYear();
 
   const handleNavClick = (e: React.MouseEvent, id: string) => {
@@ -38,13 +39,15 @@ const Footer: React.FC = () => {
       }
     };
 
-    if (location.pathname === '/') {
-      void navigate({ pathname: '/', hash: `#${id}` });
+    if (pathname === '/') {
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `/#${id}`);
+      }
       requestAnimationFrame(() => {
         requestAnimationFrame(scrollToId);
       });
     } else {
-      void navigate({ pathname: '/', hash: `#${id}` });
+      void navigate(`/#${id}`);
     }
   };
 
@@ -59,9 +62,9 @@ const Footer: React.FC = () => {
 
             {/* COLUMN 1: BRAND IDENTITY & DESCRIPTION */}
             <div className="vrd-footer-col vrd-footer-col-brand">
-              <Link to="/" className="vrd-footer-logo-link" onClick={(e) => handleNavClick(e, 'hero')}>
+              <a href="/" className="vrd-footer-logo-link" onClick={(e) => handleNavClick(e, 'hero')}>
                 <span className="vrd-footer-brand-name">VRIDHIŌ</span>
-              </Link>
+              </a>
               <p className="vrd-footer-description">
                 Vridhiō is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.
               </p>

@@ -41,7 +41,7 @@ function processChildren(node: ReactNode, keyPrefix = ''): ReactNode {
 
   if (React.isValidElement(node)) {
     if (node.type === 'br') {
-      return node;
+      return React.cloneElement(node, { key: keyPrefix || 'br' });
     }
 
     const element = node as React.ReactElement<{ children?: ReactNode }>;
@@ -49,13 +49,28 @@ function processChildren(node: ReactNode, keyPrefix = ''): ReactNode {
 
     return React.cloneElement(
       element,
-      { ...element.props },
+      { key: keyPrefix || element.key },
       processChildren(children, `${keyPrefix}-elem`)
     );
   }
 
   if (Array.isArray(node)) {
-    return node.map((child, idx) => processChildren(child, `${keyPrefix}-${idx}`));
+    return node.map((child, idx) => {
+      const prefix = `${keyPrefix}-${idx}`;
+      const processed = processChildren(child, prefix);
+
+      // Top-level HomePage children are a mixed list (text, <strong>, <br />).
+      // Each mapped item must itself have a stable key for React.
+      if (Array.isArray(processed)) {
+        return <React.Fragment key={prefix}>{processed}</React.Fragment>;
+      }
+      if (React.isValidElement(processed)) {
+        return processed.key != null
+          ? processed
+          : React.cloneElement(processed, { key: prefix });
+      }
+      return <React.Fragment key={prefix}>{processed}</React.Fragment>;
+    });
   }
 
   return node;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { easeIOS, menuContainer, menuItem, menuOverlay } from '../motion/variants';
@@ -15,8 +16,8 @@ const navSections: { label: string; id: string }[] = [
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pageContext = usePageContext();
+  const pathname = pageContext.urlPathname;
 
   // Lock scroll while the overlay is open — keeps the iPhone-style UX feel.
   useEffect(() => {
@@ -55,25 +56,26 @@ const Navbar: React.FC = () => {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     };
-    if (location.pathname === '/') {
-      void navigate({ pathname: '/', hash: `#${id}` });
+    if (pathname === '/') {
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `/#${id}`);
+      }
       requestAnimationFrame(() => {
         requestAnimationFrame(scrollToId);
       });
     } else {
-      void navigate({ pathname: '/', hash: `#${id}` });
+      void navigate(`/#${id}`);
     }
   };
 
   const goHome = (e: React.MouseEvent) => {
     setIsOpen(false);
-    if (location.pathname === '/') {
+    if (pathname === '/') {
       e.preventDefault();
-      void navigate({ pathname: '/' }, { replace: true });
       const lenis = getLenis();
       if (lenis) {
         lenis.scrollTo(0);
-      } else {
+      } else if (typeof window !== 'undefined') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -83,10 +85,10 @@ const Navbar: React.FC = () => {
     <>
       <header className="navbar-wrapper">
         <div className="container navbar">
-          <Link to="/" className="navbar-logo-block" onClick={goHome}>
+          <a href="/" className="navbar-logo-block" onClick={goHome}>
             <span className="navbar-logo">VRIDHIO</span>
             <span className="navbar-tagline">Where Bold Strategy Meets Innovation.</span>
-          </Link>
+          </a>
           <motion.button
             type="button"
             className="menu-toggle-btn"
@@ -112,10 +114,10 @@ const Navbar: React.FC = () => {
             exit="exit"
           >
             <div className="container nav-overlay-header">
-              <Link to="/" className="navbar-logo-block" onClick={goHome}>
+              <a href="/" className="navbar-logo-block" onClick={goHome}>
                 <span className="navbar-logo">VRIDHIO</span>
                 <span className="navbar-tagline">Where Bold Strategy Meets Innovation.</span>
-              </Link>
+              </a>
               <motion.button
                 type="button"
                 className="menu-toggle-btn"
