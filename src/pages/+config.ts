@@ -7,6 +7,7 @@ import { HOME_SEO, SITE } from '../seo/site'
 export default {
   extends: [vikeReact],
   prerender: true,
+  trailingSlash: true,
   lang: SITE.lang,
   title: HOME_SEO.title,
   description: HOME_SEO.description,

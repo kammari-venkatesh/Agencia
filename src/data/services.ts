@@ -1,11 +1,126 @@
-export type ServiceOffering = {
-  title: string
-  description: string
-  points: string[]
-  image: string
-  imageAlt: string
-  /** Fine-tune crop so the subject stays visible in the card frame */
-  imagePosition?: string
+/**
+ * Canonical Vridhio service catalog — single source of truth.
+ * Future homepage, contact, /services pages, SEO, schema, and sitemap
+ * should import from here. Do not add parallel service lists.
+ */
+
+export const SERVICE_GROUP = {
+  core: 'core',
+  growth: 'growth',
+} as const
+
+export type ServiceGroupId = (typeof SERVICE_GROUP)[keyof typeof SERVICE_GROUP]
+
+export const SERVICE_GROUP_LABEL: Record<ServiceGroupId, string> = {
+  core: 'Core Services',
+  growth: 'Growth & Marketing',
+}
+
+export type ServiceId =
+  | 'website-development'
+  | 'app-development'
+  | 'ai-automation'
+  | 'graphic-design'
+  | 'video-editing'
+  | 'seo'
+  | 'google-ads'
+  | 'meta-ads'
+  | 'social-media-marketing'
+  | 'lead-generation'
+
+export type ServiceCatalogEntry = {
+  id: ServiceId
+  name: string
+  group: 'core' | 'growth'
+  slug: string
+}
+
+export const SERVICE_CATALOG: readonly ServiceCatalogEntry[] = [
+  {
+    id: 'website-development',
+    name: 'Website Development',
+    group: 'core',
+    slug: 'website-development',
+  },
+  {
+    id: 'app-development',
+    name: 'App Development',
+    group: 'core',
+    slug: 'app-development',
+  },
+  {
+    id: 'ai-automation',
+    name: 'AI Automation',
+    group: 'core',
+    slug: 'ai-automation',
+  },
+  {
+    id: 'graphic-design',
+    name: 'Graphic Design',
+    group: 'core',
+    slug: 'graphic-design',
+  },
+  {
+    id: 'video-editing',
+    name: 'Video Editing',
+    group: 'core',
+    slug: 'video-editing',
+  },
+  {
+    id: 'seo',
+    name: 'SEO',
+    group: 'growth',
+    slug: 'seo',
+  },
+  {
+    id: 'google-ads',
+    name: 'Google Ads',
+    group: 'growth',
+    slug: 'google-ads',
+  },
+  {
+    id: 'meta-ads',
+    name: 'Meta Ads',
+    group: 'growth',
+    slug: 'meta-ads',
+  },
+  {
+    id: 'social-media-marketing',
+    name: 'Social Media Marketing',
+    group: 'growth',
+    slug: 'social-media-marketing',
+  },
+  {
+    id: 'lead-generation',
+    name: 'Lead Generation',
+    group: 'growth',
+    slug: 'lead-generation',
+  },
+]
+
+export const CORE_SERVICES = SERVICE_CATALOG.filter(
+  (service) => service.group === 'core',
+)
+
+export const GROWTH_SERVICES = SERVICE_CATALOG.filter(
+  (service) => service.group === 'growth',
+)
+
+export function getServiceById(id: string): ServiceCatalogEntry | undefined {
+  return SERVICE_CATALOG.find((service) => service.id === id)
+}
+
+export function getServiceBySlug(slug: string): ServiceCatalogEntry | undefined {
+  return SERVICE_CATALOG.find((service) => service.slug === slug)
+}
+
+export function isServiceSlug(slug: string): boolean {
+  return SERVICE_CATALOG.some((service) => service.slug === slug)
+}
+
+/** Public service path derived from the catalog slug (trailing slash). */
+export function serviceHref(slug: string): string {
+  return `/services/${slug}/`
 }
 
 const serviceImage = (slug: string) => `/images/services/${slug}.png`
@@ -13,9 +128,20 @@ const serviceImage = (slug: string) => `/images/services/${slug}.png`
 /** Neutral fallback if a service image fails to load */
 export const SERVICE_IMAGE_FALLBACK = serviceImage('website-development')
 
-export const services: ServiceOffering[] = [
-  {
-    title: 'Website Development',
+/**
+ * Homepage card copy keyed by catalog id.
+ * Existing on-site copy is reused where it maps; split growth cards use minimal labels.
+ */
+type ServicePresentation = {
+  description: string
+  points: string[]
+  image: string
+  imageAlt: string
+  imagePosition?: string
+}
+
+const SERVICE_PRESENTATION: Record<ServiceId, ServicePresentation> = {
+  'website-development': {
     description:
       'We create fast, modern, and conversion-focused websites that turn visitors into paying customers.',
     points: ['Business websites', 'Landing pages', 'E-commerce websites', 'Portfolio websites'],
@@ -23,8 +149,7 @@ export const services: ServiceOffering[] = [
     imageAlt: 'Professional website development workspace with modern business site on laptop',
     imagePosition: 'center 40%',
   },
-  {
-    title: 'App Development',
+  'app-development': {
     description:
       'Scalable and user-friendly mobile & web apps designed for performance, scalability, and business growth.',
     points: ['Android apps', 'iOS apps', 'Web applications', 'Admin dashboards'],
@@ -32,53 +157,29 @@ export const services: ServiceOffering[] = [
     imageAlt: 'Mobile app development with smartphones showing polished app interfaces',
     imagePosition: 'center center',
   },
-  {
-    title: 'AI Chatbots',
+  'ai-automation': {
     description:
-      'Intelligent AI chatbot systems that automate customer support, lead generation, and user engagement.',
+      'Custom automation systems that reduce manual work and streamline business operations efficiently.',
     points: [
       'Customer support bots',
       'WhatsApp AI bots',
-      'Lead generation bots',
-      'AI business assistants',
-    ],
-    image: serviceImage('ai-chatbots'),
-    imageAlt: 'AI chatbot technology with conversational interface in a modern office',
-    imagePosition: 'center center',
-  },
-  {
-    title: 'Workflow Automations',
-    description:
-      'Custom automation systems that reduce manual work and streamline business operations efficiently.',
-    points: ['n8n automations', 'Zapier workflows', 'CRM automation', 'Process optimization'],
-    image: serviceImage('workflow-automations'),
-    imageAlt: 'Workflow automation dashboard with connected business process pipelines',
-    imagePosition: 'center top',
-  },
-  {
-    title: 'AI Calling Systems',
-    description:
-      'AI-powered voice agents designed for sales calls, customer support, appointment booking, and outreach.',
-    points: [
+      'n8n automations',
+      'CRM automation',
       'AI voice assistants',
-      'Automated sales calls',
-      'Customer support calling',
       'Appointment scheduling',
     ],
-    image: serviceImage('ai-calling-systems'),
-    imageAlt: 'AI calling system with professional on headset in modern office',
-    imagePosition: 'center 35%',
+    image: serviceImage('ai-chatbots'),
+    imageAlt: 'AI automation technology with conversational interface in a modern office',
+    imagePosition: 'center center',
   },
-  {
-    title: 'Graphic Designing',
+  'graphic-design': {
     description: 'Creative designs that build strong brand identity and grab attention instantly.',
     points: ['Social media creatives', 'Brand identity', 'Pitch decks', 'UI/UX design'],
     image: serviceImage('graphic-designing'),
     imageAlt: 'Graphic designer creating brand visuals and creative layouts',
     imagePosition: 'center center',
   },
-  {
-    title: 'Video Editing',
+  'video-editing': {
     description:
       'Professional video editing solutions tailored for brands, creators, ads, and social media growth.',
     points: ['Short-form reels', 'Long-form videos', 'Brand advertisements', 'Motion graphics'],
@@ -86,31 +187,40 @@ export const services: ServiceOffering[] = [
     imageAlt: 'Video editor at professional multi-monitor editing workstation',
     imagePosition: 'center center',
   },
-  {
-    title: 'Digital Marketing',
-    description:
-      'Data-driven marketing strategies to generate leads, increase visibility, and boost revenue.',
-    points: ['Meta ads', 'Google ads', 'SEO', 'Social media marketing'],
+  seo: {
+    description: 'Search engine optimization.',
+    points: ['SEO', 'Organic growth'],
+    image: serviceImage('content-marketing'),
+    imageAlt: 'Search and content workspace',
+    imagePosition: 'center center',
+  },
+  'google-ads': {
+    description: 'Paid search advertising on Google.',
+    points: ['Google ads'],
     image: serviceImage('digital-marketing'),
     imageAlt: 'Digital marketing analytics and campaign performance on devices',
     imagePosition: 'center top',
   },
-  {
-    title: 'Influencer Marketing',
-    description:
-      'Strategic influencer collaborations that increase reach, trust, engagement, and brand awareness.',
+  'meta-ads': {
+    description: 'Paid advertising on Meta platforms.',
+    points: ['Meta ads'],
+    image: serviceImage('digital-marketing'),
+    imageAlt: 'Digital marketing analytics and campaign performance on devices',
+    imagePosition: 'center top',
+  },
+  'social-media-marketing': {
+    description: 'Social media marketing.',
     points: [
+      'Social media marketing',
       'Influencer outreach',
       'Campaign management',
-      'Creator partnerships',
       'Brand collaborations',
     ],
     image: serviceImage('influencer-marketing'),
-    imageAlt: 'Influencer content creator filming a brand collaboration',
+    imageAlt: 'Social media and creator content for brand campaigns',
     imagePosition: 'center 30%',
   },
-  {
-    title: 'Sales & Growth Systems',
+  'lead-generation': {
     description:
       'Complete sales funnel systems designed to improve conversions and scale business growth.',
     points: ['Sales funnels', 'CRM systems', 'Lead nurturing', 'Outreach systems'],
@@ -118,13 +228,17 @@ export const services: ServiceOffering[] = [
     imageAlt: 'Sales and growth strategy session with funnel planning',
     imagePosition: 'center center',
   },
-  {
-    title: 'Content Marketing',
-    description:
-      'Content strategies that help businesses grow organically, build authority, and attract customers.',
-    points: ['Content strategy', 'Copywriting', 'Organic growth', 'Brand content'],
-    image: serviceImage('content-marketing'),
-    imageAlt: 'Content marketer crafting brand stories on laptop',
-    imagePosition: 'center center',
-  },
-]
+}
+
+export type ServiceOffering = ServiceCatalogEntry &
+  ServicePresentation & {
+    /** Homepage card title — always equals `name`. */
+    title: string
+  }
+
+/** Homepage service cards — derived from SERVICE_CATALOG, not a second list. */
+export const services: ServiceOffering[] = SERVICE_CATALOG.map((entry) => ({
+  ...entry,
+  ...SERVICE_PRESENTATION[entry.id],
+  title: entry.name,
+}))

@@ -1,27 +1,20 @@
 import React, { useState, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, MessageCircle, ArrowRight, Check } from 'lucide-react';
-import { LEAD_CONTACT } from '../data/leadCapture';
+import { CONTACT_SERVICE_CHIPS, LEAD_CONTACT } from '../data/leadCapture';
 import './LeadCaptureSection.css';
 
 export interface ContactSectionProps {
   onBookCall?: () => void;
 }
 
-const SERVICE_CHIPS = [
-  'WEBSITE DEVELOPMENT',
-  'APP DEVELOPMENT',
-  'AI & AUTOMATION',
-  'DIGITAL MARKETING',
-  'BRANDING & DESIGN',
-  'OTHER',
-] as const;
-
 export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedServices, setSelectedServices] = useState<string[]>(['WEBSITE DEVELOPMENT']);
+  const [selectedServices, setSelectedServices] = useState<string[]>([
+    CONTACT_SERVICE_CHIPS[0],
+  ]);
   const [message, setMessage] = useState('');
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -299,7 +292,7 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
                       </span>
                     </div>
                     <div className="cs-chips-wrap">
-                      {SERVICE_CHIPS.map((chip) => {
+                      {CONTACT_SERVICE_CHIPS.map((chip) => {
                         const isSelected = selectedServices.includes(chip);
                         return (
                           <button

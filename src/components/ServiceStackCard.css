@@ -164,6 +164,8 @@
   padding: 0;
   cursor: pointer;
   outline: none;
+  text-decoration: none;
+  color: inherit;
 }
 
 .ssc-arrow-circle {
@@ -327,11 +329,22 @@
   object-position: center center;
 }
 
+.ssc-3d-search-wrap {
+  max-width: 250px;
+  height: auto;
+  overflow: visible;
+}
+
 .ssc-3d-search-image {
-  max-height: 275px;
-  transform: scale(1.08) translateY(0px);
+  width: 100%;
+  height: auto;
+  max-height: 236px;
+  max-width: 236px;
+  transform: none;
   object-fit: contain;
   object-position: center center;
+  mix-blend-mode: screen;
+  filter: none;
 }
 
 .ssc-card:hover .ssc-3d-phone-image {
@@ -375,7 +388,28 @@
 }
 
 .ssc-card:hover .ssc-3d-search-image {
-  transform: translateY(-3px) scale(1.14);
+  transform: translateY(-3px) scale(1.06);
+}
+
+.ssc-3d-image-wrap.ssc-3d-ads-wrap {
+  width: 236px;
+  max-width: 236px;
+  height: 236px;
+  overflow: visible;
+}
+
+.ssc-3d-image.ssc-3d-ads-image {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  transform: none;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.ssc-card:hover .ssc-3d-ads-image {
+  transform: translateY(-3px) scale(1.04);
 }
 
 /* ── Responsive adjustments ── */
@@ -392,6 +426,22 @@
   }
   .ssc-3d-image {
     max-height: 230px;
+  }
+
+  .ssc-3d-search-wrap {
+    max-width: 210px;
+  }
+
+  .ssc-3d-search-image {
+    max-height: 200px;
+    max-width: 200px;
+    transform: none;
+  }
+
+  .ssc-3d-image-wrap.ssc-3d-ads-wrap {
+    width: 200px;
+    max-width: 200px;
+    height: 200px;
   }
 }
 
@@ -437,6 +487,22 @@
 
   .ssc-3d-image {
     max-height: 200px;
+  }
+
+  .ssc-3d-search-wrap {
+    max-width: 170px;
+  }
+
+  .ssc-3d-search-image {
+    max-height: 170px;
+    max-width: 170px;
+    transform: none;
+  }
+
+  .ssc-3d-image-wrap.ssc-3d-ads-wrap {
+    width: 168px;
+    max-width: 168px;
+    height: 168px;
   }
 }
 
@@ -486,6 +552,22 @@
 
   .ssc-3d-image {
     max-height: 180px;
+  }
+
+  .ssc-3d-search-wrap {
+    max-width: 150px;
+  }
+
+  .ssc-3d-search-image {
+    max-height: 150px;
+    max-width: 150px;
+    transform: none;
+  }
+
+  .ssc-3d-image-wrap.ssc-3d-ads-wrap {
+    width: 148px;
+    max-width: 148px;
+    height: 148px;
   }
 
   .ssc-arrow-circle {

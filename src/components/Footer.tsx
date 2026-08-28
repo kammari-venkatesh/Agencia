@@ -149,7 +149,7 @@ const Footer: React.FC = () => {
 
           {/* GIANT OVERSIZED CROPPED WORDMARK AT CONTAINER BOTTOM */}
           <div className="vrd-footer-wordmark-container" aria-hidden="true">
-            <motion.h1
+            <motion.div
               className="vrd-footer-giant-wordmark"
               initial={{ y: '35%', opacity: 0 }}
               whileInView={{ y: '0%', opacity: 1 }}
@@ -157,7 +157,7 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
             >
               VRIDHI<span className="vrd-cherry-o">Ō</span>
-            </motion.h1>
+            </motion.div>
           </div>
 
         </div>

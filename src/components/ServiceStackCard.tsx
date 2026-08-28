@@ -8,6 +8,7 @@ interface ServiceStackCardProps {
   points?: string[];
   illustration?: React.ReactNode;
   variant?: number;
+  href?: string;
   onLearnMore?: () => void;
 }
 
@@ -21,6 +22,7 @@ const ServiceStackCard: React.FC<ServiceStackCardProps> = ({
   points,
   illustration,
   variant = 1,
+  href,
   onLearnMore,
 }) => {
   return (
@@ -45,14 +47,23 @@ const ServiceStackCard: React.FC<ServiceStackCardProps> = ({
           )}
         </div>
 
-        {/* Action Button: White circle arrow + "LEARN MORE" text */}
+        {/* Action: White circle arrow + "LEARN MORE" — catalog slug href when provided */}
         <div className="ssc-action-row">
-          <button type="button" className="ssc-learn-more-btn" onClick={onLearnMore}>
-            <span className="ssc-arrow-circle">
-              <ArrowUpRight size={20} strokeWidth={2.5} />
-            </span>
-            <span className="ssc-btn-text">LEARN MORE</span>
-          </button>
+          {href ? (
+            <a href={href} className="ssc-learn-more-btn">
+              <span className="ssc-arrow-circle">
+                <ArrowUpRight size={20} strokeWidth={2.5} />
+              </span>
+              <span className="ssc-btn-text">LEARN MORE</span>
+            </a>
+          ) : (
+            <button type="button" className="ssc-learn-more-btn" onClick={onLearnMore}>
+              <span className="ssc-arrow-circle">
+                <ArrowUpRight size={20} strokeWidth={2.5} />
+              </span>
+              <span className="ssc-btn-text">LEARN MORE</span>
+            </button>
+          )}
         </div>
       </div>
 

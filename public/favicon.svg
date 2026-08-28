@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Vridhio">
-  <rect width="32" height="32" rx="7" fill="#0a0906"/>
-  <path
-    fill="#ffffff"
-    d="M7.75 9h2.65l5.35 12.75L21.1 9h2.65l-7.35 17.25h-2.55L7.75 9z"
-  />
-  <circle cx="25.75" cy="9.25" r="2.15" fill="#F15A24"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Vridhio">
+  <rect width="1024" height="1024" fill="#000000"/>
+  <g fill="#E21832">
+    <rect x="333" y="126" width="357" height="39" rx="19.5"/>
+    <path fill-rule="evenodd" d="M510.5 211a296.5 325 0 1 1 0 650 296.5 325 0 1 1 0-650zm0 120a150.5 210 0 1 0 0 420 150.5 210 0 1 0 0-420z"/>
+  </g>
 </svg>

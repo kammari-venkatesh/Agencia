@@ -30,48 +30,48 @@ export const Phone3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 3. AI Chatbots: User Cloudinary 3D Graphic */
+/* 3. AI Automation: reused chatbot 3D graphic */
 export const Bot3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/ai-chatbots.png"
-      alt="AI Chatbots 3D Graphic"
+      alt="AI Automation 3D Graphic"
       className="ssc-3d-image ssc-3d-bot-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 4. Workflow Automations: User Cloudinary 3D Graphic */
+/* Reused workflow 3D graphic */
 export const Workflow3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/workflow-automations.png"
-      alt="Workflow Automations 3D Graphic"
+      alt=""
       className="ssc-3d-image ssc-3d-workflow-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 5. AI Calling Systems: User Cloudinary 3D Graphic */
+/* Reused calling 3D graphic */
 export const PhoneCall3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/ai-calling-systems.png"
-      alt="AI Calling Systems 3D Graphic"
+      alt=""
       className="ssc-3d-image ssc-3d-call-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 6. Graphic Designing: User Cloudinary 3D Graphic */
+/* 4. Graphic Design */
 export const Pen3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/graphic-designing.png"
-      alt="Graphic Designing 3D Graphic"
+      alt="Graphic Design 3D Graphic"
       className="ssc-3d-image ssc-3d-pen-image"
       loading="lazy"
     />
@@ -90,7 +90,7 @@ export const Film3DIllustration: React.FC = () => (
   </div>
 );
 
-/* 8. Multimedia Production: Photorealistic 3D Camera Lens */
+/* Unused camera lens graphic */
 export const Camera3DIllustration: React.FC = () => (
   <svg
     viewBox="0 0 340 300"
@@ -123,48 +123,60 @@ export const Camera3DIllustration: React.FC = () => (
   </svg>
 );
 
-/* 9. Digital Marketing: User Cloudinary 3D Graphic */
+/* Google Ads: Cloudinary local-services ad mockup */
+export const GoogleAds3DIllustration: React.FC = () => (
+  <div className="ssc-3d-image-wrap ssc-3d-ads-wrap">
+    <img
+      src="https://res.cloudinary.com/dwatnpdcy/image/upload/e_trim,c_fit,w_720,h_720,q_auto,f_auto/v1787939019/ChatGPT_Image_Aug_28_2026_11_13_28_PM_cited9.png"
+      alt="Google Ads 3D Graphic"
+      className="ssc-3d-image ssc-3d-ads-image"
+      loading="lazy"
+    />
+  </div>
+);
+
+/* Meta Ads: reused advertising 3D graphic */
 export const Target3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/digital-marketing.png"
-      alt="Digital Marketing 3D Graphic"
+      alt=""
       className="ssc-3d-image ssc-3d-target-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 10. Influencer Marketing: User Cloudinary 3D Graphic */
+/* Social Media Marketing: reused creator 3D graphic */
 export const Star3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/influencer-marketing.png"
-      alt="Influencer Marketing 3D Graphic"
+      alt=""
       className="ssc-3d-image ssc-3d-star-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 11. Sales & Growth Systems: User Cloudinary 3D Graphic */
+/* Lead Generation: reused growth 3D graphic */
 export const Rocket3DIllustration: React.FC = () => (
   <div className="ssc-3d-image-wrap">
     <img
       src="/images/services-3d/sales-growth-systems.png"
-      alt="Sales & Growth Systems 3D Graphic"
+      alt=""
       className="ssc-3d-image ssc-3d-rocket-image"
       loading="lazy"
     />
   </div>
 );
 
-/* 12. Content Marketing: User Cloudinary 3D Graphic */
+/* SEO: Cloudinary magnifying-glass infographic */
 export const Search3DIllustration: React.FC = () => (
-  <div className="ssc-3d-image-wrap">
+  <div className="ssc-3d-image-wrap ssc-3d-search-wrap">
     <img
-      src="/images/services-3d/content-marketing.png"
-      alt="Content Marketing 3D Graphic"
+      src="https://res.cloudinary.com/dwatnpdcy/image/upload/c_fit,w_720,h_720,q_auto,f_auto/v1787938907/ChatGPT_Image_Aug_28_2026_11_11_04_PM_sd1vrd.png"
+      alt=""
       className="ssc-3d-image ssc-3d-search-image"
       loading="lazy"
     />

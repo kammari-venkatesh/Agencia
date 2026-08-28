@@ -1,15 +1,14 @@
+import { SERVICE_CATALOG } from './services'
+
+/** Contact options derived from the canonical catalog. "Other" is form-only. */
 export const LEAD_SERVICE_OPTIONS = [
-  'Website Development',
-  'App Development',
-  'AI Chatbots',
-  'Workflow Automations',
-  'AI Calling Systems',
-  'Graphic Designing',
-  'Video Editing',
-  'Digital Marketing',
-  'Influencer Marketing',
+  ...SERVICE_CATALOG.map((service) => service.name),
   'Other',
-] as const;
+] as const
+
+export const CONTACT_SERVICE_CHIPS = LEAD_SERVICE_OPTIONS.map((name) =>
+  name.toUpperCase(),
+)
 
 export const LEAD_CONTACT = {
   phone: '+91 93471 71519',

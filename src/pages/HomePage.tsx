@@ -13,7 +13,7 @@ import {
   staggerParentFast,
   sectionReveal,
 } from '../motion/variants';
-import { services } from '../data/services';
+import { serviceHref, services } from '../data/services';
 import WhyVridhioSection from '../components/WhyVridhioSection';
 import SystemTransformationSection from '../components/SystemTransformationSection';
 import FlowingMenu from '../components/FlowingMenu';
@@ -28,11 +28,10 @@ import {
   Cursor3DIllustration,
   Phone3DIllustration,
   Bot3DIllustration,
-  Workflow3DIllustration,
-  PhoneCall3DIllustration,
   Pen3DIllustration,
   Film3DIllustration,
   Target3DIllustration,
+  GoogleAds3DIllustration,
   Star3DIllustration,
   Rocket3DIllustration,
   Search3DIllustration,
@@ -605,27 +604,26 @@ const HomePage: React.FC = () => {
           <div className="services-card-stack-deck">
             {services.map((service, index) => {
               const illustrationMap: Record<string, React.ReactNode> = {
-                'Website Development': <Cursor3DIllustration />,
-                'App Development': <Phone3DIllustration />,
-                'AI Chatbots': <Bot3DIllustration />,
-                'Workflow Automations': <Workflow3DIllustration />,
-                'AI Calling Systems': <PhoneCall3DIllustration />,
-                'Graphic Designing': <Pen3DIllustration />,
-                'Video Editing': <Film3DIllustration />,
-                'Digital Marketing': <Target3DIllustration />,
-                'Influencer Marketing': <Star3DIllustration />,
-                'Sales & Growth Systems': <Rocket3DIllustration />,
-                'Content Marketing': <Search3DIllustration />,
+                'website-development': <Cursor3DIllustration />,
+                'app-development': <Phone3DIllustration />,
+                'ai-automation': <Bot3DIllustration />,
+                'graphic-design': <Pen3DIllustration />,
+                'video-editing': <Film3DIllustration />,
+                seo: <Search3DIllustration />,
+                'google-ads': <GoogleAds3DIllustration />,
+                'meta-ads': <Target3DIllustration />,
+                'social-media-marketing': <Star3DIllustration />,
+                'lead-generation': <Rocket3DIllustration />,
               };
               return (
-                <ScrollStackItem key={service.title}>
+                <ScrollStackItem key={service.id}>
                   <ServiceStackCard
-                    title={service.title}
+                    title={service.name}
                     subtitle={service.description}
                     points={service.points}
-                    illustration={illustrationMap[service.title] || <Cursor3DIllustration />}
+                    illustration={illustrationMap[service.id] || <Cursor3DIllustration />}
                     variant={index + 1}
-                    onLearnMore={openBookCall}
+                    href={serviceHref(service.slug)}
                   />
                 </ScrollStackItem>
               );

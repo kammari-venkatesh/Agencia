@@ -78,3 +78,28 @@ export const HOME_SEO: PageSeo = {
 /** Organization description grounded in current footer copy. */
 export const ORGANIZATION_DESCRIPTION =
   'Vridhio is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.'
+
+/** Canonical service page URL (trailing slash) from a catalog slug. */
+export function serviceCanonicalUrl(slug: string): string {
+  return absoluteUrl(`/services/${slug}/`)
+}
+
+export function buildServicePageSeo(input: {
+  slug: string
+  title: string
+  description: string
+}): PageSeo {
+  return {
+    path: `/services/${input.slug}/`,
+    title: input.title,
+    description: input.description,
+    canonical: serviceCanonicalUrl(input.slug),
+    robots: 'index, follow',
+    ogType: 'website',
+    image: absoluteOgImageUrl(),
+    imageAlt: OG_IMAGE.alt,
+    imageWidth: OG_IMAGE.width,
+    imageHeight: OG_IMAGE.height,
+    imageType: OG_IMAGE.type,
+  }
+}

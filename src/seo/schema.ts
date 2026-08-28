@@ -36,3 +36,39 @@ export function buildOrganizationJsonLd() {
 export function organizationJsonLdScript(): string {
   return JSON.stringify(buildOrganizationJsonLd())
 }
+
+export function buildServiceJsonLd(input: {
+  name: string
+  url: string
+  description: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: input.name,
+    url: input.url,
+    description: input.description,
+    provider: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: absoluteUrl('/'),
+    },
+  }
+}
+
+export function buildFaqPageJsonLd(
+  faqs: { question: string; answer: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+}
