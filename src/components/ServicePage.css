@@ -116,6 +116,16 @@
   color: var(--text-secondary);
 }
 
+.svc-section p a {
+  color: var(--accent-cta);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.svc-section p a:hover {
+  text-decoration: underline;
+}
+
 .svc-capability-list {
   display: flex;
   flex-direction: column;

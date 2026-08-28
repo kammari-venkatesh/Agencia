@@ -13,7 +13,10 @@ export const Cursor3DIllustration: React.FC = () => (
       src="/images/services-3d/website-development.png"
       alt="Website Development 3D Graphic"
       className="ssc-3d-image ssc-3d-web-image"
+      width={895}
+      height={830}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -25,7 +28,10 @@ export const Phone3DIllustration: React.FC = () => (
       src="/images/services-3d/app-development.png"
       alt="App Development Mobile Preview"
       className="ssc-3d-image ssc-3d-phone-image"
+      width={1023}
+      height={1478}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -37,7 +43,10 @@ export const Bot3DIllustration: React.FC = () => (
       src="/images/services-3d/ai-chatbots.png"
       alt="AI Automation 3D Graphic"
       className="ssc-3d-image ssc-3d-bot-image"
+      width={1511}
+      height={1024}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -49,7 +58,10 @@ export const Workflow3DIllustration: React.FC = () => (
       src="/images/services-3d/workflow-automations.png"
       alt=""
       className="ssc-3d-image ssc-3d-workflow-image"
+      width={1500}
+      height={1024}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -61,7 +73,10 @@ export const PhoneCall3DIllustration: React.FC = () => (
       src="/images/services-3d/ai-calling-systems.png"
       alt=""
       className="ssc-3d-image ssc-3d-call-image"
+      width={1024}
+      height={1530}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -73,7 +88,10 @@ export const Pen3DIllustration: React.FC = () => (
       src="/images/services-3d/graphic-designing.png"
       alt="Graphic Design 3D Graphic"
       className="ssc-3d-image ssc-3d-pen-image"
+      width={1024}
+      height={1478}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -85,7 +103,10 @@ export const Film3DIllustration: React.FC = () => (
       src="/images/services-3d/video-editing.png"
       alt="Video Editing 3D Graphic"
       className="ssc-3d-image ssc-3d-film-image"
+      width={879}
+      height={759}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -130,7 +151,10 @@ export const GoogleAds3DIllustration: React.FC = () => (
       src="https://res.cloudinary.com/dwatnpdcy/image/upload/e_trim,c_fit,w_720,h_720,q_auto,f_auto/v1787939019/ChatGPT_Image_Aug_28_2026_11_13_28_PM_cited9.png"
       alt="Google Ads 3D Graphic"
       className="ssc-3d-image ssc-3d-ads-image"
+      width={720}
+      height={720}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -142,7 +166,10 @@ export const Target3DIllustration: React.FC = () => (
       src="/images/services-3d/digital-marketing.png"
       alt=""
       className="ssc-3d-image ssc-3d-target-image"
+      width={1023}
+      height={1501}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -154,7 +181,10 @@ export const Star3DIllustration: React.FC = () => (
       src="/images/services-3d/influencer-marketing.png"
       alt=""
       className="ssc-3d-image ssc-3d-star-image"
+      width={1024}
+      height={1501}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -166,7 +196,10 @@ export const Rocket3DIllustration: React.FC = () => (
       src="/images/services-3d/sales-growth-systems.png"
       alt=""
       className="ssc-3d-image ssc-3d-rocket-image"
+      width={1024}
+      height={1467}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );
@@ -178,7 +211,10 @@ export const Search3DIllustration: React.FC = () => (
       src="https://res.cloudinary.com/dwatnpdcy/image/upload/c_fit,w_720,h_720,q_auto,f_auto/v1787938907/ChatGPT_Image_Aug_28_2026_11_11_04_PM_sd1vrd.png"
       alt=""
       className="ssc-3d-image ssc-3d-search-image"
+      width={720}
+      height={720}
       loading="lazy"
+      decoding="async"
     />
   </div>
 );

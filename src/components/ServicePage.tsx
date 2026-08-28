@@ -1,9 +1,16 @@
 import { ArrowRight } from 'lucide-react'
 import type { ResolvedServicePage } from '../data/servicePages'
-import { SERVICE_GROUP_LABEL } from '../data/services'
+import { SERVICE_GROUP_LABEL, getServiceById, serviceHref } from '../data/services'
 import './ServicePage.css'
 
 const CONTACT_HREF = '/#contact'
+
+function splitParagraphs(text: string) {
+  return text
+    .split(/\n\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
 
 export default function ServicePage({ page }: { page: ResolvedServicePage }) {
   const { copy, related, name } = page
@@ -38,7 +45,9 @@ export default function ServicePage({ page }: { page: ResolvedServicePage }) {
 
         <section className="svc-section">
           <h2>{copy.overviewHeading}</h2>
-          <p>{copy.overview}</p>
+          {splitParagraphs(copy.overview).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </section>
 
         <section className="svc-section">
@@ -62,17 +71,43 @@ export default function ServicePage({ page }: { page: ResolvedServicePage }) {
 
         <section className="svc-section">
           <h2>{copy.processHeading}</h2>
-          <p>{copy.process}</p>
+          {splitParagraphs(copy.process).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </section>
 
         <section className="svc-section">
           <h2>{copy.whoForHeading}</h2>
-          <p>{copy.whoFor}</p>
+          {splitParagraphs(copy.whoFor).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </section>
+
+        {copy.additionalSections?.map((section) => {
+          const seeAlso = section.seeAlsoId
+            ? getServiceById(section.seeAlsoId)
+            : undefined
+          return (
+            <section key={section.heading} className="svc-section">
+              <h2>{section.heading}</h2>
+              <p>
+                {section.body}
+                {seeAlso ? (
+                  <>
+                    {' '}
+                    <a href={serviceHref(seeAlso.slug)}>{seeAlso.name}</a>.
+                  </>
+                ) : null}
+              </p>
+            </section>
+          )
+        })}
 
         <section className="svc-section">
           <h2>{copy.whyHeading}</h2>
-          <p>{copy.why}</p>
+          {splitParagraphs(copy.why).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </section>
 
         {copy.faqs.length > 0 ? (

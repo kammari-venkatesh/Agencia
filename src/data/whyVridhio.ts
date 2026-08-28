@@ -47,7 +47,7 @@ export const capabilityNodes: CapabilityNode[] = [
     id: 'technology',
     number: '02',
     name: 'TECHNOLOGY',
-    shortDesc: 'Sub-Second Infrastructure',
+    shortDesc: 'Production Infrastructure',
     role: 'Engine Room',
     x: -240,
     y: -80,
@@ -107,7 +107,7 @@ export const editorialStatements: EditorialStatement[] = [
     title: 'MOVE FAST',
     highlightLine1: 'Less waiting.',
     highlightLine2: 'More shipping.',
-    copy: 'Speed is a competitive advantage. We eliminate months of enterprise bureaucracy with rapid iteration loops and sub-second production deployments.',
+    copy: 'Speed is a competitive advantage. We eliminate months of enterprise bureaucracy with rapid iteration loops and production-ready deployments.',
     microLabel: 'HIGH VELOCITY EXECUTION',
   },
   {
@@ -115,7 +115,7 @@ export const editorialStatements: EditorialStatement[] = [
     title: 'BUILT TO SCALE',
     highlightLine1: 'Start lean.',
     highlightLine2: 'Build for what comes next.',
-    copy: 'Systems engineered for immediate performance without tech debt. Designed to seamlessly handle 10x traffic and lead volumes as you scale.',
+    copy: 'Systems engineered for immediate performance without tech debt. Designed to handle growing traffic and lead volumes as you scale.',
     microLabel: 'FUTURE-PROOF INFRASTRUCTURE',
   },
   {
@@ -145,7 +145,7 @@ export const comparisonSteps: ComparisonStep[] = [
     usual: 'Wait',
     usualSub: 'Months of slow enterprise back-and-forth',
     vridhio: 'Technology',
-    vridhioSub: 'Sub-second modern stack built for scale',
+    vridhioSub: 'Modern stack built for scale',
   },
   {
     usual: 'Separate marketing',

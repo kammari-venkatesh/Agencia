@@ -243,6 +243,11 @@
   gap: 1.5rem;
 }
 
+.faq-trigger:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 3px;
+}
+
 .faq-trigger-left {
   display: flex;
   align-items: baseline;

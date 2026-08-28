@@ -4,6 +4,9 @@ import {
   absoluteUrl,
 } from './site'
 
+/** Stable Organization entity id — Service.provider references this, not a second Organization object. */
+export const ORGANIZATION_ID = absoluteUrl('/#organization')
+
 /**
  * Organization JSON-LD built only from facts present on the current site.
  * Intentionally omits: foundingDate, employee counts, sameAs social profiles
@@ -14,6 +17,7 @@ export function buildOrganizationJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
     name: SITE.name,
     alternateName: SITE.nameStyled,
     url: absoluteUrl('/'),
@@ -49,9 +53,7 @@ export function buildServiceJsonLd(input: {
     url: input.url,
     description: input.description,
     provider: {
-      '@type': 'Organization',
-      name: SITE.name,
-      url: absoluteUrl('/'),
+      '@id': ORGANIZATION_ID,
     },
   }
 }

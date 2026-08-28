@@ -20,57 +20,57 @@ const TESTIMONIALS: TestimonialItem[] = [
   {
     id: '01',
     category: 'Real Estate',
-    quote: "Vridhiō understood our business economics before writing a single line of code. They didn't just redesign our portal — they restructured our entire lead funnel for high-intent luxury homebuyers.",
-    name: 'Vikramaditya Singhania',
-    role: 'Managing Director',
-    company: 'Aura Luxury Residences',
-    initials: 'VS',
-    metric: '+38%',
-    metricLabel: 'QUALIFIED ENQUIRIES',
+    quote: 'Property sites should capture high-intent enquiries, not just look like a brochure. We design portals, listing flows, and follow-up so the website, ads, and CRM work as one system.',
+    name: 'Confidential',
+    role: 'Private brief',
+    company: 'Real Estate',
+    initials: 'RE',
+    metric: 'Leads',
+    metricLabel: 'ENQUIRY SYSTEMS',
   },
   {
     id: '02',
     category: 'Healthcare',
-    quote: 'Most agencies give you pretty templates that crash under traffic spikes. Vridhiō engineered a sub-second patient booking platform that doubled our appointment conversions across 14 locations.',
-    name: 'Dr. Ananya Reddy',
-    role: 'Founder & CEO',
-    company: 'Reddy Health Systems',
-    initials: 'AR',
-    metric: '2.4×',
-    metricLabel: 'PATIENT BOOKINGS',
+    quote: 'Clinic and hospital sites need a clear path from visit to booking. We build intake and appointment flows that stay understandable as traffic grows.',
+    name: 'Confidential',
+    role: 'Private brief',
+    company: 'Healthcare',
+    initials: 'HC',
+    metric: 'Care',
+    metricLabel: 'BOOKING SYSTEMS',
   },
   {
     id: '03',
     category: 'Education',
-    quote: 'Vridhiō brought strategy, technology and marketing together instead of treating them as separate projects. We finally have a digital system that supports our rapid pan-India student enrollment growth.',
-    name: 'Rahul Varma',
-    role: 'Co-Founder & COO',
-    company: 'NexGen Academy',
-    initials: 'RV',
-    metric: '+42%',
-    metricLabel: 'LEAD CONVERSION',
+    quote: 'Enrollment teams should not run design, ads, and CRM as three separate projects. We connect the public site, capture, and follow-up so the journey is one system.',
+    name: 'Confidential',
+    role: 'Private brief',
+    company: 'Education',
+    initials: 'ED',
+    metric: 'Learn',
+    metricLabel: 'ENROLLMENT SYSTEMS',
   },
   {
     id: '04',
     category: 'E-commerce',
-    quote: 'Our ad spend was burning money with low repeat purchases. Vridhiō overhauled our storefront UX and automated CRM retention flows, which immediately lifted customer lifetime value.',
-    name: 'Karan Mehta',
-    role: 'Head of Growth',
-    company: 'Sattva D2C Brands',
-    initials: 'KM',
-    metric: '+64%',
-    metricLabel: 'REPEAT PURCHASE RATE',
+    quote: 'A storefront is more than a theme. We treat catalog UX, offers, and post-purchase communication as one system instead of a pretty shop plus disconnected campaigns.',
+    name: 'Confidential',
+    role: 'Private brief',
+    company: 'E-commerce',
+    initials: 'EC',
+    metric: 'Shop',
+    metricLabel: 'STOREFRONT SYSTEMS',
   },
   {
     id: '05',
     category: 'Technology',
-    quote: 'The engineering speed and visual polish were exceptional. They delivered an enterprise-ready B2B platform in weeks, giving us immediate credibility with global enterprise buyers.',
-    name: 'Priya Nair',
-    role: 'Chief Product Officer',
-    company: 'Strata SaaS Labs',
-    initials: 'PN',
-    metric: '<0.4s',
-    metricLabel: 'PAGE LOAD SPEED',
+    quote: 'B2B product companies need marketing sites with the same engineering bar as the product. We ship platforms that present the offer clearly to buyers and operators.',
+    name: 'Confidential',
+    role: 'Private brief',
+    company: 'Technology',
+    initials: 'TE',
+    metric: 'Build',
+    metricLabel: 'PRODUCT PLATFORMS',
   },
 ];
 
@@ -179,7 +179,7 @@ const ClientTestimonialsDesktop: React.FC<{ items: TestimonialItem[] }> = ({ ite
   return (
     <div ref={wrapperRef} className="ts-pinned-wrapper">
       <div className="ts-sticky-viewport">
-        <section id="testimonials" className="ts-section" aria-label="Client Stories and Testimonials">
+        <section id="testimonials" className="ts-section" aria-label="Industries we serve">
           <div className="ts-bg-glow" aria-hidden="true" />
           <div className="ts-bg-grid" aria-hidden="true" />
 
@@ -199,12 +199,12 @@ const ClientTestimonialsDesktop: React.FC<{ items: TestimonialItem[] }> = ({ ite
               </div>
 
               <h2 className="ts-title">
-                Real businesses.{' '}
-                <span className="ts-cherry-accent">Real results.</span>
+                Industries we serve.{' '}
+                <span className="ts-cherry-accent">One system.</span>
               </h2>
 
               <p className="ts-subtitle">
-                Don't take our word for it. Hear directly from the people we've built with.
+                How we approach websites, apps, and growth across the sectors we work in.
               </p>
             </motion.header>
 
@@ -217,7 +217,7 @@ const ClientTestimonialsDesktop: React.FC<{ items: TestimonialItem[] }> = ({ ite
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div className="ts-nav-header-bar">
-                  <span className="ts-nav-label">SELECT A CLIENT</span>
+                  <span className="ts-nav-label">SELECT A VERTICAL</span>
                   <span className="ts-nav-code">[ {selectedIndex + 1} / {items.length} ]</span>
                 </div>
 
@@ -282,7 +282,7 @@ const ClientTestimonialsDesktop: React.FC<{ items: TestimonialItem[] }> = ({ ite
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <div className="ts-story-meta-top">
-                      <span className="ts-story-number">CLIENT STORY / {current.id}</span>
+                      <span className="ts-story-number">INDUSTRY / {current.id}</span>
                       <span className="ts-category-tag">{current.category}</span>
                     </div>
 
@@ -382,14 +382,14 @@ const ClientTestimonialsMobile: React.FC<{ items: TestimonialItem[] }> = ({ item
   };
 
   return (
-    <section id="testimonials" className="ts-mobile-section" aria-label="Client Stories and Testimonials">
+    <section id="testimonials" className="ts-mobile-section" aria-label="Industries we serve">
       <div className="ts-mobile-container">
         {/* MOBILE HEADER */}
         <div className="ts-mobile-header">
-          <span className="ts-mobile-eyebrow">CLIENT STORIES</span>
+          <span className="ts-mobile-eyebrow">INDUSTRIES</span>
           <h2 className="ts-mobile-title">
-            Real businesses.<br />
-            <span className="ts-cherry-accent">Real results.</span>
+            Industries we serve.<br />
+            <span className="ts-cherry-accent">One system.</span>
           </h2>
         </div>
 

@@ -1,47 +1,66 @@
 # Vridhio service pages — SEO & content architecture
 
-**Status:** Planning specification only. Do not implement routes, sitemap URLs, or Service schema from this document until a follow-up implementation task is approved.
+**Status:** Implemented. Ten catalog-driven service pages are live, prerendered, and listed in the sitemap.
 
-**Date:** 28 Aug 2026  
-**Canonical future URLs:** `https://www.vridhio.com/services/{slug}/`  
+**Date:** 28 Aug 2026 (spec); implementation current as of 28 Aug 2026  
+**Canonical URLs:** `https://www.vridhio.com/services/{slug}/`  
 **Brand / SEO name:** Vridhio  
 **Site origin:** `https://www.vridhio.com`
 
+## Current architecture
+
+```
+SERVICE_CATALOG  (src/data/services.ts — ids, names, groups, slugs)
+        ↓
+SERVICE_PAGE_COPY keyed by ServiceId  (src/data/servicePages.ts)
+        ↓
+getServicePageBySlug(slug)
+        ↓
+Vike route  /services/@slug/
+        ↓
+shared ServicePage template  (src/components/ServicePage.tsx)
+```
+
+- Exactly **10** approved service pages exist. Slugs come only from `SERVICE_CATALOG`.
+- Public paths are `/services/{slug}/` (trailing slash). Invalid slugs are not prerendered and abort with the existing 404 page.
+- Pages are prerendered from `SERVICE_CATALOG` via `+onBeforePrerenderStart.ts`.
+- `public/sitemap.xml` contains the homepage plus those 10 service URLs (**11** loc entries). No `/services/digital-marketing/` or other sub-service URLs.
+- Each service page emits **one Service** JSON-LD and **one FAQPage** JSON-LD (when FAQs render). **Organization** JSON-LD remains global (`src/pages/+Head.tsx`) with a stable `@id`; `Service.provider` references that `@id`. No ratings, reviews, offers, or OfferCatalog.
+- Sub-services such as AI chatbots, workflow automation, n8n, WhatsApp automation, AI calling, local SEO, and technical SEO remain **sections** on the parent service page — not separate routes.
+
 This specification is grounded in:
 
-- The approved 10-service structure (this Phase 2 step)
+- The approved 10-service structure
 - Copy and capabilities that currently exist in the repository
-- The keyword ownership model provided for this step
-
-It does **not** assume `SERVICE_CATALOG` is already in `src/data/services.ts`. A repository audit found that file still exports the older 11-item homepage list. Restore/create the catalog before building pages.
+- The keyword ownership model below
 
 ---
 
-## 0. Repository audit (current state)
+## 0. Repository state (implementation)
 
 ### Routing
 
-Vike prerenders only `/` and `404`. There is no `src/pages/services/` tree. `CaseStudyPage.tsx` exists but has no `+Page` route.
+Vike prerenders `/`, `/services/{slug}/` for each catalog slug, and `404`. Route tree: `src/pages/services/@slug/`. `CaseStudyPage.tsx` still has no `+Page` route.
 
 ### Sitemap / robots / schema
 
-- `public/sitemap.xml` — only `https://www.vridhio.com/`
+- `public/sitemap.xml` — homepage + 10 service URLs
 - `public/robots.txt` — `Allow: /` + sitemap URL
-- `src/seo/schema.ts` — one Organization JSON-LD (name, alternateName, url, logo, description, email, telephone, contactPoint). No Service / OfferCatalog / FAQPage
-- Canonical / OG owned by `src/seo/site.ts` (`HOME_SEO`) for the homepage only
+- `src/seo/schema.ts` — Organization (global), Service + FAQPage (service pages only)
+- Canonical / OG: `HOME_SEO` on `/`; per-service SEO from `buildServicePageSeo` + `@slug` Head/title/description
 
-### Service data (live, conflicting)
+### Service data (single catalog)
 
 | Source | What it lists | Used on site? |
 |---|---|---|
-| `src/data/services.ts` `services[]` | 11 homepage cards including AI Chatbots, Workflow Automations, AI Calling Systems, Graphic Designing, Digital Marketing, Influencer Marketing, Sales & Growth Systems, Content Marketing | Yes — HomePage card stack |
-| `LeadCaptureSection` `SERVICE_CHIPS` | Website, App, AI & Automation, Digital Marketing, Branding & Design, Other | Yes — contact form |
-| `leadCapture.ts` `LEAD_SERVICE_OPTIONS` | Old 9-name list + Other (includes Chatbots, Workflows, Calling, Graphic Designing, Digital Marketing, Influencer) | Defined; contact UI does not import it |
-| `footer.ts` `FOOTER_SERVICES` | Website, App, Branding, Digital Marketing, Graphic Designing & Video Editing | Unused (footer nav is section anchors only) |
+| `src/data/services.ts` `SERVICE_CATALOG` | 10 services (ids/names/groups/slugs) | Yes — cards, hrefs, prerender, page resolve |
+| `src/data/services.ts` `services[]` | Catalog + homepage presentation copy | Yes — HomePage card stack |
+| `leadCapture.ts` `CONTACT_SERVICE_CHIPS` | Catalog names + form-only Other | Yes — contact form |
+| `footer.ts` `FOOTER_SERVICES` | Catalog names | Defined; footer nav is still section anchors only |
 
-**`SERVICE_CATALOG` is not present** in the current working tree (`main` @ `4a9b6c7`). The approved 10-service catalog from a prior Phase 2 step is not on disk.
+There is **no** top-level `/services/digital-marketing/` page.
 
-### Copy that can inform future pages (homepage / FAQ)
+### Copy that informed the pages (homepage / FAQ)
 
 Safe to treat as on-site capability language (not as proof of results):
 
@@ -101,18 +120,18 @@ Homepage `/` should not try to rank for any of the 10 primaries. It keeps the cu
 
 ---
 
-## C. Internal linking architecture (future)
+## C. Internal linking architecture
 
 ```
 Homepage /
-  ├─ /#services  (cards → each service URL, once catalog matches)
+  ├─ /#services  (cards → each catalog service URL)
   ├─ /#contact
   └─ /#faqs
 
 /services/{slug}/
-  ├─ Breadcrumb: Home → Service name
+  ├─ Breadcrumb: Home → Services → Service name
   ├─ 2–4 related services (see each page spec)
-  ├─ CTA → /#contact or future /contact (today: homepage contact hash)
+  ├─ CTA → /#contact (homepage contact hash)
   └─ Optional later: articles that point UP to this service only
 
 Do not add /services/ as a “digital marketing” ranking hub.
@@ -123,7 +142,7 @@ Future blog / cluster articles (not in this build):
   Never between sibling paid-media pages for the same primary cluster.
 ```
 
-Until service URLs exist, do not add these links to the sitemap.
+Sitemap already lists homepage + the 10 service URLs. Do not add sub-service or city URLs.
 
 ---
 
@@ -140,7 +159,7 @@ Until service URLs exist, do not add these links to the sitemap.
 9. Meta Ads (P2)  
 10. AI Automation (P2/P3)
 
-**Before page 1 ships:** restore a single `SERVICE_CATALOG` in `src/data/services.ts` (ids/slugs/groups) so URLs, chips, and cards cannot drift.
+**Shipped order:** Website Development → App Development → SEO → Google Ads → Lead Generation → Social Media Marketing → Graphic Design → Video Editing → Meta Ads → AI Automation. All ten use the same catalog → copy → `@slug` template.
 
 ---
 
@@ -166,7 +185,7 @@ Shared defaults unless a page says otherwise:
 - **CTA intent:** Book a 30-minute consultation / start a project (existing homepage CTAs).  
 - **Do not invent** pricing, timelines beyond the site-wide FAQ “2–8 weeks depending on scope”, or results.  
 - **India in H1:** no (avoid stuffing).  
-- **Schema (later task):** Service + FAQPage + breadcrumb; not in this step.
+- **Schema:** Service + FAQPage on each service page (matching visible FAQs). Organization is global. Breadcrumb schema is not implemented.
 
 ---
 
@@ -488,22 +507,20 @@ Shared defaults unless a page says otherwise:
 
 ---
 
-## Shared on-page modules (when pages are built)
+## Shared on-page modules
 
-1. Breadcrumb: Home / {Service}  
-2. Short answer block (40–60 words) for AEO — no keyword stuffing  
+1. Breadcrumb: Home / Services / {Service}  
+2. Short intro (commercial answer first)  
 3. Capabilities from catalog + approved bullets only  
-4. FAQ accordion (questions above; answers need review)  
+4. FAQ accordion (service-specific)  
 5. Related services  
 6. CTA matching homepage: consultation / start a project  
-7. Later: Service JSON-LD + FAQPage — **not this step**
+7. Service JSON-LD + FAQPage JSON-LD (visible FAQs only)
 
 ---
 
-## Blockers before implementation
+## Remaining gaps (not blockers for the current 10 pages)
 
-1. Put `SERVICE_CATALOG` back in `src/data/services.ts` (current file is the old 11-card list).  
-2. Align homepage cards and contact chips with the 10 names (separate UI task if needed).  
-3. Get approved FAQ **answers** for cost/timeline questions.  
-4. Do not add the 10 URLs to `sitemap.xml` until pages prerender.  
-5. Do not add OfferCatalog until pages exist.
+1. Cost/timeline FAQ **answers** stay qualitative until exact figures are approved.  
+2. Do not add OfferCatalog, ratings, or city landing pages.  
+3. Do not add `/services/digital-marketing/` or other retired/sub-service URLs.

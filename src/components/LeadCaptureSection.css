@@ -357,6 +357,11 @@
   outline: none;
 }
 
+.cs-chip:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 3px;
+}
+
 .cs-chip:hover {
   border-color: #DC143C;
   color: #DC143C;

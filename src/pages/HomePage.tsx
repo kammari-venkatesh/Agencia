@@ -4,7 +4,6 @@ import { usePageContext } from 'vike-react/usePageContext';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import { BookCallButton, BookCallModal } from '../components/BookCallModal';
-import { AnimatedNumber } from '../components/AnimatedNumber';
 import { preloadCalEmbed } from '../lib/ensureCalEmbedScript';
 import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
@@ -459,18 +458,18 @@ const HomePage: React.FC = () => {
 
             <motion.div className="hero-stats-row" variants={statsVariants}>
               <div className="hero-stat">
-                <AnimatedNumber value="150+" className="hero-stat-num" trigger={heroIntroComplete} />
-                <span className="hero-stat-label">Brands Grown</span>
+                <span className="hero-stat-num">India</span>
+                <span className="hero-stat-label">Based</span>
               </div>
               <div className="hero-stat-divider" />
               <div className="hero-stat">
-                <AnimatedNumber value="8×" className="hero-stat-num" trigger={heroIntroComplete} />
-                <span className="hero-stat-label">Avg. ROI</span>
+                <span className="hero-stat-num">Global</span>
+                <span className="hero-stat-label">Delivery</span>
               </div>
               <div className="hero-stat-divider" />
               <div className="hero-stat">
-                <AnimatedNumber value="98%" className="hero-stat-num" trigger={heroIntroComplete} />
-                <span className="hero-stat-label">Client Satisfaction</span>
+                <span className="hero-stat-num">2026</span>
+                <span className="hero-stat-label">Established</span>
               </div>
             </motion.div>
           </div>
@@ -482,6 +481,10 @@ const HomePage: React.FC = () => {
                 src="/hero-portrait.png"
                 alt="Vridhio — Bold Strategy Meets Innovation"
                 className="hero-portrait-img"
+                width={1088}
+                height={1445}
+                fetchPriority="high"
+                decoding="async"
               />
 
               {/* Red Visor Light Sweep once during entrance & ambient glow */}

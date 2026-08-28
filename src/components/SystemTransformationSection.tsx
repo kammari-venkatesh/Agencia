@@ -25,9 +25,9 @@ const SYSTEM_STAGES = [
     name: 'DESIGN',
     shortDesc: 'Looks good',
     fullTitle: 'Strategic Brand & UX Architecture',
-    desc: 'Great design without strategy gets ignored. We craft distinct visual identities, high-converting interfaces, and intuitive user paths designed for high-intent visitors.',
+    desc: 'Great design without strategy gets ignored. We craft distinct visual identities, conversion-focused interfaces, and intuitive user paths designed for high-intent visitors.',
     icon: Palette,
-    metric: '+140% Engagement',
+    metric: 'Brand & UX systems',
     details: ['Visual Identity Systems', 'Conversion UX Architecture', 'Interactive Design Languages', 'Design Tokens & Components']
   },
   {
@@ -35,10 +35,10 @@ const SYSTEM_STAGES = [
     name: 'DEVELOPMENT',
     shortDesc: 'Works fast',
     fullTitle: 'High-Performance Engineering',
-    desc: 'Slow websites destroy conversions before the pitch even starts. We engineer sub-second, ultra-fluid digital platforms built for scale and seamless interaction.',
+    desc: 'Slow websites destroy conversions before the pitch even starts. We engineer fluid digital platforms built for scale and seamless interaction.',
     icon: Code2,
-    metric: '<0.4s Load Speed',
-    details: ['Next.js & Vite Frameworks', 'Sub-second Page Speeds', 'Custom Micro-animations', 'Clean Scalable Codebase']
+    metric: 'Performance engineering',
+    details: ['Next.js & Vite Frameworks', 'Performance-focused delivery', 'Custom Micro-animations', 'Clean Scalable Codebase']
   },
   {
     id: '03',
@@ -47,7 +47,7 @@ const SYSTEM_STAGES = [
     fullTitle: 'Precision Growth Marketing',
     desc: 'Random marketing burns money. We create targeted campaigns and messaging frameworks that align directly with high-intent prospective clients.',
     icon: Megaphone,
-    metric: '3.8× Ad Efficiency',
+    metric: 'Full-funnel campaigns',
     details: ['Full-funnel Strategy', 'Organic & Paid Acquisition', 'Conversion Messaging', 'Multi-channel Attribution']
   },
   {
@@ -55,9 +55,9 @@ const SYSTEM_STAGES = [
     name: 'LEADS',
     shortDesc: 'Creates demand',
     fullTitle: 'Automated Lead & Demand Engine',
-    desc: 'Turn traffic into qualified pipelines. We build automated lead capture systems, instant qualifying workflows, and CRM integrations that never lose a prospect.',
+    desc: 'Turn traffic into qualified pipelines. We build automated lead capture systems, qualifying workflows, and CRM integrations that route enquiries into one system.',
     icon: Users,
-    metric: '4.2× Lead Capture Rate',
+    metric: 'Lead capture systems',
     details: ['High-converting Offers', 'Automated Lead Qualification', 'Instant CRM Syncing', 'Smart Lead Routing']
   },
   {
@@ -67,7 +67,7 @@ const SYSTEM_STAGES = [
     fullTitle: 'Scalable Revenue Compounder',
     desc: 'When design, dev, and marketing synchronize, growth becomes predictable. Every touchpoint compounds toward bottom-line business revenue.',
     icon: TrendingUp,
-    metric: '8.4× Avg ROI',
+    metric: 'Compounding growth loops',
     details: ['Data-driven CRO', 'Lifetime Value Optimization', 'Real-time Growth Dashboards', 'Continuous Iteration']
   }
 ];
