@@ -17,12 +17,15 @@ export function buildOrganizationJsonLd() {
     name: SITE.name,
     alternateName: SITE.nameStyled,
     url: absoluteUrl('/'),
+    logo: {
+      '@type': 'ImageObject',
+      url: absoluteUrl('/assets/vridhio-logo.png'),
+    },
     description: ORGANIZATION_DESCRIPTION,
     email: SITE.email,
     telephone: SITE.telephone,
     contactPoint: {
       '@type': 'ContactPoint',
-      contactType: 'sales',
       email: SITE.email,
       telephone: SITE.telephone,
       url: absoluteUrl('/#contact'),

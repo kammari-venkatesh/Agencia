@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                 <span className="vrd-footer-brand-name">VRIDHIŌ</span>
               </a>
               <p className="vrd-footer-description">
-                Vridhiō is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.
+                Vridhio is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.
               </p>
               <div className="vrd-footer-status-pill">
                 <span className="vrd-footer-status-dot" />

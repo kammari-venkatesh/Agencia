@@ -12,7 +12,7 @@ export const LEAD_SERVICE_OPTIONS = [
 ] as const;
 
 export const LEAD_CONTACT = {
-  phone: '+91 9347171519',
+  phone: '+91 93471 71519',
   phoneHref: 'tel:+919347171519',
   email: 'tech@vridhio.com',
   emailHref: 'mailto:tech@vridhio.com',
