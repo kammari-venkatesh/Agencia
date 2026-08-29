@@ -103,3 +103,44 @@ export function buildServicePageSeo(input: {
     imageType: OG_IMAGE.type,
   }
 }
+
+/** Canonical guide URL (trailing slash) from a catalog slug. */
+export function guideCanonicalUrl(slug: string): string {
+  return absoluteUrl(`/guides/${slug}/`)
+}
+
+export function buildGuidePageSeo(input: {
+  slug: string
+  title: string
+  description: string
+}): PageSeo {
+  return {
+    path: `/guides/${input.slug}/`,
+    title: input.title,
+    description: input.description,
+    canonical: guideCanonicalUrl(input.slug),
+    robots: 'index, follow',
+    ogType: 'article',
+    image: absoluteOgImageUrl(),
+    imageAlt: OG_IMAGE.alt,
+    imageWidth: OG_IMAGE.width,
+    imageHeight: OG_IMAGE.height,
+    imageType: OG_IMAGE.type,
+  }
+}
+
+/** Index for the supporting-guides collection. */
+export const GUIDES_INDEX_SEO: PageSeo = {
+  path: '/guides/',
+  title: 'Guides | Vridhio',
+  description:
+    'Short decision guides on website and app cost, SEO versus ads, and related choices — written to support Vridhio’s services, not to replace them.',
+  canonical: absoluteUrl('/guides/'),
+  robots: 'index, follow',
+  ogType: 'website',
+  image: absoluteOgImageUrl(),
+  imageAlt: OG_IMAGE.alt,
+  imageWidth: OG_IMAGE.width,
+  imageHeight: OG_IMAGE.height,
+  imageType: OG_IMAGE.type,
+}

@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import type { ResolvedServicePage } from '../data/servicePages'
+import { guideHref } from '../data/guides'
 import { SERVICE_GROUP_LABEL, getServiceById, serviceHref } from '../data/services'
 import './ServicePage.css'
 
@@ -99,6 +100,13 @@ export default function ServicePage({ page }: { page: ResolvedServicePage }) {
                   </>
                 ) : null}
               </p>
+              {section.guideLinks?.map((link) => (
+                <p key={link.slug}>
+                  {link.before}
+                  <a href={guideHref(link.slug)}>{link.label}</a>
+                  {link.after ?? '.'}
+                </p>
+              ))}
             </section>
           )
         })}
@@ -107,6 +115,13 @@ export default function ServicePage({ page }: { page: ResolvedServicePage }) {
           <h2>{copy.whyHeading}</h2>
           {splitParagraphs(copy.why).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
+          ))}
+          {copy.guideLinks?.map((link) => (
+            <p key={link.slug}>
+              {link.before}
+              <a href={guideHref(link.slug)}>{link.label}</a>
+              {link.after ?? '.'}
+            </p>
           ))}
         </section>
 

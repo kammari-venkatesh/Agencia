@@ -1,0 +1,126 @@
+/* Guide extras on top of ServicePage tokens — not a new visual system. */
+
+.guide-subsection {
+  margin-top: 1.25rem;
+}
+
+.guide-subsection h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+
+.guide-bullets {
+  margin: 0.65rem 0 0 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.guide-bullets a {
+  color: var(--accent-cta);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.guide-bullets a:hover {
+  text-decoration: underline;
+}
+
+.guide-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0 0.25rem;
+}
+
+.guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.guide-table th,
+.guide-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border-light);
+}
+
+.guide-table th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: #fafafa;
+}
+
+.guide-table td {
+  color: var(--text-secondary);
+}
+
+.guide-page .svc-faq summary:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 2px;
+}
+
+.guide-index-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0 0 2.5rem;
+  max-width: 40rem;
+}
+
+.guide-index-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-index-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 1.15rem 1.25rem;
+}
+
+.guide-index-card:hover {
+  border-color: var(--accent-cta);
+}
+
+.guide-index-card:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 3px;
+}
+
+.guide-index-card-kicker {
+  font-family: var(--font-unbounded, Unbounded, sans-serif);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-cta);
+  margin: 0 0 0.45rem;
+}
+
+.guide-index-card-title {
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+  color: var(--text-primary);
+}
+
+.guide-index-card-desc {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.guide-index-cta {
+  margin-top: 3rem;
+}

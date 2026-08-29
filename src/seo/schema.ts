@@ -74,3 +74,25 @@ export function buildFaqPageJsonLd(
     })),
   }
 }
+
+export function buildArticleJsonLd(input: {
+  headline: string
+  description: string
+  url: string
+  datePublished: string
+  image?: string | null
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    url: input.url,
+    mainEntityOfPage: input.url,
+    datePublished: input.datePublished,
+    image: input.image ?? undefined,
+    publisher: {
+      '@id': ORGANIZATION_ID,
+    },
+  }
+}

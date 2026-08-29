@@ -89,6 +89,10 @@ const Footer: React.FC = () => {
                     <span className="vrd-link-dot" />
                   </a>
                 ))}
+                <a href="/guides/" className="vrd-footer-link">
+                  <span className="vrd-link-text">Guides</span>
+                  <span className="vrd-link-dot" />
+                </a>
               </nav>
             </div>
 

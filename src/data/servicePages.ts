@@ -5,6 +5,14 @@ import {
   type ServiceId,
 } from './services'
 import { buildServicePageSeo, type PageSeo } from '../seo/site'
+import type { GuideId } from './guides'
+
+export type ServiceGuideLink = {
+  slug: GuideId
+  before: string
+  label: string
+  after?: string
+}
 
 export type ServiceFaq = {
   question: string
@@ -35,11 +43,14 @@ export type ServicePageCopy = {
     heading: string
     body: string
     seeAlsoId?: ServiceId
+    guideLinks?: ServiceGuideLink[]
   }[]
   whyHeading: string
   why: string
   faqs: ServiceFaq[]
   relatedIds: ServiceId[]
+  /** Extra guide sentences rendered after `why` — used when no matching additional section exists. */
+  guideLinks?: ServiceGuideLink[]
 }
 
 const INDUSTRIES =
@@ -96,6 +107,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
       {
         heading: 'Custom website development vs website builders',
         body: 'A website builder can be enough for a simple presence with limited customization. Custom website development makes more sense when you need specific conversion paths, deeper customization, performance control, integrations that match how you sell, or room to scale. Custom is not automatically better for every business — scope decides.',
+        guideLinks: [
+          {
+            slug: 'custom-website-vs-website-builder',
+            before: '',
+            label: 'Compare a custom website with a website builder',
+          },
+        ],
       },
       {
         heading: 'Website development and SEO',
@@ -111,6 +129,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
         heading: 'What to look for in a website development company',
         body: 'Look for business understanding, clear scope, responsive implementation, performance care, maintainable build choices, conversion structure, clear communication, realistic timelines, and honest post-launch considerations — not guarantees or vanity awards. Brand systems and still creatives that support the site often sit with',
         seeAlsoId: 'graphic-design',
+        guideLinks: [
+          {
+            slug: 'website-development-cost-india',
+            before: 'See our guide to ',
+            label: 'website development costs in India',
+          },
+        ],
       },
     ],
     whyHeading: 'What a high-performing business website needs',
@@ -190,6 +215,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
       {
         heading: 'Custom app development vs app builders',
         body: 'No-code and app builders can be sufficient for simple tools, limited customization, and a small set of screens. Custom development makes sense for business-specific workflows, deeper customization, integrations, or a product that must scale. Custom is not always better; a builder can be the right choice for a lightweight need.',
+        guideLinks: [
+          {
+            slug: 'mobile-app-development-cost-india',
+            before: 'See our guide to ',
+            label: 'mobile app development costs in India',
+          },
+        ],
       },
       {
         heading: 'Android vs iOS vs cross-platform',
@@ -538,6 +570,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
         heading: 'SEO vs Google Ads',
         body: 'SEO is organic visibility built over time through the site itself. Google Ads is paid search visibility while campaigns are active and funded. Neither is universally better. They can sit together: paid search can capture demand now; SEO is a longer build. Paid search management lives on',
         seeAlsoId: 'google-ads',
+        guideLinks: [
+          {
+            slug: 'seo-vs-google-ads',
+            before: 'See how ',
+            label: 'SEO compares with Google Ads',
+          },
+        ],
       },
       {
         heading: 'SEO vs website development',
@@ -547,6 +586,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
     ],
     whyHeading: 'What to look for in an SEO agency',
     why: 'Look for technical understanding, respect for search intent, and content quality — not a secret ranking method. A useful SEO agency is clear about scope, realistic about timelines, and honest about measurement. They should distinguish SEO from paid media and will not sell certifications, awards, or guaranteed positions. Communication should explain what is being worked on and why, not a dashboard of vanity metrics.',
+    guideLinks: [
+      {
+        slug: 'seo-cost-india',
+        before: 'See our guide to ',
+        label: 'SEO cost in India',
+      },
+    ],
     faqs: [
       {
         question: 'What are SEO services?',
@@ -619,11 +665,25 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
         heading: 'Paid search vs SEO',
         body: 'Google Ads buys visibility on search while campaigns are funded. SEO is organic visibility built through the site over time. They can work together; they are not the same service. Organic search work lives on',
         seeAlsoId: 'seo',
+        guideLinks: [
+          {
+            slug: 'seo-vs-google-ads',
+            before: 'See how ',
+            label: 'SEO compares with Google Ads',
+          },
+        ],
       },
       {
         heading: 'Google Ads vs Meta Ads',
         body: 'Google Ads is paid search and active intent. Meta Ads is paid social — Facebook and Instagram placements based on audience and creative, not a typed query. Mixing them on one “ads” URL would blur ownership. Paid social lives on',
         seeAlsoId: 'meta-ads',
+        guideLinks: [
+          {
+            slug: 'google-ads-vs-meta-ads',
+            before: '',
+            label: 'Compare Google Ads and Meta Ads',
+          },
+        ],
       },
       {
         heading: 'Google Ads and lead generation',
@@ -721,6 +781,13 @@ const SERVICE_PAGE_COPY: Record<ServiceId, ServicePageCopy> = {
         heading: 'Meta Ads vs Google Ads',
         body: 'Meta Ads is paid social: audience-based discovery in Facebook and Instagram feeds. Google Ads is paid search: ads for people who are already looking. They can both exist in a media mix. They are different services. Paid search lives on',
         seeAlsoId: 'google-ads',
+        guideLinks: [
+          {
+            slug: 'google-ads-vs-meta-ads',
+            before: '',
+            label: 'Compare Google Ads and Meta Ads',
+          },
+        ],
       },
       {
         heading: 'Meta Ads vs Social Media Marketing',
