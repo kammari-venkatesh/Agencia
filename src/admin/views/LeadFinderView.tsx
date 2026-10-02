@@ -8,6 +8,7 @@ import {
   getUsageSummary,
   listLeadFinderJobs,
   type LeadFinderJob,
+  type SearchProvider,
   type UsageSummary,
 } from '../api/leadFinder'
 import { AdminShell } from '../components/AdminShell'
@@ -16,7 +17,7 @@ import { usePolling } from '../hooks/usePolling'
 import { useProviderStatus } from '../hooks/useProviderStatus'
 import { JobDetail } from './leadFinder/JobDetail'
 import { JobsTable, type JobsState } from './leadFinder/JobsTable'
-import { isActiveJob, POLL_INTERVAL_MS, shortJobId } from './leadFinder/jobStatus'
+import { isActiveJob, POLL_INTERVAL_MS, REAL_SEARCH_UNAVAILABLE_COPY, shortJobId } from './leadFinder/jobStatus'
 import { SearchForm } from './leadFinder/SearchForm'
 
 const JOBS_PER_PAGE = 10
@@ -56,19 +57,22 @@ export function LeadFinderView({ mode = 'discover' }: { mode?: LeadFinderMode })
   const [actionError, setActionError] = useState<string | null>(null)
   const [pollError, setPollError] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
-  const providerMode = useProviderStatus()?.mode ?? 'test'
+  const realSearch = useProviderStatus()?.providers.apify ?? null
+  const realAvailable = realSearch?.available === true
+  const [searchMode, setSearchMode] = useState<SearchProvider>('test')
+  const live = searchMode === 'apify' && realAvailable
   const [usage, setUsage] = useState<UsageSummary | null>(null)
   const unsettledJobCount = (jobsState.status === 'ready' ? jobsState.data.items : []).filter(needsRefresh).length
 
   // Refreshed when searches start, finish or have their final cost settled, since that is when spend changes.
   useEffect(() => {
-    if (providerMode !== 'live') return
+    if (!realAvailable) return
     const controller = new AbortController()
     getUsageSummary(controller.signal)
       .then((res) => setUsage(res.data))
       .catch(() => {})
     return () => controller.abort()
-  }, [providerMode, reloadKey, unsettledJobCount])
+  }, [realAvailable, reloadKey, unsettledJobCount])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -199,55 +203,50 @@ export function LeadFinderView({ mode = 'discover' }: { mode?: LeadFinderMode })
       title={`AI Lead Finder · ${MODE_COPY[mode].title}`}
       description={MODE_COPY[mode].description}
       actions={
-        providerMode === 'live' ? (
-          <StatusBadge tone="success">LIVE</StatusBadge>
+        mode === 'discover' && live ? (
+          <StatusBadge tone="accent">REAL APIFY</StatusBadge>
         ) : (
-          <StatusBadge tone="info">TEST</StatusBadge>
+          <StatusBadge tone="info">TEST MODE</StatusBadge>
         )
       }
     >
       {mode === 'discover' ? (
         <>
-          {providerMode === 'live' ? (
-            <section className="adm-card adm-notice">
+          {live ? (
+            <section className="adm-card adm-notice adm-notice--real">
               <Radar size={24} aria-hidden className="adm-notice-icon" />
               <div>
-                <h2 className="adm-section-title">Live business discovery</h2>
+                <h2 className="adm-section-title">REAL APIFY</h2>
                 <p className="adm-section-desc">
-                  Live discovery uses Apify credits. Searches look up real businesses from public map listings within
-                  the chosen radius and save them as prospects, so start with a small number of businesses. Website
-                  analysis and lead qualification are not available yet.
+                  Uses Apify credits and real business data. Searches look up real businesses from public map listings
+                  within the chosen radius and save them as prospects in the main database, so start with a small number
+                  of businesses.
                 </p>
                 {usage ? <p className="adm-section-desc adm-spend-line">{spendLine(usage)}</p> : null}
-              </div>
-            </section>
-          ) : providerMode === 'unconfigured' ? (
-            <section className="adm-card adm-notice">
-              <TriangleAlert size={24} aria-hidden className="adm-notice-icon" />
-              <div>
-                <h2 className="adm-section-title">Live discovery is not configured</h2>
-                <p className="adm-section-desc">
-                  The live discovery provider is enabled on the server but its settings are incomplete, so new searches
-                  cannot start. Ask an administrator to finish the server configuration.
-                </p>
               </div>
             </section>
           ) : (
             <section className="adm-card adm-notice">
               <FlaskConical size={24} aria-hidden className="adm-notice-icon" />
               <div>
-                <h2 className="adm-section-title">Using the built-in test data provider</h2>
+                <h2 className="adm-section-title">TEST MODE</h2>
                 <p className="adm-section-desc">
-                  Test discovery uses built-in sample data and does not use Apify credits. Searches run through the real
-                  job pipeline, but businesses come from a fixed local dataset and the radius is not applied. Use the
-                  location “Simulate Failure” to see how a failed search looks. Website analysis and lead qualification
-                  are not available yet.
+                  Using built-in test data. No Apify credits are used. Searches run through the real job pipeline, but
+                  businesses come from a fixed local dataset (with .example websites) and the radius is not applied. Use
+                  the location “Simulate Failure” to see how a failed search looks.
                 </p>
+                {realSearch && !realAvailable ? (
+                  <p className="adm-section-desc adm-lf-real-off">
+                    <TriangleAlert size={14} aria-hidden />{' '}
+                    {REAL_SEARCH_UNAVAILABLE_COPY[realSearch.unavailableReason ?? ''] ??
+                      'Real Apify search is not available.'}
+                  </p>
+                ) : null}
               </div>
             </section>
           )}
 
-          <SearchForm onCreated={onCreated} live={providerMode === 'live'} />
+          <SearchForm onCreated={onCreated} mode={searchMode} onModeChange={setSearchMode} realSearch={realSearch} />
         </>
       ) : null}
 

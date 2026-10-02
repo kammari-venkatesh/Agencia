@@ -17,12 +17,14 @@ import {
   formatUsd,
   listJobProspects,
   promoteProspect,
+  providerLabel,
   type JobCost,
   type LeadFinderJob,
   type Paginated,
   type Prospect,
 } from '../../api/leadFinder'
 import { Pagination } from '../../components/Pagination'
+import { ProviderBadge } from './ProviderBadge'
 import { StatusBadge } from '../../components/StatusBadge'
 import { leadWorkspaceUrl } from '../../paths'
 import { ProspectAnalysis } from '../leadWorkspace/WebsiteAnalysis'
@@ -132,7 +134,7 @@ export function JobDetail({ job, cancelling, onCancel, onClose }: JobDetailProps
   ]
 
   const facts: { label: string; value: string }[] = [
-    { label: 'Provider Mode', value: job.providerMode === 'live' ? 'Live (Apify)' : 'Test data' },
+    { label: 'Provider', value: providerLabel(job.provider) },
     {
       label: 'Location',
       value:
@@ -164,6 +166,7 @@ export function JobDetail({ job, cancelling, onCancel, onClose }: JobDetailProps
               {job.params.location}
             </h2>
             <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
+            <ProviderBadge provider={job.provider} />
           </div>
           <p className="adm-section-desc">
             Job #{shortJobId(job.id)} · {job.params.radius} km · {job.params.categories.join(', ')} · created{' '}

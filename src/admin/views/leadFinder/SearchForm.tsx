@@ -1,11 +1,31 @@
-import { Building2, Crosshair, Loader2, MapPin, Plus, Search, Tags, X } from 'lucide-react'
+import {
+  Building2,
+  Crosshair,
+  FlaskConical,
+  Loader2,
+  MapPin,
+  Plus,
+  Radar,
+  Search,
+  Tags,
+  TriangleAlert,
+  X,
+} from 'lucide-react'
 import { useState, type FormEvent, type KeyboardEvent } from 'react'
 import { ApiRequestError } from '../../api/client'
-import { createLeadFinderJob, type JobParams, type LeadFinderJob } from '../../api/leadFinder'
+import {
+  createLeadFinderJob,
+  formatUsd,
+  type JobParams,
+  type LeadFinderJob,
+  type ProviderStatus,
+  type SearchProvider,
+} from '../../api/leadFinder'
+import { REAL_SEARCH_UNAVAILABLE_COPY } from './jobStatus'
 
 // Mirrors the server limits for instant feedback; the server remains authoritative.
 const LIMITS = { maxBusinesses: 100, maxCategories: 10, maxRadiusKm: 50 }
-const RADIUS_OPTIONS = [1, 2, 5, 10, 25, 50]
+const RADIUS_OPTIONS = [1, 2, 3, 5, 10, 25, 50]
 const CATEGORY_SUGGESTIONS = [
   'Gyms',
   'Yoga Studios',
@@ -36,7 +56,18 @@ const validate = (params: JobParams): FieldErrors => {
   return errors
 }
 
-export function SearchForm({ onCreated, live }: { onCreated: (job: LeadFinderJob) => void; live: boolean }) {
+type SearchFormProps = {
+  onCreated: (job: LeadFinderJob) => void
+  mode: SearchProvider
+  onModeChange: (mode: SearchProvider) => void
+  /** Real search availability from the server; null while loading (real search stays unavailable). */
+  realSearch: ProviderStatus['providers']['apify'] | null
+}
+
+export function SearchForm({ onCreated, mode, onModeChange, realSearch }: SearchFormProps) {
+  const live = mode === 'apify'
+  const realAvailable = realSearch?.available === true
+  const [confirmed, setConfirmed] = useState(false)
   const [location, setLocation] = useState('')
   const [radius, setRadius] = useState('10')
   const [categories, setCategories] = useState<string[]>([])
@@ -88,18 +119,30 @@ export function SearchForm({ onCreated, live }: { onCreated: (job: LeadFinderJob
     setFieldErrors(errors)
     setFormError(null)
     if (Object.keys(errors).length > 0) return
+    if (live && (!realAvailable || !confirmed)) return
 
     setSubmitting(true)
     try {
-      const res = await createLeadFinderJob(params)
+      const res = await createLeadFinderJob(params, mode, live && confirmed)
       setCategories(params.categories)
       setCategoryDraft('')
+      setConfirmed(false)
       onCreated(res.data.job)
     } catch (err) {
       if (err instanceof ApiRequestError) {
         if (err.status === 401) return
-        setFieldErrors((err.details ?? {}) as FieldErrors)
-        setFormError(err.details ? 'Please fix the highlighted fields.' : err.message)
+        const details = (err.details ?? {}) as FieldErrors & {
+          code?: string
+          provider?: string
+          confirmRealSearch?: string
+        }
+        const { code, provider, confirmRealSearch, ...fields } = details
+        setFieldErrors(fields)
+        if (code || provider || confirmRealSearch || Object.keys(fields).length === 0) {
+          setFormError(provider ?? confirmRealSearch ?? err.message)
+        } else {
+          setFormError('Please fix the highlighted fields.')
+        }
       } else {
         setFormError('Could not start the search. Please try again.')
       }
@@ -118,6 +161,62 @@ export function SearchForm({ onCreated, live }: { onCreated: (job: LeadFinderJob
       <p className="adm-section-desc">Searches run in the background. You can leave this page and come back.</p>
 
       <form className="adm-form adm-lf-form" onSubmit={onSubmit} noValidate>
+        <fieldset className="adm-lf-full adm-lf-mode" aria-describedby="lf-mode-hint">
+          <legend className="adm-field-label">SEARCH MODE</legend>
+          <div className="adm-lf-mode-grid">
+            <label className={`adm-lf-mode-option${mode === 'test' ? ' is-selected' : ''}`}>
+              <input
+                type="radio"
+                name="lf-mode"
+                value="test"
+                checked={mode === 'test'}
+                onChange={() => {
+                  onModeChange('test')
+                  setConfirmed(false)
+                  setFormError(null)
+                }}
+              />
+              <FlaskConical size={18} aria-hidden />
+              <span>
+                <span className="adm-cell-strong">Test data</span>
+                <span className="adm-cell-sub">Built-in sample businesses. No Apify credits are used.</span>
+              </span>
+            </label>
+            <label
+              className={`adm-lf-mode-option adm-lf-mode-option--real${mode === 'apify' ? ' is-selected' : ''}`}
+              data-disabled={realAvailable ? undefined : true}
+            >
+              <input
+                type="radio"
+                name="lf-mode"
+                value="apify"
+                checked={mode === 'apify'}
+                disabled={!realAvailable}
+                onChange={() => {
+                  onModeChange('apify')
+                  setConfirmed(false)
+                  setFormError(null)
+                }}
+              />
+              <Radar size={18} aria-hidden />
+              <span>
+                <span className="adm-cell-strong">Real Apify</span>
+                <span className="adm-cell-sub">
+                  {realAvailable
+                    ? 'Uses Apify credits and real business data.'
+                    : realSearch
+                      ? (REAL_SEARCH_UNAVAILABLE_COPY[realSearch.unavailableReason ?? ''] ??
+                        'Not available on this server.')
+                      : 'Checking availability…'}
+                </span>
+              </span>
+            </label>
+          </div>
+          <span id="lf-mode-hint" className="adm-field-hint">
+            Test data is the default. Real searches must be chosen and confirmed every time.
+          </span>
+        </fieldset>
+
         <label className="adm-field adm-lf-location">
           <span className="adm-field-label">LOCATION</span>
           <span className="adm-input-wrap" data-invalid={fieldErrors.location ? true : undefined}>
@@ -248,10 +347,32 @@ export function SearchForm({ onCreated, live }: { onCreated: (job: LeadFinderJob
           </div>
         ) : null}
 
+        {live ? (
+          <div className="adm-lf-full adm-lf-real-confirm">
+            <div className="adm-alert adm-alert--warning" role="note">
+              <TriangleAlert size={16} aria-hidden />
+              <span>
+                Real search uses Apify credits and saves real businesses to the database.
+                {realSearch?.maxRunCostUsd != null
+                  ? ` Each real search is capped at ${formatUsd(realSearch.maxRunCostUsd)}.`
+                  : ''}
+              </span>
+            </div>
+            <label className="adm-lf-check">
+              <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} />
+              <span>I understand this uses Apify credits.</span>
+            </label>
+          </div>
+        ) : null}
+
         <div className="adm-lf-full adm-lf-actions">
-          <button type="submit" className="adm-btn adm-btn--primary" disabled={submitting}>
+          <button
+            type="submit"
+            className="adm-btn adm-btn--primary"
+            disabled={submitting || (live && (!confirmed || !realAvailable))}
+          >
             {submitting ? <Loader2 size={16} className="adm-spin" aria-hidden /> : <Search size={16} aria-hidden />}
-            <span>{submitting ? 'Starting…' : 'Start Search'}</span>
+            <span>{submitting ? 'Starting…' : live ? 'Start Real Search' : 'Start Test Search'}</span>
           </button>
         </div>
       </form>

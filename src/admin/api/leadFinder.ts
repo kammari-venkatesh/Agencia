@@ -3,6 +3,9 @@ import type { AnalysisSummary } from './websiteAnalysis'
 
 export type JobStatus = 'queued' | 'running' | 'completed' | 'failed' | 'cancelled'
 
+/** "test": built-in sample data, no cost. "apify": real businesses through Apify, uses credits. */
+export type SearchProvider = 'test' | 'apify'
+
 export type JobParams = {
   location: string
   radius: number
@@ -23,6 +26,8 @@ export type JobCost = {
 export type LeadFinderJob = {
   id: string
   status: JobStatus
+  /** The provider stored on the job; the worker runs exactly this provider. */
+  provider: SearchProvider | 'unknown'
   providerMode: 'live' | 'test'
   params: JobParams
   /** Resolved search centre; radiusEnforced is false for test data. */
@@ -89,15 +94,26 @@ export type Paginated<T> = {
 
 type Envelope<T> = { success: true; data: T }
 
-/** "live" only when a real discovery provider is enabled and fully configured. */
+export type RealSearchUnavailableReason = 'REAL_APIFY_DISABLED' | 'REAL_APIFY_NOT_CONFIGURED'
+
+/** Search modes this server can run. Test is always available and the default. */
 export type ProviderStatus = {
-  provider: string
-  mode: 'live' | 'test' | 'unconfigured'
-  configured: boolean
-  actorConfigured: boolean
+  defaultProvider: SearchProvider
+  providers: {
+    test: { available: true }
+    apify: {
+      available: boolean
+      unavailableReason: RealSearchUnavailableReason | null
+      /** The most one real search may cost (Apify spending cap), when available. */
+      maxRunCostUsd: number | null
+    }
+  }
   dailyBudgetConfigured: boolean
   monthlyBudgetConfigured: boolean
 }
+
+export const providerLabel = (provider: LeadFinderJob['provider']) =>
+  provider === 'apify' ? 'APIFY — REAL' : provider === 'test' ? 'TEST DATA' : 'UNKNOWN'
 
 export const getProviderStatus = (signal?: AbortSignal) =>
   apiRequest<Envelope<ProviderStatus>>('/api/admin/lead-finder/provider-status', { signal })
@@ -120,10 +136,11 @@ export const formatUsd = (value: number) => {
 const JOBS = '/api/admin/lead-finder/jobs'
 const jobPath = (jobId: string) => `${JOBS}/${encodeURIComponent(jobId)}`
 
-export const createLeadFinderJob = (params: JobParams) =>
+/** The server decides whether the requested provider may run; a real search also needs explicit confirmation. */
+export const createLeadFinderJob = (params: JobParams, provider: SearchProvider, confirmRealSearch = false) =>
   apiRequest<Envelope<{ jobId: string; status: JobStatus; job: LeadFinderJob }>>(JOBS, {
     method: 'POST',
-    body: params,
+    body: provider === 'apify' ? { ...params, provider, confirmRealSearch } : { ...params, provider },
   })
 
 export const listLeadFinderJobs = (page: number, limit: number, signal?: AbortSignal) =>

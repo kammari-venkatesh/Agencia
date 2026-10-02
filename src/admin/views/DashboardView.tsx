@@ -19,7 +19,7 @@ export function DashboardView() {
   const [reloadKey, setReloadKey] = useState(0)
   const [query, setQuery] = useState('')
   const [service, setService] = useState('all')
-  const providerMode = useProviderStatus()?.mode
+  const realSearchAvailable = useProviderStatus()?.providers.apify.available === true
 
   useEffect(() => {
     const controller = new AbortController()
@@ -98,8 +98,8 @@ export function DashboardView() {
           <a className="adm-stat-foot adm-link" href={ADMIN_PATHS.leadFinder}>
             {state.status === 'ready' && state.dashboard.stats.leadFinder.activeJobs > 0
               ? `${state.dashboard.stats.leadFinder.activeJobs} active search${state.dashboard.stats.leadFinder.activeJobs === 1 ? '' : 'es'} · Open Lead Finder`
-              : providerMode === 'live'
-                ? 'Open Lead Finder'
+              : realSearchAvailable
+                ? 'Open Lead Finder (test or real search)'
                 : 'Open Lead Finder (test data)'}
           </a>
         </article>

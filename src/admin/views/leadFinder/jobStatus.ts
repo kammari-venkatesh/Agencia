@@ -37,3 +37,8 @@ export const safeHttpUrl = (value: string | null) => {
 }
 
 export const displayHost = (url: string) => new URL(url).host.replace(/^www\./, '')
+
+export const REAL_SEARCH_UNAVAILABLE_COPY: Record<string, string> = {
+  REAL_APIFY_DISABLED: 'Real Apify search is disabled on this server (APIFY_ENABLED is not true).',
+  REAL_APIFY_NOT_CONFIGURED: 'Real Apify search is enabled on this server, but its configuration is incomplete.',
+}

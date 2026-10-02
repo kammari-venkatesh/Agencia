@@ -3,12 +3,11 @@ import type { LeadFinderJob, Paginated } from '../../api/leadFinder'
 import { Pagination } from '../../components/Pagination'
 import { StatusBadge } from '../../components/StatusBadge'
 import { JobProgress } from './JobProgress'
+import { ProviderBadge } from './ProviderBadge'
 import { dateTimeFormatter, isActiveJob, shortJobId, STATUS_META } from './jobStatus'
 
 export type JobsState =
-  | { status: 'loading' }
-  | { status: 'error'; message: string }
-  | { status: 'ready'; data: Paginated<LeadFinderJob> }
+  { status: 'loading' } | { status: 'error'; message: string } | { status: 'ready'; data: Paginated<LeadFinderJob> }
 
 type JobsTableProps = {
   state: JobsState
@@ -22,7 +21,15 @@ type JobsTableProps = {
 
 const COLUMNS = ['Job', 'Location', 'Categories', 'Status', 'Progress', 'Created', 'Actions']
 
-export function JobsTable({ state, selectedId, cancellingId, onSelect, onCancel, onPageChange, onRetry }: JobsTableProps) {
+export function JobsTable({
+  state,
+  selectedId,
+  cancellingId,
+  onSelect,
+  onCancel,
+  onPageChange,
+  onRetry,
+}: JobsTableProps) {
   const jobs = state.status === 'ready' ? state.data.items : []
 
   return (
@@ -76,6 +83,9 @@ export function JobsTable({ state, selectedId, cancellingId, onSelect, onCancel,
                       <tr key={job.id} className={selected ? 'is-selected' : undefined}>
                         <td className="adm-cell-nowrap">
                           <span className="adm-cell-strong adm-mono">#{shortJobId(job.id)}</span>
+                          <span className="adm-cell-sub">
+                            <ProviderBadge provider={job.provider} />
+                          </span>
                         </td>
                         <td>
                           <span className="adm-cell-strong">{job.params.location}</span>

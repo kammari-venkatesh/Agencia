@@ -42,7 +42,7 @@ type AdminSidebarProps = {
 
 export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
   const { urlPathname } = usePageContext()
-  const live = useProviderStatus()?.mode === 'live'
+  const live = useProviderStatus()?.providers.apify.available === true
   const isActive = (href: string) => urlPathname === href || urlPathname === href.replace(/\/$/, '')
 
   const renderLink = ({ label, href, icon: Icon, badge }: NavLink, nested = false) => {
@@ -94,7 +94,9 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
                 <span className="adm-nav-text">{item.label}</span>
                 {item.badge ? <span className="adm-nav-badge">{item.badge}</span> : null}
                 {item.providerBadge ? (
-                  <span className={`adm-nav-badge${live ? ' adm-nav-badge--live' : ''}`}>{live ? 'Live' : 'Test'}</span>
+                  <span className={`adm-nav-badge${live ? ' adm-nav-badge--live' : ''}`}>
+                    {live ? 'Real ready' : 'Test'}
+                  </span>
                 ) : null}
               </span>
               {item.children.map((child) => renderLink(child, true))}
