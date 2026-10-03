@@ -106,6 +106,15 @@ export const qualifyLead = (leadId: string, refresh = false) =>
 export const bulkQualifyLeads = (ids: string[]) =>
   apiRequest<Envelope<BulkQualifyResult>>(`${LEADS}/qualification/bulk`, { method: 'POST', body: { ids } })
 
+/** Provider mode for the whole server; never includes credentials. */
+export type AiStatus = { provider: string; mode: AiMode; model: string | null }
+
+export const isAiOff = (status: AiStatus | null | undefined) =>
+  status?.mode === 'disabled' || status?.mode === 'unconfigured'
+
+export const getAiStatus = (signal?: AbortSignal) =>
+  apiRequest<Envelope<AiStatus>>('/api/admin/lead-finder/ai/status', { signal })
+
 export const getLeadQualificationStatuses = (ids: string[], signal?: AbortSignal) =>
   apiRequest<Envelope<Record<string, QualificationSummary>>>(
     `${LEADS}/qualification-status?ids=${ids.map(encodeURIComponent).join(',')}`,

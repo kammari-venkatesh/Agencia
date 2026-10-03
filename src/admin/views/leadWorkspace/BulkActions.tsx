@@ -20,13 +20,14 @@ type BulkActionsProps = {
   count: number
   meta: WorkspaceMeta | null
   busy: boolean
+  aiOff: boolean
   onApply: (operation: BulkOperation, value: string | null) => void
   onAnalyze: () => void
   onQualify: () => void
   onClear: () => void
 }
 
-export function BulkActions({ count, meta, busy, onApply, onAnalyze, onQualify, onClear }: BulkActionsProps) {
+export function BulkActions({ count, meta, busy, aiOff, onApply, onAnalyze, onQualify, onClear }: BulkActionsProps) {
   const [operation, setOperation] = useState<BulkOperation>('status')
   const [value, setValue] = useState('')
 
@@ -130,11 +131,13 @@ export function BulkActions({ count, meta, busy, onApply, onAnalyze, onQualify, 
         type="button"
         className="adm-btn adm-btn--ghost adm-btn--sm"
         onClick={onQualify}
-        disabled={busy || count > BULK_QUALIFY_MAX}
+        disabled={busy || aiOff || count > BULK_QUALIFY_MAX}
         title={
-          count > BULK_QUALIFY_MAX
-            ? `Select up to ${BULK_QUALIFY_MAX} leads to qualify at once`
-            : 'Run AI qualification for the selected leads (uses the AI budget)'
+          aiOff
+            ? 'AI qualification is turned off on this server'
+            : count > BULK_QUALIFY_MAX
+              ? `Select up to ${BULK_QUALIFY_MAX} leads to qualify at once`
+              : 'Run AI qualification for the selected leads (uses the AI budget)'
         }
       >
         <Sparkles size={14} aria-hidden />

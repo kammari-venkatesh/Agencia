@@ -73,6 +73,7 @@ type LeadGridProps = {
   query: LeadQuery
   statuses: string[]
   services: string[]
+  aiOff: boolean
   selected: Set<string>
   onSort: (sortBy: string) => void
   onToggle: (id: string) => void
@@ -823,6 +824,7 @@ export function LeadGrid({ ref, ...props }: LeadGridProps) {
     editing: editingRow?.key === key ? editingRow : null,
     statuses: props.statuses,
     services: props.services,
+    aiOff: props.aiOff,
     actions,
   })
 

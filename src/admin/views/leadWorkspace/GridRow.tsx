@@ -55,6 +55,7 @@ type GridRowProps = {
   selected: boolean
   statuses: string[]
   services: string[]
+  aiOff: boolean
   actions: RowActions
 }
 
@@ -243,7 +244,7 @@ export const GridRow = memo(function GridRow(props: GridRowProps) {
               aria-label={`AI qualification for ${rowLabel}`}
               onClick={() => actions.open(lead.id)}
             >
-              <QualificationBadge summary={lead.qualification} />
+              <QualificationBadge summary={lead.qualification} aiOff={props.aiOff} />
             </button>
           ) : null}
         </td>

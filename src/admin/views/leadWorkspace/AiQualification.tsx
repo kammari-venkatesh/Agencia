@@ -41,8 +41,21 @@ const toSummary = (q: Qualification): QualificationSummary => ({
 })
 
 /** Compact qualification state for tables. */
-export function QualificationBadge({ summary }: { summary: QualificationSummary | null | undefined }) {
+export function QualificationBadge({
+  summary,
+  aiOff = false,
+}: {
+  summary: QualificationSummary | null | undefined
+  aiOff?: boolean
+}) {
   const status = summary?.status ?? 'NOT_ANALYZED'
+  if (aiOff && (status === 'NOT_ANALYZED' || status === 'ANALYSIS_REQUIRED')) {
+    return (
+      <span title="AI qualification is turned off on this server">
+        <StatusBadge tone="neutral">AI off</StatusBadge>
+      </span>
+    )
+  }
   const { tone, label } = BADGE[status]
   const services = summary?.serviceIds.length ?? 0
   const title =

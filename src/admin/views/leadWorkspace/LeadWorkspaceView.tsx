@@ -16,8 +16,11 @@ import {
 } from '../../api/leadWorkspace'
 import {
   bulkQualifyLeads,
+  getAiStatus,
   getLeadQualificationStatuses,
+  isAiOff,
   isQualificationActive,
+  type AiStatus,
   type QualificationSummary,
 } from '../../api/qualification'
 import {
@@ -103,6 +106,16 @@ export function LeadWorkspaceView() {
       })
     return () => controller.abort()
   }, [metaKey])
+
+  const [aiStatus, setAiStatus] = useState<AiStatus | null>(null)
+  useEffect(() => {
+    const controller = new AbortController()
+    getAiStatus(controller.signal)
+      .then((res) => setAiStatus(res.data))
+      .catch(() => {})
+    return () => controller.abort()
+  }, [])
+  const aiOff = isAiOff(aiStatus)
 
   // Keep the address bar shareable: filters, sort, page and the open lead.
   useEffect(() => {
@@ -393,6 +406,7 @@ export function LeadWorkspaceView() {
               count={selected.size}
               meta={meta}
               busy={bulkBusy}
+              aiOff={aiOff}
               onApply={applyBulk}
               onAnalyze={analyzeSelected}
               onQualify={qualifySelected}
@@ -412,6 +426,7 @@ export function LeadWorkspaceView() {
           query={query}
           statuses={meta?.statuses ?? []}
           services={meta?.services ?? []}
+          aiOff={aiOff}
           selected={selected}
           onSort={onSort}
           onToggle={toggle}
