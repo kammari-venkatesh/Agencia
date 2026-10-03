@@ -2,9 +2,9 @@
  * Admin API client. The session lives in an httpOnly cookie set by the backend,
  * so requests only need `credentials: 'include'` — no token is ever handled here.
  */
-const API_BASE_URL = (
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://localhost:8000'
-).replace(/\/+$/, '')
+// Empty by default: same-origin /api requests, forwarded to the backend by the dev-server
+// proxy (vite.config.ts) and the production rewrite (vercel.json).
+const API_BASE_URL = ((import.meta.env.VITE_API_BASE_URL as string | undefined) ?? '').replace(/\/+$/, '')
 
 export class ApiRequestError extends Error {
   readonly status: number
@@ -54,9 +54,10 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     throw new ApiRequestError(0, 'Cannot reach the server. Check your connection and try again.')
   }
 
-  const payload = (await response.json().catch(() => null)) as
-    | { message?: string; details?: Record<string, string> }
-    | null
+  const payload = (await response.json().catch(() => null)) as {
+    message?: string
+    details?: Record<string, string>
+  } | null
 
   if (!response.ok) {
     const error = new ApiRequestError(
