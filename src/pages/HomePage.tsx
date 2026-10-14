@@ -9,7 +9,6 @@ import { Reveal } from '../motion/Reveal';
 import { getLenis } from '../motion/SmoothScroll';
 import {
   fadeUpSoft,
-  staggerParentFast,
   sectionReveal,
 } from '../motion/variants';
 import { serviceHref, services } from '../data/services';
@@ -506,21 +505,6 @@ const HomePage: React.FC = () => {
             </div>
           </motion.div>
         </motion.div>
-      </section>
-
-      {/* Logo Strip */}
-      <section className="logo-strip-section">
-        <Reveal
-          className="container logo-strip"
-          variants={staggerParentFast}
-          viewportMargin="-5% 0px"
-        >
-          {['TechCrunch', 'Forbes', 'WIRED', 'FastCompany', 'Inc.'].map((label) => (
-            <motion.span key={label} className="logo-item" variants={fadeUpSoft}>
-              {label}
-            </motion.span>
-          ))}
-        </Reveal>
       </section>
 
       {/* Intro */}

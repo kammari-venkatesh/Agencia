@@ -473,29 +473,6 @@
 
 
 
-/* Logo Strip */
-.logo-strip-section {
-  padding: 4rem 0;
-  border-bottom: 1px solid var(--border-ultra-light);
-  border-top: 1px solid var(--border-ultra-light);
-}
-
-.logo-strip {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  opacity: 0.4;
-  filter: grayscale(100%);
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.logo-item {
-  font-weight: 700;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-
 /* Intro — clean white + cherry red professional section */
 .intro-section {
   padding: 7rem 0 5rem;
@@ -1786,16 +1763,6 @@
     gap: 1rem;
   }
 
-  /* Logo strip */
-  .logo-strip-section {
-    padding: 3rem 0;
-  }
-
-  .logo-strip {
-    justify-content: center;
-    gap: 1.5rem 2.5rem;
-  }
-
   /* Intro */
   .intro-section {
     padding: 20rem 0 6rem;
@@ -2038,18 +2005,6 @@
   .hero-cta-group button {
     flex: 1 1 auto;
     justify-content: center;
-  }
-
-  .logo-strip-section {
-    padding: 2.25rem 0;
-  }
-
-  .logo-strip {
-    gap: 1rem 1.5rem;
-  }
-
-  .logo-item {
-    font-size: 1rem;
   }
 
   .intro-section {

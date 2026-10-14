@@ -24,7 +24,7 @@ shared ServicePage template  (src/components/ServicePage.tsx)
 - Exactly **10** approved service pages exist. Slugs come only from `SERVICE_CATALOG`.
 - Public paths are `/services/{slug}/` (trailing slash). Invalid slugs are not prerendered and abort with the existing 404 page.
 - Pages are prerendered from `SERVICE_CATALOG` via `+onBeforePrerenderStart.ts`.
-- `public/sitemap.xml` contains the homepage plus those 10 service URLs (**11** loc entries). No `/services/digital-marketing/` or other sub-service URLs.
+- `public/sitemap.xml` contains the homepage, those 10 service URLs, the `/guides/` index, and 6 guide URLs (**18** loc entries). No `/services/digital-marketing/` or other sub-service URLs.
 - Each service page emits **one Service** JSON-LD and **one FAQPage** JSON-LD (when FAQs render). **Organization** JSON-LD remains global (`src/pages/+Head.tsx`) with a stable `@id`; `Service.provider` references that `@id`. No ratings, reviews, offers, or OfferCatalog.
 - Sub-services such as AI chatbots, workflow automation, n8n, WhatsApp automation, AI calling, local SEO, and technical SEO remain **sections** on the parent service page — not separate routes.
 
@@ -44,7 +44,7 @@ Vike prerenders `/`, `/services/{slug}/` for each catalog slug, and `404`. Route
 
 ### Sitemap / robots / schema
 
-- `public/sitemap.xml` — homepage + 10 service URLs
+- `public/sitemap.xml` — homepage + 10 service URLs + `/guides/` + 6 guide URLs (18 total)
 - `public/robots.txt` — `Allow: /` + sitemap URL
 - `src/seo/schema.ts` — Organization (global), Service + FAQPage (service pages only)
 - Canonical / OG: `HOME_SEO` on `/`; per-service SEO from `buildServicePageSeo` + `@slug` Head/title/description
@@ -142,7 +142,7 @@ Future blog / cluster articles (not in this build):
   Never between sibling paid-media pages for the same primary cluster.
 ```
 
-Sitemap already lists homepage + the 10 service URLs. Do not add sub-service or city URLs.
+Sitemap already lists homepage + the 10 service URLs + `/guides/` + the 6 guide URLs (18 total). Do not add sub-service or city URLs.
 
 ---
 
