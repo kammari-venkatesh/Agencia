@@ -1,10 +1,17 @@
+import { usePageContext } from 'vike-react/usePageContext'
 import { GUIDES_INDEX_SEO, SITE } from '../../seo/site'
 
 /**
  * Guides index head tags (canonical, robots, OG/Twitter extras).
  * title / description / og:title / og:description / og:image come from +config via vike-react.
+ * Head is cumulative in vike-react, so this file also runs for /guides/@slug/ — those pages
+ * own their head tags in @slug/+Head.tsx, so render nothing outside the index URL.
  */
 export default function Head() {
+  const { urlPathname } = usePageContext()
+  const withoutTrailingSlash = (path: string) => path.replace(/\/+$/, '')
+  if (withoutTrailingSlash(urlPathname) !== withoutTrailingSlash(GUIDES_INDEX_SEO.path)) return null
+
   const image = GUIDES_INDEX_SEO.image
 
   return (
