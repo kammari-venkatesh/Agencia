@@ -230,7 +230,7 @@ const WhyVridhioSection: React.FC = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="wv-center-badge">CORE SYSTEM</span>
-                <span className="wv-center-brand">VRIDHIŌ</span>
+                <span className="wv-center-brand">VRIDHIO</span>
                 <span className="wv-center-status">● INTEGRATED</span>
               </motion.div>
             </div>
@@ -252,7 +252,7 @@ const WhyVridhioSection: React.FC = () => {
             <div className="wv-mobile-system-card">
               <div className="wv-mobile-center-header">
                 <span className="wv-center-badge">CENTRAL ENGINE</span>
-                <h3 className="wv-mobile-brand">VRIDHIŌ</h3>
+                <h3 className="wv-mobile-brand">VRIDHIO</h3>
                 <p className="wv-mobile-sub">Connected Growth System</p>
               </div>
               <div className="wv-mobile-nodes-list">
@@ -332,7 +332,7 @@ const WhyVridhioSection: React.FC = () => {
             >
               <span className="wv-contrast-label wv-label-cherry">THE VRIDHIO SYSTEM</span>
               <h3 className="wv-contrast-text-new">
-                Vridhiō builds <span className="wv-cherry-highlight">systems.</span>
+                Vridhio builds <span className="wv-cherry-highlight">systems.</span>
               </h3>
             </motion.div>
           </div>
@@ -344,7 +344,7 @@ const WhyVridhioSection: React.FC = () => {
         <div ref={comparisonRef} className="wv-comparison-section">
           <div className="wv-comparison-header">
             <span className="wv-tech-label">MODEL COMPARISON</span>
-            <h3 className="wv-comparison-title">The Usual Agency vs. Vridhiō</h3>
+            <h3 className="wv-comparison-title">The Usual Agency vs. Vridhio</h3>
           </div>
 
           <div className="wv-comparison-grid">
@@ -381,8 +381,8 @@ const WhyVridhioSection: React.FC = () => {
             {/* RIGHT COLUMN: VRIDHIO SYSTEM */}
             <div className="wv-comp-col wv-comp-vridhio">
               <div className="wv-comp-col-header">
-                <span className="wv-comp-tag wv-tag-vridhio">● VRIDHIŌ SYSTEM</span>
-                <h4 className="wv-comp-col-title">VRIDHIŌ</h4>
+                <span className="wv-comp-tag wv-tag-vridhio">● VRIDHIO SYSTEM</span>
+                <h4 className="wv-comp-col-title">VRIDHIO</h4>
                 <p className="wv-comp-col-sub">One connected team, compounding revenue output</p>
               </div>
               <ul className="wv-comp-list">
@@ -425,7 +425,7 @@ const WhyVridhioSection: React.FC = () => {
             </h3>
             <div className="wv-ending-accent-row">
               <span className="wv-ending-accent-text">That’s</span>
-              <span className="wv-ending-brand">Vridhiō.</span>
+              <span className="wv-ending-brand">Vridhio.</span>
             </div>
           </motion.div>
         </div>

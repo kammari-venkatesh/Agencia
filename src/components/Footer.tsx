@@ -4,19 +4,20 @@ import { usePageContext } from 'vike-react/usePageContext';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { getLenis } from '../motion/SmoothScroll';
+import { SOCIAL_PROFILES } from '../seo/site';
 import './Footer.css';
 
 const exploreLinks = [
   { label: 'Services', id: 'services' },
   { label: 'System', id: 'problem-solution' },
-  { label: 'Why Vridhiō', id: 'why-vridhio' },
+  { label: 'Why Vridhio', id: 'why-vridhio' },
   { label: 'FAQ', id: 'faqs' },
   { label: 'Contact', id: 'contact' },
 ];
 
 const socialLinks = [
-  { label: 'Instagram', handle: '@vridhio.tech', href: 'https://instagram.com' },
-  { label: 'LinkedIn', handle: 'Vridhiō Growth', href: 'https://linkedin.com' },
+  { label: 'Instagram', handle: '@vridhio.tech', href: SOCIAL_PROFILES.instagram },
+  { label: 'LinkedIn', handle: 'Vridhio', href: SOCIAL_PROFILES.linkedin },
   { label: 'WhatsApp', handle: '+91 93471 71519', href: 'https://wa.me/919347171519' },
   { label: 'Email', handle: 'tech@vridhio.com', href: 'mailto:tech@vridhio.com' },
 ];
@@ -63,7 +64,7 @@ const Footer: React.FC = () => {
             {/* COLUMN 1: BRAND IDENTITY & DESCRIPTION */}
             <div className="vrd-footer-col vrd-footer-col-brand">
               <a href="/" className="vrd-footer-logo-link" onClick={(e) => handleNavClick(e, 'hero')}>
-                <span className="vrd-footer-brand-name">VRIDHIŌ</span>
+                <span className="vrd-footer-brand-name">VRIDHIO</span>
               </a>
               <p className="vrd-footer-description">
                 Vridhio is a modern technology, automation & growth company building high-performance digital systems for ambitious businesses worldwide.
@@ -169,7 +170,7 @@ const Footer: React.FC = () => {
         {/* THIN BOTTOM BAR */}
         <div className="vrd-footer-bottom-bar">
           <div className="vrd-bottom-left">
-            <span className="vrd-copyright">© {currentYear} Vridhiō. All rights reserved.</span>
+            <span className="vrd-copyright">© {currentYear} Vridhio. All rights reserved.</span>
             <span className="vrd-bottom-sep">•</span>
             <a href="/#privacy" className="vrd-bottom-link" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
             <span className="vrd-bottom-sep">•</span>

@@ -144,7 +144,7 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
           </div>
           <div className="cs-signal-node">
             <span className="cs-node-dot cs-node-dot--accent" />
-            <span className="cs-node-label">VRIDHIŌ GROWTH</span>
+            <span className="cs-node-label">VRIDHIO GROWTH</span>
           </div>
         </motion.div>
 

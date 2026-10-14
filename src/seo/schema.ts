@@ -1,17 +1,20 @@
 import {
   ORGANIZATION_DESCRIPTION,
   SITE,
+  SOCIAL_PROFILES,
   absoluteUrl,
 } from './site'
 
 /** Stable Organization entity id — Service.provider references this, not a second Organization object. */
 export const ORGANIZATION_ID = absoluteUrl('/#organization')
 
+/** Stable WebSite entity id — emitted on the homepage only. */
+export const WEBSITE_ID = absoluteUrl('/#website')
+
 /**
  * Organization JSON-LD built only from facts present on the current site.
- * Intentionally omits: foundingDate, employee counts, sameAs social profiles
- * (footer Instagram/LinkedIn hrefs are platform roots, not verified profiles),
- * street address, ratings, clients, and awards.
+ * Intentionally omits: foundingDate, employee counts, street address,
+ * ratings, clients, and awards. sameAs lists only owner-provided official profiles.
  */
 export function buildOrganizationJsonLd() {
   return {
@@ -34,11 +37,30 @@ export function buildOrganizationJsonLd() {
       telephone: SITE.telephone,
       url: absoluteUrl('/#contact'),
     },
+    sameAs: [SOCIAL_PROFILES.linkedin, SOCIAL_PROFILES.instagram],
   }
 }
 
 export function organizationJsonLdScript(): string {
   return JSON.stringify(buildOrganizationJsonLd())
+}
+
+/** Site-name signal for Google. No alternateName by design. */
+export function buildWebSiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    name: SITE.name,
+    url: absoluteUrl('/'),
+    publisher: {
+      '@id': ORGANIZATION_ID,
+    },
+  }
+}
+
+export function webSiteJsonLdScript(): string {
+  return JSON.stringify(buildWebSiteJsonLd())
 }
 
 export function buildServiceJsonLd(input: {

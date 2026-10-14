@@ -1,8 +1,10 @@
+import { webSiteJsonLdScript } from '../../seo/schema'
 import { HOME_SEO, SITE } from '../../seo/site'
 
 /**
- * Homepage-only head tags (canonical, robots, OG/Twitter extras).
+ * Homepage-only head tags (canonical, robots, OG/Twitter extras, WebSite JSON-LD).
  * title / description / og:title / og:description / og:image come from +config via vike-react.
+ * WebSite JSON-LD must stay here, not in the global pages/+Head.tsx.
  */
 export default function Head() {
   const image = HOME_SEO.image
@@ -41,6 +43,11 @@ export default function Head() {
       {image && HOME_SEO.imageAlt ? (
         <meta name="twitter:image:alt" content={HOME_SEO.imageAlt} />
       ) : null}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: webSiteJsonLdScript() }}
+      />
     </>
   )
 }

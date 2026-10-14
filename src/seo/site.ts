@@ -18,6 +18,12 @@ export const SITE = {
   lang: 'en',
 } as const
 
+/** Official owner-provided social profiles — used by Organization.sameAs and the footer. */
+export const SOCIAL_PROFILES = {
+  linkedin: 'https://www.linkedin.com/company/vridhio/',
+  instagram: 'https://www.instagram.com/vridhio.tech/',
+} as const
+
 /**
  * Homepage social preview image — measured from public/assets/og-image.png
  * (1731×909 PNG ≈ 1.91:1, hosted under www).
