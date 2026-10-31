@@ -91,7 +91,7 @@ export const GUIDE_CATALOG: readonly GuideCatalogEntry[] = [
     name: 'SEO cost in India',
     slug: 'seo-cost-india',
     description:
-      'Why SEO quotes vary, what a proposal should include, and how to compare scope instead of a single number.',
+      'Indicative Indian SEO pricing ranges for 2026, what different budgets usually cover, and how to compare scope before you buy.',
     category: 'cost',
     priority: 'p1',
     parentIds: ['seo'],

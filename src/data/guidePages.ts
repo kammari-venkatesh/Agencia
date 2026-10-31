@@ -22,6 +22,8 @@ export type GuideSection = {
   body?: string
   bullets?: string[]
   table?: GuideTable
+  /** Shown immediately after the table (e.g. pricing disclaimer). */
+  afterTable?: string
   subsections?: {
     heading: string
     body?: string
@@ -37,6 +39,11 @@ export type GuidePageCopy = {
   sections: GuideSection[]
   faqs: GuideFaq[]
   relatedIds: ServiceId[]
+  /** Optional bottom CTA band; falls back to the default “Start a project” copy. */
+  ctaBand?: {
+    heading: string
+    body: string
+  }
 }
 
 const GUIDE_PAGE_COPY: Record<GuideId, GuidePageCopy> = {
@@ -655,125 +662,253 @@ const GUIDE_PAGE_COPY: Record<GuideId, GuidePageCopy> = {
   },
 
   'seo-cost-india': {
-    seoTitle: 'SEO Cost in India: What Determines the Price? | Vridhio',
+    seoTitle: 'SEO Cost in India (2026): Pricing, Packages & Guide | Vridhio',
     seoDescription:
-      'SEO cost in India varies with site size, competition, content, and ongoing work. Compare proposal scope — not a retainer menu or ranking promise.',
-    h1: 'SEO cost in India: what determines the price?',
+      'Explore SEO costs in India in 2026, including monthly pricing, one-time audits, service deliverables and factors that affect your SEO budget.',
+    h1: 'How Much Does SEO Cost in India in 2026?',
     intro:
-      'SEO cost in India varies because the work varies. An audit is not the same as technical fixes, on-page work, local optimisation, or months of content and measurement. There is no honest universal monthly price, and no responsible provider should sell rankings or traffic as a guaranteed package. Compare what is in the proposal — not a round number.',
+      'SEO cost in India in 2026 depends on your website size, competition, target locations, technical condition, content needs, and how much work a provider includes. Indicative monthly packages often fall somewhere between a few thousand rupees for limited freelancer work and well over a lakh for competitive or enterprise campaigns. The ranges below are editorial estimates for planning — not Vridhio’s prices, fixed market rates, or ranking guarantees.',
     sections: [
       {
-        heading: 'Why SEO pricing varies',
-        body: 'Price follows the size of the site, how competitive the queries are, how much content and technical debt exists, and whether the engagement is a one-time diagnosis or ongoing optimisation. Two businesses in the same city can need very different work.\n\nThis guide explains cost drivers. It does not publish retainers, package menus, or Vridhio rates. Commercial SEO work lives on [[seo]].',
+        heading: 'How much does SEO cost in India in 2026?',
+        body: 'Most small businesses and startups in India pay for SEO as a monthly engagement, because search results, competitors, and your own site keep changing. A clinic in Hyderabad targeting one city is a different job from a national SaaS site or an ecommerce catalogue with thousands of URLs.\n\nUse the table as a planning overview. Ranges overlap because freelancers, local specialists, and agencies sell different deliverables, experience levels, and hours of work. For how Vridhio approaches commercial SEO scope — without a published rate card — see [[seo|SEO services]].',
+        table: {
+          headers: ['SEO provider / scope', 'Indicative monthly price', 'Typical fit'],
+          rows: [
+            [
+              'Freelancer / basic SEO',
+              '₹5,000–₹25,000',
+              'Very small websites and limited requirements',
+            ],
+            [
+              'Local SEO / single location',
+              '₹8,000–₹25,000',
+              'Local service businesses',
+            ],
+            [
+              'Small or mid-sized agency',
+              '₹15,000–₹50,000',
+              'Small businesses and early-stage startups',
+            ],
+            [
+              'Growth-focused SEO',
+              '₹40,000–₹1,00,000',
+              'Growing businesses targeting multiple services or markets',
+            ],
+            [
+              'Competitive / enterprise SEO',
+              '₹80,000–₹2,00,000+',
+              'Large websites, e-commerce and competitive national markets',
+            ],
+          ],
+        },
+        afterTable:
+          'These prices are indicative estimates based on publicly published Indian SEO pricing guides available in 2026. They are not fixed market rates, a guarantee of service quality, or Vridhio\'s own pricing. Actual costs vary by provider, website condition, competition, deliverables, content requirements and project scope. GST and third-party expenses may be additional where applicable. Vridhio provides customised quotations after understanding your requirements.',
       },
       {
-        heading: 'One-time SEO audits',
-        body: 'An audit is a diagnosis: crawl health, indexation, structure, on-page gaps, and usually a prioritised list. It is not the same as doing the fixes. A cheap “audit” that is a generic PDF with no site-specific evidence is not equivalent to a thorough one. Ask what will be inspected and what deliverable you get.',
-      },
-      {
-        heading: 'Technical SEO scope',
-        body: 'Technical work can include crawlability, index controls, site speed cooperation with developers, structured data where it is truthful, HTTPS and canonical hygiene, and fixing search-console issues. Scope depends on the CMS and how broken the current site is. Technical SEO is not a separate Vridhio URL; it is part of SEO work when it is needed.',
-      },
-      {
-        heading: 'On-page SEO',
-        body: 'Titles, headings, internal links, and content that matches intent. The cost scales with how many templates and URLs need attention, and whether new copy is included or only recommendations for your writers.',
-      },
-      {
-        heading: 'Local SEO',
-        body: 'Local work (when it applies) includes location relevance, profile accuracy, and pages that match how people search nearby. It is not a magic city-page factory. Creating dozens of thin city URLs is not a pricing strategy we recommend, and those URLs are not how this site is built.',
-      },
-      {
-        heading: 'Content requirements',
-        body: 'If the site cannot answer the query, rankings are unlikely no matter the technical polish. Content cost — briefs, drafts, edits, expert review — is often the largest ongoing line. Confirm whether writing is included or only “content recommendations.”',
-      },
-      {
-        heading: 'Competition',
-        body: 'Queries where strong sites already rank take more content, more technical quality, and more time. “SEO for a new brand on a generic keyword” is a different job from supporting a niche service page. Competition is a cost driver, not a keyword-difficulty score we invent here.',
-      },
-      {
-        heading: 'Website size',
-        body: 'More indexable URLs mean more templates to get right, more internal linking decisions, and more measurement. A 10-page site and a 10,000-URL catalogue are not priced the same, even if both want “SEO.”',
-      },
-      {
-        heading: 'Ongoing optimisation',
-        body: 'Search results move. Ongoing work is measurement, iteration, new content, and fixing what breaks after releases. A one-time cleanup without a plan for change is a project, not a channel. Do not confuse a three-month burst with a finished asset.',
-      },
-      {
-        heading: 'Agency vs freelancer vs in-house',
-        body: 'A freelancer can be enough for a focused site with a clear owner. An agency can cover more specialisms if you actually need them — and can cost more in coordination. In-house makes sense when SEO is continuous and you will hire or train for it. None of the three is automatically higher quality. Quality is the people, the access to your site, and the honesty of the plan.',
-      },
-      {
-        heading: 'What an SEO proposal should contain',
+        heading: 'What do you get at different SEO budgets?',
+        body: 'Price should buy a clear scope of work — not a promise of first-page rankings. Exact deliverables depend on the agreement and your site. The bands below describe what businesses in India often receive at different budgets; they are not Vridhio packages and they do not fix numbers of backlinks, articles, or keywords.',
+        subsections: [
+          {
+            heading: 'Lower budgets (roughly freelancer or limited local work)',
+            body: 'You may get a basic review of titles and headings, limited keyword research, a short list of on-page fixes, light local profile checks if you serve one city, and simple monthly reporting. Deep technical rewrites, large content programmes, and competitive authority work are usually out of scope at this level.',
+          },
+          {
+            heading: 'Mid-range agency budgets',
+            body: 'Proposals often include structured keyword research, competitor review, technical SEO checks and prioritised fixes, on-page optimisation across key templates, a content plan (sometimes with writing included, sometimes recommendations only), local SEO where relevant, and regular performance reporting. Ask what is written versus only advised.',
+          },
+          {
+            heading: 'Growth and competitive budgets',
+            body: 'Higher fees usually fund more URLs, more content and editorial review, stronger technical cooperation with developers, broader location or service coverage, and more deliberate authority-building or digital PR. Ecommerce and national campaigns also need more measurement and iteration. If the site itself is weak, [[website-development]] work may sit alongside SEO rather than inside the SEO line.',
+          },
+        ],
         bullets: [
-          'Objectives in business language (enquiries, qualified organic landings) — not a guaranteed rank.',
-          'Scope: technical, on-page, local (if any), content, and reporting.',
-          'What is out of scope (ads, PR, web redesign) unless separately listed.',
-          'Access needed (CMS, Search Console, analytics).',
-          'Cadence of work and reporting, without fake traffic forecasts.',
-          'How success will be reviewed if results are slower than hoped.',
+          'Basic SEO audits and on-page optimisation — depth scales with fee and site size.',
+          'Technical SEO checks and fixes — depends on CMS access and how broken the current build is.',
+          'Keyword research and content planning — often the largest ongoing cost when writing is included.',
+          'Competitor analysis — useful when it maps to your pages, not a generic slide deck.',
+          'Local SEO — profiles, location relevance, and pages that match nearby search intent.',
+          'Reporting and monitoring — Search Console, analytics, and honest progress reviews.',
+          'Authority-building — only where it fits the strategy; quality and relevance matter more than volume.',
         ],
       },
       {
-        heading: 'What cheap SEO can leave out',
-        body: 'Thin proposals often skip technical access, skip writing, skip measurement setup, or replace work with ranking guarantees and bulk directory submissions. If the price only works by omitting the site-specific work, it is not a bargain.',
-      },
-      {
-        heading: 'How to compare SEO proposals',
-        body: 'Map each line of work to your site. Ignore “X keywords guaranteed.” Ask who does the writing, who implements technical changes, and what happens if developers are slow. A clearer scope at a higher fee is comparable; a vague scope at a lower fee is not.',
-      },
-      {
-        heading: 'Cost vs scope',
-        body: 'You are buying a bundle of activities and attention, not a national SEO tariff. If budget is limited, narrow the query set and the URL set rather than buying a pretend full-market campaign. Paid search can cover demand while organic work is still early — that channel lives on [[google-ads]], and it is not a substitute for SEO scope honesty.',
-      },
-      {
-        heading: 'Questions to ask an SEO provider',
-        bullets: [
-          'What work happens in month one versus later months?',
-          'Do you write content, or only advise?',
-          'Who implements technical changes on the site?',
-          'How do you report without promising rankings or traffic?',
-          'What would you refuse to do (guarantees, doorway pages, fake blogs)?',
-          'How does this interact with our Google Ads, if we run them?',
+        heading: 'SEO cost by business type',
+        body: 'The same “SEO” label covers very different scopes. Use business type as a starting filter, then confirm cities, pages, and deliverables in the proposal.',
+        subsections: [
+          {
+            heading: 'SEO cost for small businesses',
+            body: 'A local service business — for example a clinic, salon, tutoring centre, or home-services firm in Hyderabad, Vijayawada, or another Indian city — often needs a focused set of service pages, accurate local presence, and steady on-page work. Mid-range local or small-agency retainers are a common fit when the site is small and the geography is limited. Thin city-page factories are not a substitute for useful pages.',
+          },
+          {
+            heading: 'SEO cost for startups',
+            body: 'Early-stage startups usually need a solid foundation: crawlable structure, clear positioning pages, keyword priorities that match the product, and a realistic content plan. A smaller site can start with a focused retainer or a project that sets the foundation, then expand. Burning budget on national head terms before the product story is clear rarely helps.',
+          },
+          {
+            heading: 'SEO cost for growing service businesses',
+            body: 'Agencies, B2B services, and multi-offer firms often add more service URLs, comparison or guide content, and stronger competitor pressure. Growth-focused retainers make sense when you are expanding into more cities in Telangana, Andhra Pradesh, or other major metros, or when paid search already shows demand you want to win organically over time — see [[google-ads]] for the paid channel.',
+          },
+          {
+            heading: 'SEO cost for e-commerce businesses',
+            body: 'Catalogues with hundreds or thousands of product and category URLs need more technical SEO (indexation, faceted navigation, duplicates, speed cooperation) and more templated content work. Expect higher fees than a brochure site. Scope should name which templates and marketplaces are in or out.',
+          },
+          {
+            heading: 'SEO cost for multi-location and national businesses',
+            body: 'Multiple cities or a national footprint means more location or service combinations, stronger competitors, and more content and measurement. Competitive or enterprise bands are more realistic than a single-location local package. Each extra market should be deliberate — not dozens of near-duplicate pages.',
+          },
         ],
       },
       {
-        heading: 'SEO, ads, and leads',
-        body: 'Organic search is one demand source. Paid search is another. Turning visits into conversations can involve site conversion paths and follow-up systems on [[lead-generation]]. Those links are so you do not treat SEO as a complete growth stack by itself.',
+        heading: 'One-time SEO cost vs monthly SEO cost',
+        body: 'One-time work diagnoses or remediates a defined problem. Monthly SEO is continuous optimisation: measurement, new content, technical follow-through after releases, and response to competitors. An audit is not the same as doing the fixes. Migration support is usually scoped to a launch window, not a forever retainer.\n\nWebsite rebuilds also change SEO cost and risk — for build pricing context, see [[guide:website-development-cost-india|Website Development Cost in India]].',
+        table: {
+          headers: ['SEO service', 'Indicative cost'],
+          rows: [
+            ['Basic SEO audit', '₹5,000–₹15,000'],
+            ['Detailed SEO audit', '₹15,000–₹50,000'],
+            ['Technical SEO implementation', '₹15,000–₹80,000+'],
+            ['Website migration SEO support', 'Scope-based quotation'],
+          ],
+        },
+        afterTable:
+          'These prices are indicative estimates based on publicly published Indian SEO pricing guides available in 2026. They are not fixed market rates, a guarantee of service quality, or Vridhio\'s own pricing. Actual costs vary by provider, website condition, competition, deliverables, content requirements and project scope. GST and third-party expenses may be additional where applicable. Vridhio provides customised quotations after understanding your requirements.',
+        subsections: [
+          {
+            heading: 'When a one-time project makes sense',
+            body: 'You need a clear diagnosis, a migration checklist, or a defined technical cleanup before deciding on a retainer. Ask what deliverable you get and who implements changes on the live site.',
+          },
+          {
+            heading: 'When monthly SEO makes sense',
+            body: 'You want ongoing organic demand, content production, and iteration. Search results move; a three-month burst without a plan for change is a project, not a finished channel. Paid search can cover demand while organic work is still early — that is separate from SEO scope honesty.',
+          },
+        ],
+      },
+      {
+        heading: 'Factors that determine SEO pricing',
+        body: 'Providers quote differently because the work differs. Useful proposals map price to these drivers with examples from your site — not a generic difficulty score.',
+        subsections: [
+          {
+            heading: 'Keyword competition',
+            body: 'Ranking for a niche service query in one city is a different job from competing for broad commercial terms where national brands already dominate. Higher competition usually means more content quality, technical polish, and time.',
+          },
+          {
+            heading: 'Website size and technical condition',
+            body: 'A 10-page brochure site and a 10,000-URL catalogue are not priced the same. Crawl errors, slow templates, duplicate URLs, and missing analytics access all add hours before “SEO content” can help.',
+          },
+          {
+            heading: 'Number of target locations',
+            body: 'One city versus many metros changes page count, local profile work, and reporting. Expanding from Hyderabad-only to pan-India should be a scoped decision, not an automatic upsell of thin location URLs.',
+          },
+          {
+            heading: 'Content creation requirements',
+            body: 'If the site cannot answer the query, rankings are unlikely. Briefs, drafts, edits, and expert review are often the largest ongoing line. Confirm whether writing is included or only “content recommendations.”',
+          },
+          {
+            heading: 'Technical development requirements',
+            body: 'Some fixes need developers — redirects, template changes, Core Web Vitals cooperation, structured data that stays truthful. Slow access or a brittle CMS raises cost and timeline.',
+          },
+          {
+            heading: 'Competitor strength',
+            body: 'Strong incumbents with deep content and authority raise the bar. Niche service pages with weak competition can move with a smaller, focused scope.',
+          },
+          {
+            heading: 'Link acquisition and digital PR',
+            body: 'Relevant mentions and links can support competitive topics, but bulk directory submissions and paid junk links are not a substitute for useful pages. Ask what methods are used and what is excluded.',
+          },
+          {
+            heading: 'Reporting and ongoing strategy',
+            body: 'Honest reporting covers Search Console, analytics, work completed, and next priorities — without fake traffic forecasts. Strategy time is part of what you pay for on a retainer.',
+          },
+        ],
+      },
+      {
+        heading: 'Cheap SEO vs professional SEO',
+        body: 'A lower fee is not automatically bad — a small site with a clear owner and limited goals can succeed with focused, honest work. Problems start when the price only works by skipping site-specific work or selling rankings.\n\nWatch for automated reports with little implementation, bulk directory submissions, poor-quality link schemes, duplicate or AI-generated pages published without editorial review, no technical SEO access, no clear reporting, and guaranteed ranking promises. Compare deliverables, methodology, experience, and accountability — not the monthly headline alone.',
+      },
+      {
+        heading: 'How much should your business spend on SEO?',
+        body: 'Match spend to reality, not to the highest package on a sales sheet.',
+        bullets: [
+          'Current website condition — Fix critical technical and conversion issues before funding a large content programme.',
+          'Business objectives — Enquiries, qualified demos, or store purchases each imply different pages and measurement.',
+          'Competition — If strong brands already own your head terms, plan a longer horizon or a narrower query set.',
+          'Target locations — One city can justify a local-focused budget; national coverage needs more content and usually a higher band.',
+          'Available budget — If funds are limited, narrow URLs and queries rather than buying a pretend full-market campaign.',
+          'Expected deliverables — Know who writes, who implements technical changes, and what is out of scope (ads, redesign, PR).',
+        ],
+      },
+      {
+        heading: 'How long does SEO take?',
+        body: 'SEO is an ongoing process, not a one-week switch. Timing depends on website condition, competition, content quality, unresolved technical issues, how consistently work is implemented, and how much authority the domain already has.\n\nEarly months often emphasise diagnosis, technical hygiene, and foundations. Visible organic gains usually take longer on competitive topics. No responsible provider should guarantee first-page rankings or a fixed calendar of positions. Use organic search alongside clear conversion paths — [[lead-generation]] work is separate when visits need to become conversations.',
       },
     ],
     faqs: [
       {
-        question: 'What is the average SEO cost in India?',
+        question: 'How much does SEO cost per month in India?',
         answer:
-          'There is no reliable average that should drive your decision. Audits, technical work, content, and ongoing optimisation are different jobs. Treat published retainers on other websites as marketing, not a benchmark for your scope.',
+          'Indicative 2026 editorial ranges often run from about ₹5,000–₹25,000 for limited freelancer or basic work, through roughly ₹15,000–₹50,000 for many small-business agency retainers, and into ₹40,000–₹2,00,000+ for growth or competitive programmes. Your actual quote depends on scope, not a national tariff.',
       },
       {
-        question: 'Why do SEO agencies refuse to guarantee rankings?',
+        question: 'What is the average SEO cost for a small business in India?',
         answer:
-          'Because they do not control search results. Competition, the query, and the site all change. A ranking guarantee is a sales tactic, not a professional scope item.',
+          'There is no single reliable average. Many small local businesses plan somewhere in the local or small-agency bands when the site is modest and geography is limited. Treat published “averages” elsewhere as marketing context, then compare the activities in your proposal.',
+      },
+      {
+        question: 'How much does SEO cost for a startup?',
+        answer:
+          'Startups often need a focused foundation rather than an enterprise retainer: clear pages, technical basics, and a realistic content plan. Cost scales with how many markets and keywords you chase in the first phase.',
+      },
+      {
+        question: 'How much does a one-time SEO audit cost in India?',
+        answer:
+          'Indicative editorial ranges for 2026 often put a basic audit around ₹5,000–₹15,000 and a detailed audit around ₹15,000–₹50,000. An audit is a diagnosis; implementation is usually a separate fee or retainer.',
+      },
+      {
+        question: 'Why do SEO agencies charge different prices?',
+        answer:
+          'Because deliverables, seniority, hours, content writing, technical depth, locations covered, and reporting cadence differ. Two quotes with the same monthly number can hide very different work.',
       },
       {
         question: 'Is cheap SEO worth it?',
         answer:
-          'Only if the cheap proposal still includes the work your site actually needs. If cheap means no content, no technical access, and a promise of ranks, you are buying a story.',
+          'It can be, if the low fee still covers the work your site needs and the methods are sound. It is not worth it if cheap means no content, no technical access, junk links, or ranking guarantees.',
       },
       {
-        question: 'Should SEO be a monthly retainer?',
+        question: 'How long should a business invest in SEO?',
         answer:
-          'Ongoing optimisation is usually continuous, so some form of ongoing engagement is common. That is not the same as a one-size retainer. A defined project (audit plus fixes) can be the right first step. We do not publish a standard monthly fee here.',
+          'Plan for an ongoing channel if organic demand matters to the business. A defined project (audit plus fixes) can be a sensible first step; continuous optimisation usually needs months of consistent work, not a one-off burst.',
       },
       {
-        question: 'Does SEO cost include Google Ads?',
+        question: 'Does SEO pricing include content writing?',
         answer:
-          'Not unless the proposal says so. SEO and Google Ads are different services with different cost models. Mixing them in one vague “digital marketing” fee makes it harder to see what you are buying.',
+          'Only if the proposal says so. Many quotes include recommendations or briefs only. Writing, editing, and expert review are often the largest cost line when included.',
       },
       {
-        question: 'How do I know if an SEO quote is too low?',
+        question: 'Are SEO tools and link-building costs included?',
         answer:
-          'Ask what URLs, what content, and what technical work are included. If the answer is mostly “we will get you to page one,” the quote is not describing work. Compare activities and access, not the monthly headline.',
+          'Tool subscriptions and third-party outreach or PR costs may be included, itemised, or excluded. Ask explicitly. GST and other third-party expenses can be additional where applicable.',
+      },
+      {
+        question: 'Is local SEO cheaper than national SEO?',
+        answer:
+          'Often yes, because fewer locations and competitors are in scope — but a competitive local market in a major city can still need serious content and technical work. National or multi-city programmes usually cost more.',
+      },
+      {
+        question: 'Is GST included in SEO service pricing?',
+        answer:
+          'Not always. Many Indian proposals quote fees exclusive of GST. Confirm whether taxes and third-party costs are included before you compare two numbers.',
+      },
+      {
+        question: 'Can I customise an SEO package for my business?',
+        answer:
+          'Yes. Serious providers scope work to your website, competition, locations, and goals rather than forcing a fixed menu. Vridhio provides customised quotations after understanding requirements — not a public package price list.',
       },
     ],
-    relatedIds: ['seo', 'google-ads', 'lead-generation'],
+    relatedIds: ['seo', 'google-ads', 'website-development', 'lead-generation'],
+    ctaBand: {
+      heading: 'Not sure how much SEO your business needs?',
+      body: 'Every business starts from a different position. Your website, competition, target locations and growth goals determine the SEO work required.\n\nVridhio can help you assess your current website, identify key opportunities and define a practical SEO scope.\n\nDiscuss your SEO requirements with Vridhio.',
+    },
   },
 }
 

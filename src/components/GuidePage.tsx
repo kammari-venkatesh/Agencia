@@ -131,6 +131,11 @@ export default function GuidePage({ page }: { page: ResolvedGuidePage }) {
                 </table>
               </div>
             ) : null}
+            {section.afterTable ? (
+              <div className="guide-note">
+                <RichParagraphs text={section.afterTable} />
+              </div>
+            ) : null}
             {section.bullets && section.bullets.length > 0 ? (
               <ul className="guide-bullets">
                 {section.bullets.map((item) => (
@@ -182,12 +187,16 @@ export default function GuidePage({ page }: { page: ResolvedGuidePage }) {
         ) : null}
 
         <section className="svc-cta-band">
-          <h2>Start a project</h2>
-          <p>
-            If this guide helped you frame the decision, we can talk through scope
-            in a consultation. We are based in India and work with businesses
-            globally.
-          </p>
+          <h2>{copy.ctaBand?.heading ?? 'Start a project'}</h2>
+          {copy.ctaBand ? (
+            <RichParagraphs text={copy.ctaBand.body} />
+          ) : (
+            <p>
+              If this guide helped you frame the decision, we can talk through scope
+              in a consultation. We are based in India and work with businesses
+              globally.
+            </p>
+          )}
           <a href={CONTACT_HREF} className="svc-cta-primary">
             Book a consultation
             <ArrowRight size={18} />
