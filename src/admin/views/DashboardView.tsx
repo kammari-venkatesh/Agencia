@@ -1,4 +1,4 @@
-import { Activity, Inbox, Radar, RefreshCw, Search, ShieldCheck, Table2 } from 'lucide-react'
+import { Activity, Inbox, Radar, RefreshCw, ShieldCheck, Table2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchDashboard, fetchInboundLeads, type DashboardData, type InboundLead } from '../api/admin'
 import { ApiRequestError } from '../api/client'
@@ -17,8 +17,6 @@ const dateFormatter = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', ti
 export function DashboardView() {
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [reloadKey, setReloadKey] = useState(0)
-  const [query, setQuery] = useState('')
-  const [service, setService] = useState('all')
   const realSearchAvailable = useProviderStatus()?.providers.apify.available === true
 
   useEffect(() => {
@@ -41,15 +39,10 @@ export function DashboardView() {
     setReloadKey((k) => k + 1)
   }, [])
 
-  const leads = useMemo(() => (state.status === 'ready' ? state.leads : []), [state])
-  const serviceOptions = useMemo(() => [...new Set(leads.flatMap((l) => l.services))].sort(), [leads])
-  const filteredLeads = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return leads
-      .filter((l) => service === 'all' || l.services.includes(service))
-      .filter((l) => !q || [l.name, l.email, l.phone].some((v) => v.toLowerCase().includes(q)))
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-  }, [leads, query, service])
+  const recentLeads = useMemo(
+    () => (state.status === 'ready' ? [...state.leads].sort((a, b) => b.createdAt.localeCompare(a.createdAt)) : []),
+    [state],
+  )
 
   return (
     <AdminShell
@@ -82,7 +75,9 @@ export function DashboardView() {
           ) : (
             <span className="adm-skeleton adm-skeleton--value" />
           )}
-          <span className="adm-stat-foot">From the website contact form</span>
+          <a className="adm-stat-foot adm-link" href={ADMIN_PATHS.enquiries}>
+            Open enquiries
+          </a>
         </article>
 
         <article className="adm-card adm-stat">
@@ -156,94 +151,36 @@ export function DashboardView() {
         <div className="adm-table-toolbar">
           <div>
             <h2 id="inbound-leads-heading" className="adm-section-title">
-              Inbound leads
+              Latest enquiries
             </h2>
-            <p className="adm-section-desc">
-              Submissions from the website contact form. Currently held in server memory and cleared on restart.
-            </p>
+            <p className="adm-section-desc">Messages submitted from the website contact form.</p>
           </div>
-          <div className="adm-filters">
-            <label className="adm-input-wrap">
-              <Search size={16} aria-hidden />
-              <span className="adm-visually-hidden">Search leads</span>
-              <input
-                type="search"
-                className="adm-input"
-                placeholder="Search name, email, phone"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </label>
-            <label>
-              <span className="adm-visually-hidden">Filter by service</span>
-              <select className="adm-select" value={service} onChange={(e) => setService(e.target.value)}>
-                <option value="all">All services</option>
-                {serviceOptions.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+          <a className="adm-btn adm-btn--ghost" href={ADMIN_PATHS.enquiries}>
+            View all
+          </a>
         </div>
 
-        <div className="adm-table-scroll">
-          <table className="adm-table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Contact</th>
-                <th scope="col">Services</th>
-                <th scope="col">Received</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {state.status === 'loading'
-                ? Array.from({ length: 3 }, (_, i) => (
-                    <tr key={i} aria-hidden>
-                      {Array.from({ length: 5 }, (_, j) => (
-                        <td key={j}>
-                          <span className="adm-skeleton" />
-                        </td>
-                      ))}
-                    </tr>
-                  ))
-                : filteredLeads.map((lead) => (
-                    <tr key={lead.id}>
-                      <td>
-                        <span className="adm-cell-strong">{lead.name}</span>
-                        <span className="adm-cell-sub" title={lead.message}>
-                          {lead.message}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="adm-cell-strong">{lead.email}</span>
-                        <span className="adm-cell-sub">{lead.phone}</span>
-                      </td>
-                      <td>
-                        <div className="adm-tag-list">
-                          {lead.services.map((s) => (
-                            <span key={s} className="adm-tag">
-                              {s}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td className="adm-cell-nowrap">{dateFormatter.format(new Date(lead.createdAt))}</td>
-                      <td>
-                        <StatusBadge tone="info">New</StatusBadge>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-
-          {state.status === 'ready' && filteredLeads.length === 0 ? (
+        <div className="adm-enq-recent">
+          {state.status === 'loading'
+            ? Array.from({ length: 3 }, (_, index) => <div key={index} className="adm-skeleton adm-enq-skeleton" />)
+            : recentLeads.slice(0, 4).map((lead) => (
+                <a key={lead.id} className="adm-enq-recent-item" href={ADMIN_PATHS.enquiries}>
+                  <span className="adm-enq-item-top">
+                    <span className="adm-cell-strong">{lead.name}</span>
+                    <StatusBadge tone={lead.status === 'closed' ? 'success' : lead.status === 'contacted' ? 'warning' : 'info'}>
+                      {lead.status === 'closed' ? 'Closed' : lead.status === 'contacted' ? 'Contacted' : 'New'}
+                    </StatusBadge>
+                  </span>
+                  <span className="adm-cell-sub">
+                    {lead.email} · {lead.phone}
+                  </span>
+                  <span className="adm-enq-preview">{lead.message}</span>
+                </a>
+              ))}
+          {state.status === 'ready' && recentLeads.length === 0 ? (
             <div className="adm-empty">
               <Inbox size={24} aria-hidden />
-              <span>{leads.length === 0 ? 'No inbound leads yet.' : 'No leads match these filters.'}</span>
+              <span>No enquiries yet.</span>
             </div>
           ) : null}
         </div>

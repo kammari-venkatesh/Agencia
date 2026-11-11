@@ -19,6 +19,8 @@ export type DashboardData = {
   serverTime: string
 }
 
+export type InboundLeadStatus = 'new' | 'contacted' | 'closed'
+
 export type InboundLead = {
   id: string
   name: string
@@ -26,6 +28,7 @@ export type InboundLead = {
   phone: string
   services: string[]
   message: string
+  status: InboundLeadStatus
   createdAt: string
 }
 
@@ -71,3 +74,6 @@ export const removeAdmin = (id: string) => apiRequest<Envelope<{ id: string }>>(
 
 export const fetchInboundLeads = (signal?: AbortSignal) =>
   apiRequest<Envelope<InboundLead[]> & { count: number }>('/api/leads', { signal })
+
+export const updateInboundLeadStatus = (id: string, status: InboundLeadStatus) =>
+  apiRequest<Envelope<InboundLead>>(`/api/leads/${encodeURIComponent(id)}`, { method: 'PATCH', body: { status } })

@@ -413,6 +413,17 @@
   transform: translateX(5px);
 }
 
+.cs-submit-btn:disabled {
+  cursor: wait;
+  transform: none;
+  opacity: 0.72;
+}
+
+.cs-submit-error {
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
 /* SUCCESS CONFIRMATION BLOCK */
 .cs-success-block {
   display: flex;

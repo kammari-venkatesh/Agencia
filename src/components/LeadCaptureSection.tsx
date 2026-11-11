@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, MessageCircle, ArrowRight, Check } from 'lucide-react';
+import { LeadSubmitError, submitLead } from '../api/leads';
 import { CONTACT_SERVICE_CHIPS, LEAD_CONTACT } from '../data/leadCapture';
 import './LeadCaptureSection.css';
 
@@ -20,6 +21,8 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const nameId = useId();
   const emailId = useId();
@@ -60,11 +63,26 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError('');
+    try {
+      await submitLead({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        services: selectedServices,
+        message: message.trim(),
+      });
       setIsSubmitted(true);
-      if (onBookCall) onBookCall();
+    } catch (err) {
+      if (err instanceof LeadSubmitError && err.details) setErrors(err.details);
+      setSubmitError(err instanceof Error ? err.message : 'Could not send your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,6 +93,7 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
     setSelectedServices(['WEBSITE DEVELOPMENT']);
     setMessage('');
     setErrors({});
+    setSubmitError('');
     setIsSubmitted(false);
   };
 
@@ -338,8 +357,9 @@ export const LeadCaptureSection: React.FC<ContactSectionProps> = ({ onBookCall }
 
                   {/* SUBMIT BUTTON */}
                   <div className="cs-submit-wrap">
-                    <button type="submit" className="cs-submit-btn">
-                      <span>START THE CONVERSATION</span>
+                    {submitError ? <span className="cs-error-msg cs-submit-error">{submitError}</span> : null}
+                    <button type="submit" className="cs-submit-btn" disabled={isSubmitting}>
+                      <span>{isSubmitting ? 'SENDING…' : 'START THE CONVERSATION'}</span>
                       <ArrowRight size={18} className="cs-submit-arrow" />
                     </button>
                   </div>

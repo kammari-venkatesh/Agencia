@@ -1,4 +1,4 @@
-import { ArrowUpRight, History, KeyRound, LayoutDashboard, Radar, Search, Table2, X } from 'lucide-react'
+import { ArrowUpRight, History, Inbox, KeyRound, LayoutDashboard, Radar, Search, Table2, X } from 'lucide-react'
 import type { ComponentType } from 'react'
 import { usePageContext } from 'vike-react/usePageContext'
 import { useProviderStatus } from '../hooks/useProviderStatus'
@@ -17,6 +17,7 @@ type NavGroup = {
 
 const NAV_ITEMS: (NavLink | NavGroup)[] = [
   { label: 'Dashboard', href: ADMIN_PATHS.dashboard, icon: LayoutDashboard },
+  { label: 'Enquiries', href: ADMIN_PATHS.enquiries, icon: Inbox },
   {
     label: 'AI Lead Finder',
     icon: Radar,

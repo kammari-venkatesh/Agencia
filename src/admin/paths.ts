@@ -1,6 +1,7 @@
 export const ADMIN_PATHS = {
   dashboard: '/admin/',
   login: '/admin/login/',
+  enquiries: '/admin/enquiries/',
   leadFinder: '/admin/lead-finder/',
   leadFinderJobs: '/admin/lead-finder/jobs/',
   leadWorkspace: '/admin/lead-workspace/',
