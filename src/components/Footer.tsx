@@ -18,7 +18,7 @@ const exploreLinks = [
 const socialLinks = [
   { label: 'Instagram', handle: '@vridhio.tech', href: SOCIAL_PROFILES.instagram },
   { label: 'LinkedIn', handle: 'Vridhio', href: SOCIAL_PROFILES.linkedin },
-  { label: 'WhatsApp', handle: '+91 93471 71519', href: 'https://wa.me/919347171519' },
+  { label: 'WhatsApp', handle: '+91 93477 63131', href: 'https://wa.me/919347763131' },
   { label: 'Email', handle: 'tech@vridhio.com', href: 'mailto:tech@vridhio.com' },
 ];
 

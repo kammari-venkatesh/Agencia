@@ -73,7 +73,7 @@ Safe to treat as on-site capability language (not as proof of results):
 - Influencer bullets (not a future top-level URL): outreach, campaign management, creator partnerships
 - Sales/growth bullets (map to Lead Generation sections, not a separate URL): sales funnels, CRM systems, lead nurturing, outreach systems
 - FAQ: industries (tech, education, healthcare, real estate, ecommerce, professional services); typical project 2–8 weeks; custom marketing (not a fixed package); can manage social accounts (strategy, content planning, creative, ongoing management)
-- Entity: based in India, working globally; email `tech@vridhio.com`; phone `+91 93471 71519`; CTAs “Get Free Consultation”, “Book Consultation” (30-min), “Start a Project”
+- Entity: based in India, working globally; email `tech@vridhio.com`; phone `+91 93477 63131`; CTAs “Get Free Consultation”, “Book Consultation” (30-min), “Start a Project”
 - Positioning: technology, automation & growth company; websites, apps, and marketing that convert
 
 ### Do not reuse as verified facts on service pages

@@ -11,10 +11,10 @@ export const CONTACT_SERVICE_CHIPS = LEAD_SERVICE_OPTIONS.map((name) =>
 )
 
 export const LEAD_CONTACT = {
-  phone: '+91 93471 71519',
-  phoneHref: 'tel:+919347171519',
+  phone: '+91 93477 63131',
+  phoneHref: 'tel:+919347763131',
   email: 'tech@vridhio.com',
   emailHref: 'mailto:tech@vridhio.com',
-  whatsappHref: 'https://wa.me/919347171519',
+  whatsappHref: 'https://wa.me/919347763131',
   whatsappLabel: 'Chat on WhatsApp',
 } as const;

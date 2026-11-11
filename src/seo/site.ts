@@ -13,7 +13,7 @@ export const SITE = {
   tagline: 'Where Bold Strategy Meets Innovation.',
   /** Primary public contact channels present on the current site. */
   email: 'tech@vridhio.com',
-  telephone: '+919347171519',
+  telephone: '+919347763131',
   locale: 'en_US',
   lang: 'en',
 } as const
